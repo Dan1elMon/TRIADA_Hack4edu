@@ -1,63 +1,228 @@
-# AulaNexo
+# MILERN / MyLern
 
-Aplicación educativa Android offline con Kotlin, Jetpack Compose, Room, DataStore y Hilt. Identificador: `com.example.triada`.
+Sistema para aprender hasta el segundo nivel de conocimiento de la taxonomía de
+Bloom (2001), implementado según la especificación de [ASI.md](ASI.md).
 
-Estilo visual de exploración: fondo arena `#F7F3E9`, acciones verdes `#2ECC71`, logros miel `#F1C40F` y acentos océano `#3498DB`. Los textos usan tonos oscuros de la misma paleta para mantener la legibilidad.
+Se compone de tres módulos:
 
-## Iniciar sesión
+1. *Repetición espaciada* por canal de mensajería (Telegram o WhatsApp).
+2. *Evaluación* para medir el éxito objetivo.
+3. *Desarrollo del sistema*, para hacerlo avanzar hacia más éxito.
 
-En una instalación nueva:
+---
 
-- Usuario docente: **10000001**
-- Contraseña inicial: **admin**
+## Documentación
 
-En **Mi acceso** se pueden cambiar el usuario y la contraseña verificando la contraseña actual. El usuario siempre tiene ocho dígitos, incluidos posibles ceros iniciales. Es un identificador local, no se requiere DNI. Las contraseñas se almacenan mediante una derivación con sal; no se exportan.
+Para enviar esfuerzos por WhatsApp con Evolution API v2, consulta los
+[flujos y configuración de WhatsApp](workflows/whatsapp/README.md).
 
-El docente puede crear cuentas de alumnos y otros docentes. Cada cuenta nueva recibe un usuario único y contraseña inicial `admin`; la pantalla confirma el usuario asignado. Los perfiles existentes se conservan como cuentas de alumnos. Sus usuarios aparecen en la lista **Vincular alumnos**. Los usuarios docentes aparecen en **Cuentas docentes**. El login es local; no hay servidor ni sincronización entre dispositivos.
+La [app móvil Flutter](app/README.md) ofrece una versión simplificada offline:
+nodos locales, esfuerzos diarios por notificación y captura de documentos con
+generación simulada de nodos.
 
-La demo incluye **tres docentes y treinta alumnos**, diez por aula. Los docentes usan inicialmente **10000001**, **11000002** y **11000003**; los alumnos, **20000001–20000030**. La contraseña inicial es **admin**. [Lista y comportamiento de las cuentas](AulaNexo/docs/alumnos_demo.md).
+| Documento | Contenido |
+|---|---|
+| [ASI.md](ASI.md) | Especificación original del sistema |
+| [trazabilidad.md](trazabilidad.md) | ASI anotado + cuadro de trazabilidad especificación → artefactos |
+| [guia_despligue.md](guia_despligue.md) | Puesta en producción paso a paso |
+| [docs/decisiones.md](docs/decisiones.md) | Decisiones de diseño no descritas en el ASI, con su justificación |
+| [docs/seguridad_removida.md](docs/seguridad_removida.md) | Medidas de seguridad retiradas: de qué protegen y cuándo recuperarlas |
 
-## Funciones disponibles
+---
 
-- Encabezado común con logo a la izquierda de AulaNexo en todas las pantallas.
-- Roles de alumno/docente y edición de nombre/avatar.
-- Aula del docente con alumnos vinculados y consulta de sus notas; apartado **Mis notas** para el alumno.
-- 214 lecciones asociadas a los 214 temas, con **642 ejercicios**: 18 anteriores y 624 nuevos. Las 208 ampliaciones son actividades introductorias originales de selección; requieren revisión pedagógica antes de uso escolar.
-- Cinco motores reutilizables: conteo, selección, secuencias, asociación y formación de palabras.
-- Tutor **Juan**, con búho vectorial, cuatro expresiones y reglas offline según errores, tipo de ejercicio y pistas disponibles. Se puede ocultar.
-- Mapa visual de seis áreas y objetivos diarios ajustables de una a tres lecciones distintas.
-- Tres cuentos originales en español y tres lecturas iniciales de fonética inglesa, con 18 páginas, narración, palabras interactivas, velocidad lenta, comprensión y progreso por alumno.
-- 93 WAV incluidos: siete anteriores y 86 del lector. No se necesita descargar voces.
-- Álbum con los seis stickers de los hitos originales; no se han añadido 208 premios nuevos.
-- Editor docente con borradores, formulario de selección, estructura avanzada para cinco tipos, validación, vista previa y publicación versionada.
-- Intercambio `.aula` de catálogo, actividades y audios de lecciones; resultados `.aula-result` con recuperación en perfil separado. Los cuentos, sus progresos, las credenciales, vínculos y borradores no se incluyen en estos formatos actuales.
-- Persistencia y migraciones Room hasta esquema 6, conservando intentos anteriores.
+## Estructura
 
-Las notas de práctica van de 0 a 20 por intento completado: aciertos en la primera respuesta / preguntas × 20. Las pistas no descuentan puntos. Las lecturas tienen su propia comprobación de comprensión; no se mezclan con las notas de las lecciones.
 
-## Ejecutar y verificar
+milern/
+├── backend/            contenedor 01 — API REST, lógica de grafos y scheduling
+├── webapp/             contenedor 04 — SPA de administración visual
+├── cli/                cliente de terminal mylern-cli
+├── app/                app Flutter offline para Android/iOS
+├── space_repetition/   contenedor 02 — workflows de n8n (JSON)
+├── deploy/             artefactos de despliegue
+│   ├── docker-compose.yml
+│   ├── .env.example
+│   ├── postgres/init/  contenedor 03 — esquema, funciones y triggers
+│   ├── nginx/          contenedor 05 — reverse proxy TLS (perfil opcional)
+│   └── scripts/        importación de workflows, respaldo, verificación
+└── docs/
 
-Abrir **la raíz Triada** en Android Studio, sincronizar Gradle, seleccionar `app` y un dispositivo, y pulsar Run. Se requieren JDK 21 y compileSdk 37 según la configuración local.
 
-```powershell
-.\gradlew.bat :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
-.\gradlew.bat :app:connectedDebugAndroidTest
-.\gradlew.bat :app:installDebug
-```
+---
 
-Usar un dispositivo dedicado a pruebas para `connectedDebugAndroidTest`: Gradle administra instalación y limpieza. Para actualizar una instalación con datos, usar Run/installDebug o instalar el APK conservando datos y firma, sin desinstalar.
+## Cómo funciona
 
-APK: `app/build/outputs/apk/debug/app-debug.apk`.
+### Unidad de espaciado
 
-## Estado y documentación
+Todo el sistema se mide en *UE* (unidades de espaciado): 1 UE = 600 s. El
+tiempo global es un entero discreto:
 
-- [Checklist actual](AulaNexo/docs/checklist_desarrollo.md)
-- [Login, tutor, contenido y módulos ampliados](AulaNexo/docs/ampliacion_integral.md)
-- [Registro de revisión pedagógica de 214 temas](AulaNexo/docs/revision_pedagogica_214.csv)
-- [Documento técnico original](AulaNexo/docs/doc_tecnica.md)
-- [Temario original](AulaNexo/docs/temario.md)
-- [Plan progresivo e historial](AulaNexo/docs/analisis_y_plan_desarrollo.md)
-- [Entrega anterior del MVP](AulaNexo/docs/entrega_mvp.md)
-- [Entrega anterior de cuentas y notas](AulaNexo/docs/cuentas_y_notas.md)
 
-La validación humana con TalkBack y docentes/alumnado, la adecuación curricular y la firma de distribución siguen pendientes. La fonética es introductoria, con familias CVC y rimas; no constituye un curso completo de pronunciación ni reconocimiento de voz.
+indice_global = floor(unix_timestamp_seconds / 600)
+
+
+### Ciclo de vida de un nodo
+
+Un *nodo* representa una pieza de conocimiento. Su nodo_esfuerzo es el
+frente de la flashcard (oculta la parte clave) y su nodo_crudo el reverso.
+
+| Etapa | Intervalo | Esfuerzos para avanzar | Duración media |
+|---|---|---|---|
+| 1 | 2–6 UE | 36 | ~24 horas |
+| 2 | 9–15 UE | 84 | ~1 semana |
+| 3 | 21–35 UE | 108 | ~3 semanas |
+| 4 | 54–66 UE | — | permanente |
+
+Al llegar a la cuarta etapa, un nodo no temporal se integra a un **grafo de
+conocimiento** y deja de agendar por su cuenta: a partir de ahí es el grafo el
+que emite esfuerzos, rotando por sus nodos hoja en Round Robin y componiendo el
+texto como padre + enlace + contenido.
+
+Desde la app web se puede *editar el contenido* de un nodo (esfuerzo,
+contenido crudo y, dentro de un grafo, el enlace con su padre) y **eliminar un
+grafo** completo. Eliminar un grafo es una baja lógica que archiva también sus
+nodos y descarta sus esfuerzos pendientes; se revierte con undo (ver
+[DEC-021](docs/decisiones.md)).
+
+Un nodo registrado con fecha límite es *temporal*: no entra al grafo y sigue
+emitiendo cada 54–66 UE hasta archivarse.
+
+### Horas de silencio
+
+No se envían esfuerzos *entre las 10pm y las 7am* (hora local de
+ZONA_HORARIA). El tick no genera nada dentro de la franja, el worker no
+entrega lo que quedara en cola, y cualquier indice_siguiente_esfuerzo que
+fuese a caer ahí se desplaza +54 UE (9 h). Nada se pierde: se aplaza.
+
+### Flujo de un esfuerzo
+
+
+n8n (cada 10 min)  ->  POST /internal/scheduler/tick
+                          si es hora de silencio: solo archiva y se detiene
+                          archiva vencidos, encola nodos y grafos elegibles
+n8n (cada minuto)  ->  POST /internal/despacho/siguiente
+                          entrega 1 esfuerzo (máx. 10 por UE, 1 por minuto)
+                       ->  Telegram sendMessage
+                       ->  POST /internal/despacho/:id/confirmar
+                          incrementa contador, evalúa transición, reagenda
+
+
+---
+
+## Puesta en marcha rápida
+
+bash
+cd deploy
+cp .env.example .env      # ajusta ZONA_HORARIA y las contraseñas
+docker compose --env-file .env up -d --build
+bash scripts/importar_workflows.sh
+bash scripts/verificar_despliegue.sh
+
+
+Los servicios escuchan en 127.0.0.1 para que un proxy externo (Nginx Proxy
+Manager) los publique. El procedimiento completo —NPM, Cloudflare, Oracle Cloud y
+el bot de Telegram— está en [guia_despligue.md](guia_despligue.md).
+
+---
+
+## Desarrollo
+
+bash
+# backend
+cd backend && npm install
+npm run dev                       # requiere PostgreSQL accesible
+npx tsx --test test/dominio.test.ts    # pruebas de dominio, sin base de datos
+
+# webapp
+cd webapp && npm install && npm run dev
+
+# cli
+cd cli && npm install && npm run build
+
+
+### Pruebas
+
+Hay dos clases de pruebas, según si necesitan una **base de datos PostgreSQL en
+marcha** para poder ejecutarse:
+
+| Suite | Qué cubre | ¿PostgreSQL? |
+|---|---|---|
+| backend/test/dominio.test.ts | 23 pruebas: generar_esfuerzo, umbrales de etapa, aciclicidad, parser, tiempo global | no |
+| backend/test/silencio.test.ts | 13 pruebas: fronteras de la ventana, hora local, desplazamiento de 54 UE | no |
+| backend/test/integracion.test.ts | 15 pruebas: ciclo completo de esfuerzos, Round Robin, bajas, eliminación de grafos, edición de contenido, evaluación, undo, caudal | *sí* |
+| backend/test/silencio-tick.test.ts | 5 pruebas: compuertas del tick y del worker durante el silencio | *sí* |
+
+*Las que no la necesitan* ejercitan funciones puras: entra un valor, sale otro.
+Corren en milisegundos, sin configuración, en cualquier máquina. Cubren la
+aritmética del sistema —los umbrales de etapa, el index % len del Round Robin,
+el desplazamiento de 54 UE, el parser de mensajes—, que es donde vive la mayor
+parte de la lógica del ASI.
+
+*Las que sí la necesitan* insertan filas de verdad, ejecutan el tick contra la
+base y vuelven a leer el resultado. Son las únicas que pueden comprobar lo que
+vive dentro de PostgreSQL y no se puede simular: los CHECK del par atómico,
+el trigger que mantiene is_leaf, el trigger de aciclicidad con `WITH
+RECURSIVE`, el FOR UPDATE SKIP LOCKED de la cola y los índices únicos que
+hacen idempotente el tick. Sin una base viva fallan al conectar.
+
+Para levantar una desechable:
+
+bash
+docker run -d --rm --name milern-test-pg \
+  -e POSTGRES_USER=mylern -e POSTGRES_PASSWORD=test -e POSTGRES_DB=mylern -e TZ=UTC \
+  -v "$PWD/deploy/postgres/init:/docker-entrypoint-initdb.d:ro" \
+  -p 55432:5432 postgres:16-alpine
+
+
+Al montar deploy/postgres/init/ como scripts de arranque, la propia base se
+crea con el esquema real del proyecto: ejecutar estas pruebas valida también las
+migraciones.
+
+bash
+cd backend
+
+# funciones puras: sin base, sin variables de entorno
+npm test
+
+# contra la base desechable de arriba
+PGHOST=127.0.0.1 PGPORT=55432 PGUSER=mylern PGPASSWORD=test PGDATABASE=mylern \
+  JWT_SECRET=x ZONA_HORARIA=America/Lima npm run test:db
+
+docker rm -f milern-test-pg    # al terminar
+
+
+> test:db pasa --test-concurrency=1 a propósito. node --test ejecuta los
+> ficheros en procesos paralelos y ejecutarTick() opera sobre *todos* los
+> usuarios: en paralelo, el tick de un fichero encola nodos del usuario del otro
+> y las aserciones de aislamiento fallan de forma intermitente.
+
+---
+
+## Uso desde Telegram
+
+Registrar un nodo es la operación por defecto: basta escribir el mensaje.
+
+
+[nodo_esfuerzo] | [nodo_crudo] <opcional> | [fecha ISO 8601] </opcional>
+
+
+Los dos primeros segmentos son obligatorios; solo la fecha límite es opcional.
+El | es el separador literal de segmentos: si el texto lo contiene, se escapa
+como \|.
+
+
+ISO para la calidad de software _ | ISO 25010 | 2026-12-12
+
+
+Cualquier mensaje que no siga la estructura se rechaza sin crear nada, y el bot
+responde explicando el formato.
+
+| Comando | Efecto |
+|---|---|
+| /ayuda | ayuda del bot |
+| /nodo <texto> | registra un nodo explícitamente |
+| /listar | últimos nodos activos |
+| /stats | nodos por etapa e índice global |
+| /grafos | grafos y número de hojas |
+| /evaluacion | estado de la evaluación semanal |
+| /mejora [situacion] \| [observacion] | registra una oportunidad de mejora |
