@@ -8,6 +8,8 @@ El catálogo y la navegación del incremento 3 se registran en [avance_increment
 
 Las seis lecciones y sus motores se registran en [avance_incremento_4.md](avance_incremento_4.md), con esquema Room 3, catálogo versión 2 y validación automatizada completada el 5 de noviembre de 2026.
 
+El álbum, los premios únicos y el progreso consolidado se registran en [avance_incremento_5.md](avance_incremento_5.md), con esquema Room 4 y validación automatizada el 5 de noviembre de 2026. La validación manual offline y pedagógica sigue pendiente.
+
 ## 1. Conclusión
 
 El proyecto permite iniciar AulaNexo sobre la plantilla Android existente, pero todavía no contiene las funcionalidades que ambos documentos describen. Conviene construir primero un recorrido pequeño y completo: crear perfil → abrir una lección de conteo → responder y pedir pistas → guardar → cerrar y reanudar. Solo después de verificar ese recorrido se amplían el catálogo, los motores y las pantallas.
@@ -151,3 +153,7 @@ El primer comando será la comprobación inicial de compilación. El segundo req
 Siguiente paso: incremento 1, comprobando primero compilación y entorno antes de añadir persistencia o dependencias nuevas. A continuación, validar el recorrido mínimo del incremento 2 antes de extenderlo a las seis áreas.
 
 En cada incremento registrar: alcance completado; archivos creados/modificados; esquema y migraciones; comandos y resultados reales; demostración; limitaciones y siguiente incremento. Un incremento con pruebas pendientes debe reportarse como pendiente de validación.
+
+## Actualización de entrega — 5 de noviembre de 2026
+
+El estado actual y la aceptación del MVP se documentan en [entrega_mvp.md](entrega_mvp.md). Este registro de análisis inicial se conserva como referencia histórica. El cierre añade recuperación de resultados al alcance inicial del intercambio.

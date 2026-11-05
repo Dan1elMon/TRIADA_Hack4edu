@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.triada.domain.model.*
 
 @Composable
-private fun CatalogPage(
+internal fun CatalogPage(
     state: LearningUiState, profileId: String, title: String, subtitle: String,
     backLabel: String, onBack: () -> Unit, onRetry: () -> Unit,
     content: LazyListScope.(LearningCatalog) -> Unit,
@@ -49,13 +49,16 @@ private fun CatalogCard(tag: String, title: String, description: String, badge: 
 }
 
 @Composable
-fun GradesScreen(state: LearningUiState, profileId: String, onBack: () -> Unit, onGrade: (String) -> Unit, onRetry: () -> Unit) {
+fun GradesScreen(state: LearningUiState, profileId: String, onBack: () -> Unit, onGrade: (String) -> Unit, onRetry: () -> Unit, onAlbum: () -> Unit, onProgress: () -> Unit, onPackages: (() -> Unit)? = null) {
     val name = state.profiles.firstOrNull { it.id == profileId }?.displayName ?: "explorador"
     CatalogPage(state, profileId, "¡Hola, $name!", "Elige tu grado y descubre tu próxima aventura.", "Cambiar de perfil", onBack, onRetry) { catalog ->
         items(catalog.grades, key = { it.id }) { grade ->
             val areas = catalog.subjects.count { it.gradeId == grade.id }
             CatalogCard("grade-${grade.id}", grade.label, "$areas áreas para explorar a tu ritmo.", "MI APRENDIZAJE", !state.busy) { onGrade(grade.id) }
         }
+        item { ActionButton("Mi álbum de stickers", !state.busy, "open-album", onAlbum) }
+        item { ActionButton("Mi progreso", !state.busy, "open-progress", onProgress) }
+        if (onPackages != null) item { ActionButton("Intercambiar catálogo", !state.busy, "open-packages", onPackages) }
         item { Notice("Tus avances se guardan en este dispositivo, por separado para cada perfil.") }
     }
 }

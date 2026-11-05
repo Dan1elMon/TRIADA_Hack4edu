@@ -28,6 +28,7 @@ data class LearningUiState(
     val activeProfileId: String? = null,
     val session: LessonSession? = null,
     val catalog: LearningCatalog? = null,
+    val rewards: List<com.example.triada.domain.model.EarnedSticker> = emptyList(),
     val busy: Boolean = false,
     val feedback: String? = null,
     val error: String? = null,
@@ -64,27 +65,34 @@ class LearningViewModel @Inject constructor(
         repository.createProfile(name, avatar)
         mutableState.update { it.copy(feedback = "¡Perfil creado! Selecciona tu tarjeta para comenzar.") }
     }
+    fun editProfile(id: String, name: String, avatar: String) = action {
+        repository.updateProfile(id,name,avatar)
+        mutableState.update { it.copy(feedback = "Perfil actualizado. Tus avances se conservaron.") }
+    }
 
     fun loadProfile(profileId: String) = action {
-        mutableState.update { it.copy(activeProfileId = profileId, session = null, catalog = null, feedback = null) }
+        mutableState.update { it.copy(activeProfileId = profileId, session = null, catalog = null, rewards = emptyList(), feedback = null) }
         pendingAnswer = null
         val catalog = catalogRepository.load(profileId)
+        val rewards = repository.rewards(profileId)
         preferences.select(profileId)
-        mutableState.update { it.copy(catalog = catalog) }
+        mutableState.update { it.copy(catalog = catalog, rewards = rewards) }
     }
 
     fun refreshCatalog(profileId: String) = action {
         val catalog = catalogRepository.load(profileId)
-        mutableState.update { it.copy(activeProfileId = profileId, catalog = catalog) }
+        val rewards = repository.rewards(profileId)
+        mutableState.update { it.copy(activeProfileId = profileId, catalog = catalog, rewards = rewards) }
     }
 
     fun loadLesson(profileId: String, lessonId: String) = action {
         mutableState.update { it.copy(activeProfileId = profileId, session = null, feedback = null) }
         pendingAnswer = null
         val catalog = catalogRepository.load(profileId)
+        val rewards = repository.rewards(profileId)
         require(catalog.lessons.any { it.id == lessonId })
         val session = repository.openLesson(profileId, lessonId = lessonId)
-        mutableState.update { it.copy(catalog = catalog, session = session) }
+        mutableState.update { it.copy(catalog = catalog, session = session, rewards = rewards) }
     }
 
     fun submitAnswer(answer: LearningAnswer) {
@@ -99,8 +107,9 @@ class LearningViewModel @Inject constructor(
             val evaluation = repository.submitAnswer(session.attemptId, session.profileId, session.question.id, answer, event.id)
             val refreshed = repository.session(session.attemptId, session.profileId)
             pendingAnswer = null
+            val rewards = repository.rewards(session.profileId)
             mutableState.update {
-                it.copy(session = refreshed, feedback = when (evaluation) {
+                it.copy(session = refreshed, rewards = rewards, feedback = when (evaluation) {
                     Evaluation.Correct -> session.question.feedbackCorrect
                     Evaluation.Incorrect -> session.question.feedbackIncorrect
                     Evaluation.Invalid -> "Completa una respuesta con los elementos disponibles."

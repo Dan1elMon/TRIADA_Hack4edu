@@ -27,7 +27,7 @@ object LearningModule {
     @Provides @Singleton
     fun database(@ApplicationContext context: Context): LearningDatabase =
         Room.databaseBuilder(context, LearningDatabase::class.java, "aulanexo.db")
-            .addMigrations(CatalogMigration.FROM_1_TO_2, CatalogMigration.FROM_2_TO_3).build()
+            .addMigrations(CatalogMigration.FROM_1_TO_2, CatalogMigration.FROM_2_TO_3, CatalogMigration.FROM_3_TO_4, com.example.triada.data.local.SchoolMigration.FROM_4_TO_5, com.example.triada.data.local.ExtensionMigration.FROM_5_TO_6).build()
 
     @Provides @Singleton
     fun catalog(database: LearningDatabase, @ApplicationContext context: Context): CatalogRepository =
@@ -40,3 +40,4 @@ object LearningModule {
     fun preferences(@ApplicationContext context: Context): ProfilePreferences =
         DataStoreProfilePreferences(context.profileDataStore)
 }
+

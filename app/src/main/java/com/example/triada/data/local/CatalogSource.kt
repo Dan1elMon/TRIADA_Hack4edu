@@ -13,8 +13,9 @@ fun interface CatalogSource {
 class AssetCatalogSource(private val context: Context) : CatalogSource {
     override fun read(): String = context.assets.open("content/catalog-v2.json").bufferedReader(Charsets.UTF_8).use { it.readText().removePrefix("\uFEFF") }
     override fun hasAudio(key: String): Boolean {
-        if (!key.matches(Regex("[a-z]+"))) return false
-        return try { context.assets.open("audio/$key.wav").use { it.read() >= 0 } } catch (_: java.io.IOException) { false }
+        if (!key.matches(Regex("[a-z0-9-]{1,80}"))) return false
+        return try { context.assets.open("audio/$key.wav").use { it.read() >= 0 } }
+        catch (_: java.io.IOException) { java.io.File(context.filesDir, "content/audio/$key.wav").isFile }
     }
 }
 

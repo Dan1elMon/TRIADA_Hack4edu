@@ -5,6 +5,12 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 object ActivityCodec {
+    fun decodeAnswer(row: JSONObject): LearningAnswer = when (row.getString("type")) {
+        "choice" -> LearningAnswer.Choice(row.getString("id"))
+        "letters" -> row.getJSONArray("ids").let { values -> LearningAnswer.Letters((0 until values.length()).map { values.getString(it) }) }
+        "pairs" -> row.getJSONArray("values").let { values -> LearningAnswer.Pairs((0 until values.length()).map { values.getJSONObject(it).let { pair -> PairSelection(pair.getString("left"), pair.getString("right")) } }) }
+        else -> error("Unknown answer type")
+    }
     private fun encodeItems(items: List<ExerciseItem>) = JSONArray().apply {
         items.forEach { item -> put(JSONObject().put("id", item.id).put("text", item.text)
             .put("symbol", item.symbol).put("color", item.color).put("illustrationKey", item.illustrationKey).put("audioKey", item.audioKey)) }

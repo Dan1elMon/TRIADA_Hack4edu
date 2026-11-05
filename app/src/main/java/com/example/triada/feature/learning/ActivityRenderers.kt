@@ -93,7 +93,7 @@ private fun SymbolCard(item: ExerciseItem, modifier: Modifier) {
 @Composable
 private fun PairBoard(session: LessonSession, enabled: Boolean, onAnswer: (LearningAnswer) -> Unit) {
     val q = session.question
-    var selected by rememberSaveable(session.attemptId, q.id) { mutableStateOf(-1) }
+    var selected by rememberSaveable(session.attemptId, q.id) { mutableIntStateOf(-1) }
     var assigned by rememberSaveable(session.attemptId, q.id) { mutableStateOf(List(q.left.size) { "" }) }
     q.left.forEachIndexed { index, item ->
         OutlinedButton(onClick = { selected = index }, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).testTag("pair-left-${item.id}")) {

@@ -61,6 +61,13 @@ object ExerciseValidator {
         val q = definition.content
         require(q.id.isNotBlank() && q.prompt.isNotBlank() && q.instructions.isNotBlank())
         require(q.feedbackCorrect.isNotBlank() && q.feedbackIncorrect.isNotBlank())
+        require(q.prompt.length <= 2000 && q.instructions.length <= 2000 && q.feedbackCorrect.length <= 2000 && q.feedbackIncorrect.length <= 2000)
+        val items = q.choices + q.sequence + q.left + q.right + q.tiles
+        require(listOf(q.choices,q.sequence,q.left,q.right,q.tiles).all { it.size <= 24 })
+        require(items.all { it.text.length <= 1000 && it.id.length <= 160 })
+        val supportedImages = setOf("sun","hand","foot","eye","ear","mouth","nose")
+        require((listOfNotNull(q.illustrationKey) + items.mapNotNull { it.illustrationKey }).all { it in supportedImages })
+        require((q.left + q.right + q.tiles + q.sequence).all { it.audioKey == null })
         fun valid(items: List<ExerciseItem>) {
             require(items.isNotEmpty() && items.all { it.id.isNotBlank() && it.text.isNotBlank() })
             require(items.map { it.id }.distinct().size == items.size)

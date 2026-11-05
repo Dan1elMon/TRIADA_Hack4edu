@@ -82,9 +82,15 @@ data class ProgressSummary(val solvedQuestions: Int, val completed: Boolean, val
 
 @Dao
 interface LearningDao {
+    @Query("SELECT * FROM attempts WHERE profileId = :profileId ORDER BY startedAt, id LIMIT 10001")
+    suspend fun profileAttempts(profileId: String): List<AttemptEntity>
+    @Query("SELECT COUNT(*) FROM answers JOIN attempts ON answers.attemptId = attempts.id WHERE attempts.profileId = :profileId")
+    suspend fun profileAnswerCount(profileId: String): Long
     @Query("SELECT * FROM profiles ORDER BY createdAt, id") fun profiles(): Flow<List<ProfileEntity>>
     @Query("SELECT * FROM profiles WHERE id = :id") suspend fun profile(id: String): ProfileEntity?
     @Insert suspend fun insertProfile(profile: ProfileEntity)
+    @Query("UPDATE profiles SET displayName = :name, avatar = :avatar WHERE id = :id")
+    suspend fun updateProfile(id: String, name: String, avatar: String)
     @Insert(onConflict = OnConflictStrategy.IGNORE) suspend fun insertLesson(lesson: LessonEntity)
     @Insert(onConflict = OnConflictStrategy.IGNORE) suspend fun insertQuestions(questions: List<QuestionEntity>)
     @Insert(onConflict = OnConflictStrategy.IGNORE) suspend fun insertOptions(options: List<OptionEntity>)
@@ -92,11 +98,15 @@ interface LearningDao {
     @Query("SELECT * FROM lessons WHERE id = :id AND version = :version") suspend fun lesson(id: String, version: Int): LessonEntity?
     @Query("SELECT * FROM questions WHERE lessonId = :lessonId AND version = :version ORDER BY sortOrder")
     suspend fun questions(lessonId: String, version: Int): List<QuestionEntity>
+    @Query("SELECT * FROM questions WHERE id = :id AND version = :version")
+    suspend fun question(id: String, version: Int): QuestionEntity?
     @Query("SELECT * FROM options WHERE questionId = :questionId AND version = :version ORDER BY sortOrder")
     suspend fun options(questionId: String, version: Int): List<OptionEntity>
     @Query("SELECT * FROM hints WHERE questionId = :questionId AND version = :version ORDER BY sortOrder")
     suspend fun hints(questionId: String, version: Int): List<HintEntity>
     @Insert suspend fun insertAttempt(attempt: AttemptEntity)
+    @Query("UPDATE attempts SET currentIndex = :index, completedAt = :completedAt WHERE id = :id")
+    suspend fun restorePosition(id: String, index: Int, completedAt: Long?)
     @Query("SELECT * FROM attempts WHERE id = :id") suspend fun attempt(id: String): AttemptEntity?
     @Query("SELECT * FROM attempts WHERE profileId = :profileId AND lessonId = :lessonId AND version = :version ORDER BY startedAt DESC, rowid DESC LIMIT 1")
     suspend fun latestAttempt(profileId: String, lessonId: String, version: Int): AttemptEntity?
@@ -119,10 +129,14 @@ interface LearningDao {
     entities = [ProfileEntity::class, LessonEntity::class, QuestionEntity::class, OptionEntity::class,
         HintEntity::class, AttemptEntity::class, QuestionStateEntity::class, AnswerEntity::class,
         CatalogMetadataEntity::class, GradeEntity::class, SubjectEntity::class, LearningUnitEntity::class,
-        TopicEntity::class, CatalogLessonEntity::class],
-    version = 3, exportSchema = true,
+        TopicEntity::class, CatalogLessonEntity::class, EarnedStickerEntity::class, SchoolAccountEntity::class, TeacherStudentEntity::class, CredentialEntity::class, ReadingProgressEntity::class, DailyGoalEntity::class, LessonDraftEntity::class],
+    version = 6, exportSchema = true,
 )
 abstract class LearningDatabase : RoomDatabase() {
     abstract fun learningDao(): LearningDao
     abstract fun catalogDao(): CatalogDao
+    abstract fun rewardsDao(): RewardsDao
+    abstract fun schoolDao(): SchoolDao
+    abstract fun extensionDao(): ExtensionDao
 }
+

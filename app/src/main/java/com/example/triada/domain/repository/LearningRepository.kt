@@ -4,9 +4,12 @@ import com.example.triada.domain.model.Evaluation
 import com.example.triada.domain.model.LearnerProfile
 import com.example.triada.domain.model.LessonSession
 import com.example.triada.domain.model.LearningAnswer
+import com.example.triada.domain.model.EarnedSticker
 import kotlinx.coroutines.flow.Flow
 
 interface LearningRepository {
+    suspend fun updateProfile(id: String, name: String, avatar: String)
+    suspend fun rewards(profileId: String): List<EarnedSticker>
     fun profiles(): Flow<List<LearnerProfile>>
     suspend fun createProfile(name: String, avatar: String): LearnerProfile
     suspend fun openLesson(profileId: String, practiceAgain: Boolean = false, lessonId: String = "g1-mat-count-1-9"): LessonSession

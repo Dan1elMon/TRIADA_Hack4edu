@@ -9,6 +9,15 @@ import java.util.UUID
 
 class RoomLearningRepository(private val database: LearningDatabase) : LearningRepository {
     private val dao = database.learningDao()
+    override suspend fun updateProfile(id: String, name: String, avatar: String) = database.withTransaction {
+        requireNotNull(dao.profile(id))
+        require(name.trim().length in 1..24 && avatar in listOf("sun","star","flower"))
+        dao.updateProfile(id,name.trim(),avatar)
+    }
+    override suspend fun rewards(profileId: String): List<EarnedSticker> = database.withTransaction {
+        requireNotNull(dao.profile(profileId))
+        database.rewardsDao().earned(profileId).map { EarnedSticker(it.profileId, it.stickerId, it.obtainedAt) }
+    }
 
     override fun profiles() = dao.profiles().map { rows ->
         rows.map { LearnerProfile(it.id, it.displayName, it.avatar) }
@@ -101,7 +110,12 @@ class RoomLearningRepository(private val database: LearningDatabase) : LearningR
         dao.insertAnswer(AnswerEntity(eventId, attemptId, questionId, attempt.version, legacyChoice, evaluation == Evaluation.Correct, state.hintsUsed, now, encoded))
         if (evaluation == Evaluation.Correct) {
             dao.saveState(state.copy(solved = true))
-            if (dao.states(attemptId).count { it.solved } == questions.size) dao.complete(attemptId, now)
+            if (dao.states(attemptId).count { it.solved } == questions.size) {
+                dao.complete(attemptId, now)
+                StickerCatalog.forLesson(attempt.lessonId)?.let { sticker ->
+                    database.rewardsDao().award(EarnedStickerEntity(profileId, attempt.lessonId, sticker.id, now))
+                }
+            }
         }
         evaluation
     }
@@ -153,6 +167,8 @@ class RoomLearningRepository(private val database: LearningDatabase) : LearningR
             state?.solved == true, ProgressiveHints.visible(hints, used), used >= hints.size,
             attempt.completedAt != null,
             progress.solvedQuestions, progress.completed,
+            database.rewardsDao().earned(attempt.profileId).firstOrNull { it.lessonId == attempt.lessonId }
+                ?.let { EarnedSticker(it.profileId, it.stickerId, it.obtainedAt) },
         )
     }
 }

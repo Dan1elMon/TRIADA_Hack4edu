@@ -59,13 +59,26 @@ internal fun Notice(text: String, isError: Boolean = false) {
 @Composable
 internal fun ActionButton(label: String, enabled: Boolean, tag: String, onClick: () -> Unit) {
     Button(
+        colors = ButtonDefaults.buttonColors(containerColor = com.example.triada.ui.theme.Coral, contentColor = androidx.compose.ui.graphics.Color(0xFF1B1B1B)),
         onClick = onClick, enabled = enabled,
         modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).testTag(tag),
     ) { Text(label, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 6.dp)) }
 }
 
 @Composable
-fun ProfilesScreen(state: LearningUiState, onCreate: (String, String) -> Unit, onSelect: (String) -> Unit) {
+fun ProfilesScreen(state: LearningUiState, onCreate: (String, String) -> Unit, onEdit: (String,String,String) -> Unit, onSelect: (String) -> Unit) {
+    var editing by rememberSaveable { mutableStateOf<String?>(null) }
+    var editName by rememberSaveable { mutableStateOf("") }
+    var editAvatar by rememberSaveable { mutableStateOf("sun") }
+    if (editing != null) AlertDialog(onDismissRequest = { if (!state.busy) editing=null }, title = { Text("Editar perfil") }, text = {
+        Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
+            OutlinedTextField(value=editName,onValueChange={if(it.length<=24)editName=it},label={Text("Nombre o apodo")},modifier=Modifier.testTag("edit-name"))
+            FlowRow { listOf("sun" to "Sol","star" to "Estrella","flower" to "Flor").forEach { (id,label) ->
+                FilterChip(selected=editAvatar==id,onClick={editAvatar=id},label={Text(label)},modifier=Modifier.heightIn(min=48.dp).testTag("edit-avatar-$id"))
+            } }
+        }
+    }, confirmButton = { TextButton(onClick={onEdit(requireNotNull(editing),editName,editAvatar);editing=null},enabled=editName.isNotBlank()&&!state.busy,modifier=Modifier.testTag("save-profile")){Text("Guardar")}},
+        dismissButton={TextButton(onClick={editing=null},enabled=!state.busy){Text("Cancelar")}})
     var name by rememberSaveable { mutableStateOf("") }
     var avatar by rememberSaveable { mutableStateOf("sun") }
     LearningPage {
@@ -83,6 +96,7 @@ fun ProfilesScreen(state: LearningUiState, onCreate: (String, String) -> Unit, o
                     }
                     Text("Entrar", style = MaterialTheme.typography.labelLarge)
                 }
+                TextButton(onClick={editing=profile.id;editName=profile.displayName;editAvatar=profile.avatar},enabled=!state.busy,modifier=Modifier.testTag("edit-${profile.displayName}")){Text("Editar nombre y avatar")}
             }
         }
         if (!state.loadingProfiles && state.profiles.isEmpty()) Notice("Tu primera aventura empieza con un perfil. Puedes usar un apodo.")
@@ -174,6 +188,11 @@ fun ActivityScreen(state: LearningUiState, profileId: String, lessonId: String, 
             Eyebrow("¡AVENTURA COMPLETADA!")
             Heading("¡Lo lograste!", session.title)
             Progress(session)
+            session.earnedSticker?.let { earned ->
+                com.example.triada.domain.model.StickerCatalog.all.firstOrNull { it.id == earned.stickerId }?.let { sticker ->
+                    Notice("Sticker obtenido: ${sticker.title}. Encuéntralo en tu álbum.")
+                }
+            }
             Notice("Tu avance está guardado. Puedes volver a practicar cuando quieras.")
             ActionButton("Volver a practicar", !state.busy, "practice-again", onPractice)
             OutlinedButton(onClick = onBack, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text("Ver mi aventura") }

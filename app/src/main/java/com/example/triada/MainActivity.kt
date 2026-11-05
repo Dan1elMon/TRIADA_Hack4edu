@@ -13,11 +13,13 @@ import com.example.triada.ui.theme.AulaNexoTheme
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: LearningViewModel by viewModels()
+    private val packages: com.example.triada.feature.learning.PackageViewModel by viewModels()
+    private val school: com.example.triada.feature.learning.SchoolViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AulaNexoTheme { AulaNexoNavHost(viewModel) }
+            AulaNexoTheme { AulaNexoNavHost(viewModel, packages, school) }
         }
     }
 }

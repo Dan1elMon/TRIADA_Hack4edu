@@ -9,8 +9,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 private val AulaNexoColors = lightColorScheme(
-    primary = Coral,
-    onPrimary = Ink,
+    primary = Color(0xFFB52D38), // Accessible foreground tone; filled actions retain the brand coral.
+    onPrimary = Color.White,
     primaryContainer = WarmSurface,
     onPrimaryContainer = Ink,
     secondary = Sunshine,

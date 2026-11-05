@@ -33,9 +33,9 @@ class CatalogMigrationTest {
                 old.execSQL("INSERT INTO answers VALUES ('wrong', 'legacy-attempt', 'g1-mat-count-q01', 1, 3, 0, 1, 102)")
                 old.execSQL("INSERT INTO answers VALUES ('right', 'legacy-attempt', 'g1-mat-count-q01', 1, 4, 1, 1, 103)")
             }
-            helper.runMigrationsAndValidate(name, 3, true, CatalogMigration.FROM_1_TO_2, CatalogMigration.FROM_2_TO_3).close()
+            helper.runMigrationsAndValidate(name, 4, true, CatalogMigration.FROM_1_TO_2, CatalogMigration.FROM_2_TO_3, CatalogMigration.FROM_3_TO_4).close()
             val database = Room.databaseBuilder(instrumentation.targetContext, LearningDatabase::class.java, name)
-                .addMigrations(CatalogMigration.FROM_1_TO_2, CatalogMigration.FROM_2_TO_3).build()
+                .addMigrations(CatalogMigration.FROM_1_TO_2, CatalogMigration.FROM_2_TO_3, CatalogMigration.FROM_3_TO_4, com.example.triada.data.local.SchoolMigration.FROM_4_TO_5, com.example.triada.data.local.ExtensionMigration.FROM_5_TO_6).build()
             try {
                 val catalog = RoomCatalogRepository(database, AssetCatalogSource(instrumentation.targetContext)).load("legacy-profile")
                 val session = RoomLearningRepository(database).session("legacy-attempt", "legacy-profile")
@@ -50,3 +50,4 @@ class CatalogMigrationTest {
         } finally { instrumentation.targetContext.deleteDatabase(name) }
     }
 }
+

@@ -51,6 +51,7 @@ data class LessonSession(
     val completed: Boolean,
     val bestSolvedQuestions: Int,
     val everCompleted: Boolean,
+    val earnedSticker: EarnedSticker? = null,
 )
 
 sealed interface Evaluation {

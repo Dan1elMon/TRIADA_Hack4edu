@@ -4,6 +4,21 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 object CatalogMigration {
+    val FROM_3_TO_4 = object : Migration(3, 4) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS `earned_stickers` (`profileId` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `stickerId` TEXT NOT NULL, `obtainedAt` INTEGER NOT NULL, PRIMARY KEY(`profileId`, `lessonId`), FOREIGN KEY(`profileId`) REFERENCES `profiles`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)")
+            db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_earned_stickers_profileId_stickerId` ON `earned_stickers` (`profileId`, `stickerId`)")
+            // Frozen IDs for this migration: grant already completed goals once, preserving earliest completion.
+            db.execSQL("""INSERT OR IGNORE INTO earned_stickers (profileId, lessonId, stickerId, obtainedAt)
+                SELECT profileId, lessonId, CASE lessonId
+                WHEN 'g1-mat-count-1-9' THEN 'counting-sun' WHEN 'g1-com-vowels' THEN 'letter-cat'
+                WHEN 'g1-cya-body' THEN 'body-bear' WHEN 'g1-pso-coexistence' THEN 'kind-sun'
+                WHEN 'g1-rma-patterns' THEN 'pattern-cat' WHEN 'g1-rve-initial-sounds' THEN 'sound-bear' END,
+                MIN(completedAt) FROM attempts WHERE completedAt IS NOT NULL AND lessonId IN
+                ('g1-mat-count-1-9','g1-com-vowels','g1-cya-body','g1-pso-coexistence','g1-rma-patterns','g1-rve-initial-sounds')
+                GROUP BY profileId, lessonId""")
+        }
+    }
     val FROM_2_TO_3 = object : Migration(2, 3) {
         override fun migrate(db: SupportSQLiteDatabase) {
             db.execSQL("ALTER TABLE questions ADD COLUMN activityType TEXT NOT NULL DEFAULT 'COUNT_OBJECTS'")

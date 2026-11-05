@@ -13,8 +13,8 @@ class ProductionStartupTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
 
     @Test fun realApplicationStartsAndActivityCanBeRecreated() {
-        compose.onNodeWithText("¿Quién va a explorar hoy?").assertIsDisplayed()
+        compose.onNodeWithText("Elige tu cuenta para comenzar").assertIsDisplayed()
         compose.activityRule.scenario.recreate()
-        compose.onNodeWithTag("profile-name").performScrollTo().assertIsDisplayed()
+        compose.onNodeWithTag("account-name").performScrollTo().assertIsDisplayed()
     }
 }

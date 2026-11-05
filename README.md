@@ -4,7 +4,10 @@ Aplicación Android educativa con Kotlin, Jetpack Compose, Room y DataStore, des
 
 ## Funcionalidades disponibles
 
-- Perfiles locales independientes, con apodo y avatar.
+- Cuentas locales simuladas de alumnos y docentes, sin contraseña ni servidor.
+- Espacio del alumno con actividades y **Mis notas**; aula del docente con alumnos vinculados y consulta de sus notas.
+- Notas de práctica de 0 a 20 por intento completado, basadas en aciertos a la primera; pistas registradas sin descuento. Los intentos incompletos no tienen nota final.
+- Perfiles locales independientes, con creación y edición de apodo y avatar.
 - Catálogo local versionado de **214 temas**, organizado en primer grado y seis áreas.
 - Navegación perfil → grado → área → unidad → lección.
 - Consulta de todos los títulos de referencia; los temas sin actividades aparecen **en preparación**.
@@ -12,9 +15,13 @@ Aplicación Android educativa con Kotlin, Jetpack Compose, Room y DataStore, des
 - Actividades de conteo, selección, secuencias, asociación por tarjetas y formación de palabras con letras.
 - Siete audios de palabras en español incluidos en la app e ilustraciones vectoriales originales, sin descargas.
 - Guardado de errores, pistas, posición y progreso; reanudación y repetición conservando intentos anteriores.
-- Migraciones Room desde las versiones 1 y 2 al esquema 3 sin borrar resultados. El último perfil se recuerda mediante DataStore.
+- Migraciones Room desde las versiones anteriores al esquema 5 sin borrar resultados. El último perfil se recuerda mediante DataStore; al terminar el proceso se requiere seleccionar de nuevo la cuenta simulada.
 
-Las recompensas y el intercambio de paquetes corresponden a siguientes incrementos. No se solicita cuenta ni permiso de Internet. El catálogo mantiene 208 temas adicionales como referencia, sin actividades implementadas.
+Desde la pantalla del grado se puede abrir **Mi álbum de stickers** y **Mi progreso**. Cada lección entrega un sticker único por perfil; repetirla conserva el premio y el mejor avance. Se recuperan también los premios de las lecciones completadas antes de actualizar. El resumen considera las seis lecciones disponibles y sus 18 ejercicios, sin incluir los 208 temas de referencia.
+
+Desde el grado, **Intercambiar catálogo** permite importar paquetes `.aula`, exportar los metadatos originales o exportar todo el contenido instalado con ejercicios y audios WAV. Se validan rutas, tamaños, hashes, contratos y versiones antes de activar los cambios. El contenido publicado conserva su versión; una modificación requiere otra versión.
+
+**Exportar mis resultados** guarda un `.aula-result` con intentos, respuestas, pistas y progreso, sin nombre ni avatar y con identificador seudónimo estable. **Recuperar resultados** crea un perfil separado y requiere las lecciones y versiones correspondientes. Reimportar el mismo archivo no duplica intentos ni premios. Tras guardar se puede abrir el selector nativo para compartir el archivo. No se solicita cuenta ni permiso de Internet.
 
 | Área | Lección inicial | Actividades |
 |---|---|---|
@@ -37,7 +44,7 @@ Desde PowerShell:
 .\gradlew.bat :app:connectedDebugAndroidTest
 ```
 
-Las pruebas conectadas requieren dispositivo o emulador Android autorizado. Usan bases aisladas y perfiles sintéticos; la prueba de arranque abre la aplicación real sin modificar perfiles.
+Las pruebas conectadas requieren un dispositivo o emulador Android autorizado dedicado a pruebas. Usan bases aisladas y perfiles sintéticos, pero Gradle administra la instalación y limpieza. Para actualizar una instalación con resultados que deban conservarse, usar installDebug o instalar el APK conservando datos.
 
 APK: `app/build/outputs/apk/debug/app-debug.apk`.
 
@@ -48,6 +55,8 @@ APK: `app/build/outputs/apk/debug/app-debug.apk`.
 No desinstalar ni borrar los datos para actualizar desde la primera entrega: la migración conserva el progreso existente.
 
 ## Recorrido de validación
+
+La pantalla inicial permite crear o seleccionar cuentas simuladas. Los perfiles anteriores se conservan como alumnos. Para consultar notas como docente: seleccionar **Docente de ejemplo → Vincular alumnos → Agregar a mi aula → Ver notas de…**. Para consultar las propias: seleccionar alumno → **Mis notas**. No se incluyen notas ficticias: primero hay que realizar actividades. El recorrido educativo siguiente se abre desde **Comenzar mi aventura**.
 
 1. Crear un perfil y seleccionar su tarjeta.
 2. Abrir **Primer grado** y explorar las seis áreas.
@@ -61,7 +70,7 @@ No desinstalar ni borrar los datos para actualizar desde la primera entrega: la 
 10. Explorar los patrones y las normas de convivencia. En **Razonamiento Verbal**, escuchar la referencia y las opciones antes de elegir la palabra que empieza con el mismo sonido.
 11. Consultar el temario de Comunicación hasta el último título: los temas adicionales siguen en preparación y no abren actividades vacías.
 
-Quedan pendientes la validación manual en modo avión, muerte completa del proceso, TalkBack, texto ampliado y revisión pedagógica. Reapertura de Room y recreación de Activity se prueban automáticamente, pero no sustituyen esas comprobaciones.
+La aceptación automatizada incluye las seis lecciones con Wi-Fi y datos móviles desactivados, recuperación de progreso entre procesos, edición de perfil con texto al 200 % y guardado mediante el selector real de Android. Consultar el informe de entrega para resultados y límites. La revisión pedagógica y la evaluación manual con TalkBack siguen requiriendo participación humana.
 
 ## Documentación
 
@@ -71,3 +80,11 @@ Quedan pendientes la validación manual en modo avión, muerte completa del proc
 - [Primera entrega](AulaNexo/docs/avance_incrementos_1_2.md)
 - [Catálogo y navegación](AulaNexo/docs/avance_incremento_3.md)
 - [Seis lecciones y motores de actividades](AulaNexo/docs/avance_incremento_4.md)
+- [Recompensas, álbum y progreso](AulaNexo/docs/avance_incremento_5.md)
+- [Selector y validación de catálogos](AulaNexo/docs/avance_incremento_6_selector.md)
+- [Exportación de resultados por estudiante](AulaNexo/docs/avance_incremento_6_resultados.md)
+
+- [Entrega y aceptación del MVP](AulaNexo/docs/entrega_mvp.md)
+- [Cuentas simuladas y criterio de notas](AulaNexo/docs/cuentas_y_notas.md)
+- [Checklist del desarrollo](AulaNexo/docs/checklist_desarrollo.md)
+- [Propuesta de tutor con avatar](AulaNexo/docs/tutor_con_avatar.md)
