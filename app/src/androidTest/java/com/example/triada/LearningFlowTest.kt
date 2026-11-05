@@ -35,7 +35,7 @@ class LearningFlowTest {
             override val lastProfileId = MutableStateFlow<String?>(null)
             override suspend fun select(profileId: String) { lastProfileId.value = profileId }
         }
-        viewModel = LearningViewModel(repository, preferences, RoomCatalogRepository(database, AssetCatalogSource(context)))
+        viewModel = LearningViewModel(repository, preferences, RoomCatalogRepository(database, AssetCatalogSource(context, false)))
         store.put("learning", viewModel)
         compose.setContent { AulaNexoTheme { AulaNexoNavHost(viewModel) } }
         compose.waitUntil(10_000) { !viewModel.state.value.loadingProfiles }

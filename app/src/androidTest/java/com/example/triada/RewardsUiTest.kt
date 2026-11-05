@@ -53,7 +53,7 @@ class RewardsUiTest {
             override val lastProfileId = MutableStateFlow<String?>(null)
             override suspend fun select(profileId: String) { lastProfileId.value = profileId }
         }
-        vm = LearningViewModel(repo, preferences, RoomCatalogRepository(db, AssetCatalogSource(context)))
+        vm = LearningViewModel(repo, preferences, RoomCatalogRepository(db, AssetCatalogSource(context, false)))
         store.put("learning", vm)
         compose.setContent { AulaNexoTheme { AulaNexoNavHost(vm) } }
         compose.waitUntil(10_000) { !vm.state.value.loadingProfiles }

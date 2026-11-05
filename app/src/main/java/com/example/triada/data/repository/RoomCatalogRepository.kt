@@ -19,7 +19,8 @@ class RoomCatalogRepository(private val database: LearningDatabase, private val 
         database.withTransaction {
             val existing = dao.metadata()
             if (existing != null && existing.catalogVersion >= bundle.catalogVersion) {
-                if (existing.catalogVersion == bundle.catalogVersion) require(existing.checksum == checksum) { "Catalog version was changed in place" }
+                if (existing.catalogVersion == bundle.catalogVersion) require(existing.checksum == checksum ||
+                    com.example.triada.data.packageio.InstalledCatalogJson.equivalent(com.example.triada.data.packageio.InstalledCatalogJson.encode(database),raw)) { "Catalog version was changed in place" }
                 return@withTransaction // Never downgrade a newer installed catalog.
             }
             val oldTopics = dao.topics().associateBy { it.id }
@@ -29,6 +30,7 @@ class RoomCatalogRepository(private val database: LearningDatabase, private val 
             }
             // Activate only validated local exercises, including their required audio.
             RoomLearningRepository(database).seed()
+            source.expandedLessons()?.let{ExpandedLessonSeed.install(database,it)}
             bundle.lessons.forEach { link ->
                 val learning = database.learningDao()
                 requireNotNull(learning.lesson(link.lessonId, link.contentVersion)) { "Lesson content is missing" }

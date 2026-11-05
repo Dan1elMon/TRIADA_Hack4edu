@@ -14,7 +14,7 @@ class LocalLessonAudio(private val context: Context) {
         private set
     private var player: MediaPlayer? = null
 
-    fun play(key: String) {
+    fun play(key: String, speed:Float=1f) {
         release()
         if (!key.matches(Regex("[a-z0-9-]{1,80}"))) { status = "Este audio no está disponible. Puedes seguir con la actividad."; return }
         val next = MediaPlayer()
@@ -23,7 +23,10 @@ class LocalLessonAudio(private val context: Context) {
             next.setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build())
             try { context.assets.openFd("audio/$key.wav").use { next.setDataSource(it.fileDescriptor, it.startOffset, it.length) } }
             catch (_: java.io.IOException) { next.setDataSource(java.io.File(context.filesDir, "content/audio/$key.wav").absolutePath) }
-            next.setOnPreparedListener { if (player === it) { it.start(); status = "Escuchando…" } }
+            next.setOnPreparedListener { if (player === it) {
+                try { it.playbackParams=it.playbackParams.setSpeed(speed.coerceIn(.5f,1.5f));it.start();status="Escuchando…" }
+                catch (_:Exception){status="No pudimos iniciar el audio. Puedes volver a intentarlo.";release()}
+            } }
             next.setOnCompletionListener { status = "Audio reproducido."; release() }
             next.setOnErrorListener { _, _, _ -> status = "No pudimos reproducir este audio. Puedes volver a intentarlo."; release(); true }
             status = "Preparando audio…"

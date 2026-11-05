@@ -22,7 +22,7 @@ class SaveLearningDocument : ActivityResultContract<String, Uri?>() {
 }
 
 @Composable
-fun PackageScreen(viewModel: PackageViewModel, profileId: String, onBack: () -> Unit) {
+fun PackageScreen(viewModel: PackageViewModel, profileId: String, onBack: () -> Unit,contentOnly:Boolean=false) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     LaunchedEffect(profileId) { viewModel.reset() }
@@ -33,15 +33,17 @@ fun PackageScreen(viewModel: PackageViewModel, profileId: String, onBack: () -> 
     val restore = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument(), viewModel::importResults)
     androidx.activity.compose.BackHandler(state.busy) { }
     LearningPage {
-        TextButton(onClick = onBack, enabled = !state.busy) { Text("Volver a mis grados") }
+        TextButton(onClick = onBack, enabled = !state.busy) { Text(if(contentOnly)"Volver a mi aula" else "Volver a mis grados") }
         Heading("Catálogo y resultados", "Guarda tu progreso o intercambia actividades con audio.")
         Notice("Los paquetes de contenido incluyen catálogo, ejercicios y audios WAV. Se validan antes de activarse. Los contenidos publicados no se sobrescriben: los cambios requieren una nueva versión.")
         ActionButton("Importar catálogo", !state.busy, "import-catalog") { importer.launch(arrayOf("*/*")) }
         ActionButton("Exportar catálogo de la app", !state.busy, "export-catalog") { exporter.launch("aulanexo-catalogo.aula") }
         ActionButton("Exportar contenido instalado", !state.busy, "export-content") { content.launch("aulanexo-contenido.aula") }
+        if(!contentOnly) {
         Notice("Los resultados corresponden al perfil con el que abriste esta pantalla. Incluyen respuestas, pistas y progreso con un identificador seudónimo, sin nombre ni avatar. La recuperación crea un perfil separado y requiere tener las mismas lecciones y versiones instaladas.")
         ActionButton("Exportar mis resultados", !state.busy, "export-results") { results.launch("aulanexo-resultados.aula-result") }
         ActionButton("Recuperar resultados", !state.busy, "import-results") { restore.launch(arrayOf("*/*")) }
+        }
         if (state.busy) CircularProgressIndicator()
         state.message?.let { Notice(it) }
         state.savedUri?.let { uri ->

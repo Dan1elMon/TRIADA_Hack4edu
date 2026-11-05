@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Native launch background, matching WarmSand in the Compose palette. -->
+    <color name="adventure_sand">#F7F3E9</color>
+</resources>

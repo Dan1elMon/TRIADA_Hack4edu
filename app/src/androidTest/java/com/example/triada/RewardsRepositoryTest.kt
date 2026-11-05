@@ -28,7 +28,7 @@ class RewardsRepositoryTest {
     @Test fun concurrentReplayAndPracticeNeverDuplicateTheReward() = runBlocking {
         val a = repo.createProfile("Luna", "star")
         val b = repo.createProfile("Sol", "sun")
-        val catalog = RoomCatalogRepository(db, AssetCatalogSource(context))
+        val catalog = RoomCatalogRepository(db, AssetCatalogSource(context, false))
         catalog.load(a.id)
         var session = ready(a.id)
         assertTrue(repo.rewards(a.id).isEmpty())

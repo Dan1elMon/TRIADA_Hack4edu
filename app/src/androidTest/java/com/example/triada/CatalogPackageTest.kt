@@ -15,7 +15,7 @@ class CatalogPackageTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val db = Room.inMemoryDatabaseBuilder(context, LearningDatabase::class.java).build()
         try {
-            val service = CatalogPackageService(db, AssetCatalogSource(context))
+            val service = CatalogPackageService(db, AssetCatalogSource(context, false))
             val output = ByteArrayOutputStream()
             service.exportBundledCatalog(output)
             val original = com.example.triada.data.packageio.SafePackageReader().read(output.toByteArray().inputStream())
@@ -52,7 +52,7 @@ class CatalogPackageTest {
             val profile = repo.createProfile("Paquetes", "sun")
             val session = repo.openLesson(profile.id)
             repo.answer(session.attemptId, profile.id, session.question.id, 4, "saved")
-            val service = CatalogPackageService(db, AssetCatalogSource(context))
+            val service = CatalogPackageService(db, AssetCatalogSource(context, false))
             val output = ByteArrayOutputStream()
             service.exportBundledCatalog(output)
             repeat(2) { service.importCatalog(output.toByteArray().inputStream()) }

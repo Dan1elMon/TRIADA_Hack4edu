@@ -23,7 +23,7 @@ class ExpandedActivitiesUiTest {
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
     private val database = Room.inMemoryDatabaseBuilder(context, LearningDatabase::class.java).build()
     private val repository = RoomLearningRepository(database)
-    private val catalog = RoomCatalogRepository(database, AssetCatalogSource(context))
+    private val catalog = RoomCatalogRepository(database, AssetCatalogSource(context, false))
     private val store = ViewModelStore()
     private lateinit var viewModel: LearningViewModel
     @After fun close() { store.clear(); database.close() }

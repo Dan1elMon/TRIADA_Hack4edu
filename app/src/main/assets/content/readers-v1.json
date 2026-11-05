@@ -1,0 +1,626 @@
+{
+  "books": [
+    {
+      "id": "semilla",
+      "title": "La semilla de Luna",
+      "language": "es",
+      "scene": "plant",
+      "pages": [
+        {
+          "text": "Luna encuentra una semilla.",
+          "audio": "read-page-semilla-0",
+          "words": [
+            {
+              "text": "Luna",
+              "audio": "read-es-970ec274ca86"
+            },
+            {
+              "text": "encuentra",
+              "audio": "read-es-3e0467828db6"
+            },
+            {
+              "text": "una",
+              "audio": "read-es-161f0e5ed45f"
+            },
+            {
+              "text": "semilla",
+              "audio": "read-es-9be4b72609ff"
+            }
+          ]
+        },
+        {
+          "text": "La planta en una maceta con tierra.",
+          "audio": "read-page-semilla-1",
+          "words": [
+            {
+              "text": "La",
+              "audio": "read-es-b737ca7ee563"
+            },
+            {
+              "text": "planta",
+              "audio": "read-es-9874e221c8a2"
+            },
+            {
+              "text": "en",
+              "audio": "read-es-dbd3a49d0d90"
+            },
+            {
+              "text": "una",
+              "audio": "read-es-161f0e5ed45f"
+            },
+            {
+              "text": "maceta",
+              "audio": "read-es-915509646bdb"
+            },
+            {
+              "text": "con",
+              "audio": "read-es-1143da2bc54c"
+            },
+            {
+              "text": "tierra",
+              "audio": "read-es-7f1fdbca3871"
+            }
+          ]
+        },
+        {
+          "text": "La cuida con agua y luz. Una hoja comienza a crecer.",
+          "audio": "read-page-semilla-2",
+          "words": [
+            {
+              "text": "La",
+              "audio": "read-es-b737ca7ee563"
+            },
+            {
+              "text": "cuida",
+              "audio": "read-es-ad19f12aa987"
+            },
+            {
+              "text": "con",
+              "audio": "read-es-1143da2bc54c"
+            },
+            {
+              "text": "agua",
+              "audio": "read-es-5f1da0912e17"
+            },
+            {
+              "text": "y",
+              "audio": "read-es-a1fce4363854"
+            },
+            {
+              "text": "luz",
+              "audio": "read-es-c6ce5f796115"
+            },
+            {
+              "text": "Una",
+              "audio": "read-es-161f0e5ed45f"
+            },
+            {
+              "text": "hoja",
+              "audio": "read-es-6053f57a7388"
+            },
+            {
+              "text": "comienza",
+              "audio": "read-es-f53c9158ce56"
+            },
+            {
+              "text": "a",
+              "audio": "read-es-ca978112ca1b"
+            },
+            {
+              "text": "crecer",
+              "audio": "read-es-864e6e61526b"
+            }
+          ]
+        }
+      ],
+      "question": "¿Qué cuidó Luna?",
+      "choices": [
+        "Una semilla",
+        "Un zapato",
+        "Un reloj"
+      ],
+      "correct": 0
+    },
+    {
+      "id": "puente",
+      "title": "El puente de papel",
+      "language": "es",
+      "scene": "bridge",
+      "pages": [
+        {
+          "text": "Ana y Luis quieren hacer un puente.",
+          "audio": "read-page-puente-0",
+          "words": [
+            {
+              "text": "Ana",
+              "audio": "read-es-24d4b96f58da"
+            },
+            {
+              "text": "y",
+              "audio": "read-es-a1fce4363854"
+            },
+            {
+              "text": "Luis",
+              "audio": "read-es-c5ff177a86e8"
+            },
+            {
+              "text": "quieren",
+              "audio": "read-es-a6512278681b"
+            },
+            {
+              "text": "hacer",
+              "audio": "read-es-9ab06b20725e"
+            },
+            {
+              "text": "un",
+              "audio": "read-es-68bca10eea2b"
+            },
+            {
+              "text": "puente",
+              "audio": "read-es-2c259b45081e"
+            }
+          ]
+        },
+        {
+          "text": "Prueban una hoja plana. El puente se dobla.",
+          "audio": "read-page-puente-1",
+          "words": [
+            {
+              "text": "Prueban",
+              "audio": "read-es-95f0fae7494b"
+            },
+            {
+              "text": "una",
+              "audio": "read-es-161f0e5ed45f"
+            },
+            {
+              "text": "hoja",
+              "audio": "read-es-6053f57a7388"
+            },
+            {
+              "text": "plana",
+              "audio": "read-es-ec08f1bb86d2"
+            },
+            {
+              "text": "El",
+              "audio": "read-es-d65c3e892354"
+            },
+            {
+              "text": "puente",
+              "audio": "read-es-2c259b45081e"
+            },
+            {
+              "text": "se",
+              "audio": "read-es-ad9a67fefa84"
+            },
+            {
+              "text": "dobla",
+              "audio": "read-es-1d45156ae183"
+            }
+          ]
+        },
+        {
+          "text": "Doblan otra hoja como un acordeón. Ahora el puente sostiene su ficha.",
+          "audio": "read-page-puente-2",
+          "words": [
+            {
+              "text": "Doblan",
+              "audio": "read-es-7cd58a4a62ff"
+            },
+            {
+              "text": "otra",
+              "audio": "read-es-a138a1bc2fcb"
+            },
+            {
+              "text": "hoja",
+              "audio": "read-es-6053f57a7388"
+            },
+            {
+              "text": "como",
+              "audio": "read-es-ea3dc747f154"
+            },
+            {
+              "text": "un",
+              "audio": "read-es-68bca10eea2b"
+            },
+            {
+              "text": "acordeón",
+              "audio": "read-es-9a063792c655"
+            },
+            {
+              "text": "Ahora",
+              "audio": "read-es-078f91fbc884"
+            },
+            {
+              "text": "el",
+              "audio": "read-es-d65c3e892354"
+            },
+            {
+              "text": "puente",
+              "audio": "read-es-2c259b45081e"
+            },
+            {
+              "text": "sostiene",
+              "audio": "read-es-43e710bd6afb"
+            },
+            {
+              "text": "su",
+              "audio": "read-es-0a64ce10853f"
+            },
+            {
+              "text": "ficha",
+              "audio": "read-es-a71701aa189a"
+            }
+          ]
+        }
+      ],
+      "question": "¿Qué cambiaron Ana y Luis?",
+      "choices": [
+        "La forma del papel",
+        "El nombre de Luis",
+        "El día de la semana"
+      ],
+      "correct": 0
+    },
+    {
+      "id": "libro",
+      "title": "Un libro para dos",
+      "language": "es",
+      "scene": "book",
+      "pages": [
+        {
+          "text": "Sol quiere leer un cuento. Nico también.",
+          "audio": "read-page-libro-0",
+          "words": [
+            {
+              "text": "Sol",
+              "audio": "read-es-8db59feb4d21"
+            },
+            {
+              "text": "quiere",
+              "audio": "read-es-7d2a681c8c53"
+            },
+            {
+              "text": "leer",
+              "audio": "read-es-f13f8e16a9f7"
+            },
+            {
+              "text": "un",
+              "audio": "read-es-68bca10eea2b"
+            },
+            {
+              "text": "cuento",
+              "audio": "read-es-46dfd5f9ec2f"
+            },
+            {
+              "text": "Nico",
+              "audio": "read-es-b18aaa6c6b92"
+            },
+            {
+              "text": "también",
+              "audio": "read-es-20af4511c75c"
+            }
+          ]
+        },
+        {
+          "text": "Los dos conversan y buscan un lugar tranquilo.",
+          "audio": "read-page-libro-1",
+          "words": [
+            {
+              "text": "Los",
+              "audio": "read-es-cb6e53541e37"
+            },
+            {
+              "text": "dos",
+              "audio": "read-es-c1299854f2b2"
+            },
+            {
+              "text": "conversan",
+              "audio": "read-es-7ec28d04d3af"
+            },
+            {
+              "text": "y",
+              "audio": "read-es-a1fce4363854"
+            },
+            {
+              "text": "buscan",
+              "audio": "read-es-3b0ad19a4f2b"
+            },
+            {
+              "text": "un",
+              "audio": "read-es-68bca10eea2b"
+            },
+            {
+              "text": "lugar",
+              "audio": "read-es-0066aae0153a"
+            },
+            {
+              "text": "tranquilo",
+              "audio": "read-es-cbc7a5cc3f33"
+            }
+          ]
+        },
+        {
+          "text": "Sol lee una página y Nico lee la siguiente. Comparten la historia.",
+          "audio": "read-page-libro-2",
+          "words": [
+            {
+              "text": "Sol",
+              "audio": "read-es-8db59feb4d21"
+            },
+            {
+              "text": "lee",
+              "audio": "read-es-1508b697895a"
+            },
+            {
+              "text": "una",
+              "audio": "read-es-161f0e5ed45f"
+            },
+            {
+              "text": "página",
+              "audio": "read-es-eeaa7bfffd67"
+            },
+            {
+              "text": "y",
+              "audio": "read-es-a1fce4363854"
+            },
+            {
+              "text": "Nico",
+              "audio": "read-es-b18aaa6c6b92"
+            },
+            {
+              "text": "lee",
+              "audio": "read-es-1508b697895a"
+            },
+            {
+              "text": "la",
+              "audio": "read-es-b737ca7ee563"
+            },
+            {
+              "text": "siguiente",
+              "audio": "read-es-5ad045438889"
+            },
+            {
+              "text": "Comparten",
+              "audio": "read-es-052408f1e8f2"
+            },
+            {
+              "text": "la",
+              "audio": "read-es-b737ca7ee563"
+            },
+            {
+              "text": "historia",
+              "audio": "read-es-874900292abe"
+            }
+          ]
+        }
+      ],
+      "question": "¿Cómo compartieron la lectura?",
+      "choices": [
+        "Leyendo por turnos",
+        "Rompiendo el libro",
+        "Escondiendo las páginas"
+      ],
+      "correct": 0
+    },
+    {
+      "id": "short-a",
+      "title": "Inglés: palabras con a corta",
+      "language": "en",
+      "scene": "cat",
+      "pages": [
+        {
+          "text": "A cat.",
+          "audio": "read-page-short-a-0",
+          "words": [
+            {
+              "text": "A",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "cat",
+              "audio": "read-en-77af778b51ab"
+            }
+          ]
+        },
+        {
+          "text": "A cat on a mat.",
+          "audio": "read-page-short-a-1",
+          "words": [
+            {
+              "text": "A",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "cat",
+              "audio": "read-en-77af778b51ab"
+            },
+            {
+              "text": "on",
+              "audio": "read-en-b8d31e852725"
+            },
+            {
+              "text": "a",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "mat",
+              "audio": "read-en-0c1c541af9cc"
+            }
+          ]
+        },
+        {
+          "text": "A bat and a cat.",
+          "audio": "read-page-short-a-2",
+          "words": [
+            {
+              "text": "A",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "bat",
+              "audio": "read-en-ca5bcec12f71"
+            },
+            {
+              "text": "and",
+              "audio": "read-en-6201111b83a0"
+            },
+            {
+              "text": "a",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "cat",
+              "audio": "read-en-77af778b51ab"
+            }
+          ]
+        }
+      ],
+      "question": "¿Qué palabra rima con CAT?",
+      "choices": [
+        "MAT",
+        "SUN",
+        "PEN"
+      ],
+      "correct": 0
+    },
+    {
+      "id": "short-e",
+      "title": "Inglés: palabras con e corta",
+      "language": "en",
+      "scene": "book",
+      "pages": [
+        {
+          "text": "A hen.",
+          "audio": "read-page-short-e-0",
+          "words": [
+            {
+              "text": "A",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "hen",
+              "audio": "read-en-d44a08de3981"
+            }
+          ]
+        },
+        {
+          "text": "A hen and a pen.",
+          "audio": "read-page-short-e-1",
+          "words": [
+            {
+              "text": "A",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "hen",
+              "audio": "read-en-d44a08de3981"
+            },
+            {
+              "text": "and",
+              "audio": "read-en-6201111b83a0"
+            },
+            {
+              "text": "a",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "pen",
+              "audio": "read-en-e21a6b0cb193"
+            }
+          ]
+        },
+        {
+          "text": "Ten hens.",
+          "audio": "read-page-short-e-2",
+          "words": [
+            {
+              "text": "Ten",
+              "audio": "read-en-e4432baa9081"
+            },
+            {
+              "text": "hens",
+              "audio": "read-en-c90c73944e49"
+            }
+          ]
+        }
+      ],
+      "question": "¿Qué palabra rima con HEN?",
+      "choices": [
+        "PEN",
+        "CAT",
+        "BIG"
+      ],
+      "correct": 0
+    },
+    {
+      "id": "short-i",
+      "title": "Inglés: palabras con i corta",
+      "language": "en",
+      "scene": "plant",
+      "pages": [
+        {
+          "text": "A pig.",
+          "audio": "read-page-short-i-0",
+          "words": [
+            {
+              "text": "A",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "pig",
+              "audio": "read-en-f0b8c9d84dd2"
+            }
+          ]
+        },
+        {
+          "text": "A big pig.",
+          "audio": "read-page-short-i-1",
+          "words": [
+            {
+              "text": "A",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "big",
+              "audio": "read-en-2a21fe6d592a"
+            },
+            {
+              "text": "pig",
+              "audio": "read-en-f0b8c9d84dd2"
+            }
+          ]
+        },
+        {
+          "text": "A pig can dig.",
+          "audio": "read-page-short-i-2",
+          "words": [
+            {
+              "text": "A",
+              "audio": "read-en-ca978112ca1b"
+            },
+            {
+              "text": "pig",
+              "audio": "read-en-f0b8c9d84dd2"
+            },
+            {
+              "text": "can",
+              "audio": "read-en-9f584196e7fe"
+            },
+            {
+              "text": "dig",
+              "audio": "read-en-ebbde58a4bbe"
+            }
+          ]
+        }
+      ],
+      "question": "¿Qué palabra rima con PIG?",
+      "choices": [
+        "DIG",
+        "HEN",
+        "MAT"
+      ],
+      "correct": 0
+    }
+  ]
+}

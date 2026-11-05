@@ -20,7 +20,7 @@ class StudentResultsExporterTest {
             val repo = RoomLearningRepository(db)
             val a = repo.createProfile("PRIVATE LUNA", "star")
             val b = repo.createProfile("PRIVATE SOL", "sun")
-            RoomCatalogRepository(db, AssetCatalogSource(context)).load(a.id)
+            RoomCatalogRepository(db, AssetCatalogSource(context, false)).load(a.id)
             val foreign = repo.openLesson(b.id)
             repo.answer(foreign.attemptId, b.id, foreign.question.id, 4, "foreign-answer")
             var session = repo.openLesson(a.id, lessonId = "g1-com-vowels")

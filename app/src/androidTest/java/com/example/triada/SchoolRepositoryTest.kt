@@ -57,7 +57,7 @@ class SchoolRepositoryTest {
                 old.execSQL("INSERT INTO attempts VALUES ('saved','legacy','old',1,0,1,NULL)")
             }
             helper.runMigrationsAndValidate(name,5,true,SchoolMigration.FROM_4_TO_5).close()
-            val db=Room.databaseBuilder(context,LearningDatabase::class.java,name).build()
+            val db=Room.databaseBuilder(context,LearningDatabase::class.java,name).addMigrations(ExtensionMigration.FROM_5_TO_6).build()
             try {
                 val repo=SchoolRepository(db)
                 repeat(2){assertEquals(1,repo.accounts().count{it.profileId=="legacy"})}

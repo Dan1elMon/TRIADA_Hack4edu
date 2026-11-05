@@ -26,7 +26,6 @@ internal fun CatalogPage(
             contentPadding = PaddingValues(24.dp), verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             item { TextButton(onClick = onBack, enabled = !state.busy) { Text(backLabel) } }
-            item { Text("AulaNexo", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
             item { Heading(title, subtitle) }
             if (state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
             if (state.error != null) item { Notice(state.error, true) }
@@ -49,9 +48,14 @@ private fun CatalogCard(tag: String, title: String, description: String, badge: 
 }
 
 @Composable
-fun GradesScreen(state: LearningUiState, profileId: String, onBack: () -> Unit, onGrade: (String) -> Unit, onRetry: () -> Unit, onAlbum: () -> Unit, onProgress: () -> Unit, onPackages: (() -> Unit)? = null) {
+fun GradesScreen(state: LearningUiState, profileId: String, onBack: () -> Unit, onGrade: (String) -> Unit, onRetry: () -> Unit, onAlbum: () -> Unit, onProgress: () -> Unit, onPackages: (() -> Unit)? = null,onSubject:((String)->Unit)?=null,onGoal:((Int)->Unit)?=null) {
     val name = state.profiles.firstOrNull { it.id == profileId }?.displayName ?: "explorador"
     CatalogPage(state, profileId, "¡Hola, $name!", "Elige tu grado y descubre tu próxima aventura.", "Cambiar de perfil", onBack, onRetry) { catalog ->
+        item {
+            Notice("Mi objetivo de hoy: ${state.dailyCompleted} de ${state.dailyTarget} lecciones distintas completadas. ${if(state.dailyCompleted>=state.dailyTarget) "¡Objetivo alcanzado!" else "Avanza a tu ritmo."}")
+            if(onGoal!=null) FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)) { (1..3).forEach{target->FilterChip(state.dailyTarget==target,{onGoal(target)},label={Text("$target al día")},enabled=!state.busy,modifier=Modifier.heightIn(min=48.dp))} }
+        }
+        if(onSubject!=null)item{AdventureMap(catalog,state.busy,onSubject)}
         items(catalog.grades, key = { it.id }) { grade ->
             val areas = catalog.subjects.count { it.gradeId == grade.id }
             CatalogCard("grade-${grade.id}", grade.label, "$areas áreas para explorar a tu ritmo.", "MI APRENDIZAJE", !state.busy) { onGrade(grade.id) }

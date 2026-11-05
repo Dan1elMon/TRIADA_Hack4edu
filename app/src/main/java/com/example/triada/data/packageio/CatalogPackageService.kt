@@ -36,6 +36,7 @@ class CatalogPackageService(private val database: LearningDatabase, private val 
         RoomCatalogRepository(database, object : CatalogSource {
             override fun read() = raw
             override fun hasAudio(key: String) = bundled.hasAudio(key)
+            override fun expandedLessons() = bundled.expandedLessons()
         }).install()
     }
 

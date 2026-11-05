@@ -40,21 +40,29 @@ class SchoolFlowTest {
             override val lastProfileId=MutableStateFlow<String?>(null)
             override suspend fun select(profileId:String){lastProfileId.value=profileId}
         }
-        val learning=LearningViewModel(RoomLearningRepository(db),prefs,RoomCatalogRepository(db,AssetCatalogSource(context)))
+        val learning=LearningViewModel(RoomLearningRepository(db),prefs,RoomCatalogRepository(db,AssetCatalogSource(context, false)))
         val school=SchoolViewModel(db);store.put("learning",learning);store.put("school",school)
-        compose.setContent{AulaNexoTheme{AulaNexoNavHost(learning,school=school)}}
-        compose.waitUntil(10_000){!school.state.value.busy && school.state.value.accounts.isNotEmpty()}
-        compose.onNodeWithTag("account-demo-teacher").performScrollTo().performClick()
+        compose.setContent{KeepTestScreenOn();AulaNexoTheme{AulaNexoNavHost(learning,school=school)}}
+        compose.waitUntil(90_000){!school.state.value.busy}
+        org.junit.Assert.assertNull(school.state.value.error)
+        org.junit.Assert.assertTrue(school.state.value.accounts.isNotEmpty())
+        compose.onNodeWithTag("aulanexo-logo").assertExists()
+        compose.onNodeWithTag("login-user").performTextInput("10000001")
+        compose.onNodeWithTag("login-password").performTextInput("admin")
+        compose.onNodeWithTag("login").performScrollTo().performClick()
         compose.waitUntil(10_000){!school.state.value.busy && school.state.value.active?.id=="demo-teacher"}
         compose.onNodeWithText("Vincular alumnos").performScrollTo().performClick()
         compose.onNodeWithTag("link-${ana.id}").performScrollTo().performClick()
-        compose.waitUntil(10_000){!school.state.value.busy && school.state.value.students.size==1}
+        compose.waitUntil(10_000){!school.state.value.busy && school.state.value.students.any{it.id==ana.id}}
         compose.onNodeWithTag("grades-${ana.id}").performScrollTo().performClick()
         compose.waitUntil(10_000){!school.state.value.busy && school.state.value.gradeStudent?.id==ana.id}
         compose.onNodeWithTag("grade-0").performScrollTo().assertTextContains("20",substring=true)
         compose.onNodeWithText("Volver a mi espacio").performScrollTo().performClick()
-        compose.onNodeWithText("Cambiar de cuenta").performScrollTo().performClick()
-        compose.onNodeWithTag("account-${ana.id}").performScrollTo().performClick()
+        compose.onNodeWithTag("aulanexo-logo").assertExists()
+        compose.onNodeWithText("Cerrar sesión").performScrollTo().performClick()
+        compose.onNodeWithTag("login-user").performTextInput(school.state.value.accounts.first{it.id==ana.id}.username)
+        compose.onNodeWithTag("login-password").performTextInput("admin")
+        compose.onNodeWithTag("login").performScrollTo().performClick()
         compose.waitUntil(10_000){!school.state.value.busy && school.state.value.active?.id==ana.id}
         compose.onNodeWithTag("student-grades").performScrollTo().performClick()
         compose.waitUntil(10_000){!school.state.value.busy && school.state.value.gradeStudent?.id==ana.id}

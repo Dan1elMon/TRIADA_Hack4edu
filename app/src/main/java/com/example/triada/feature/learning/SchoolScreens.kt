@@ -14,7 +14,7 @@ fun AccountsScreen(state: SchoolState, onLogin: (String,String)->Unit, onReload:
     var username by rememberSaveable { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     LearningPage {
-        Heading("AulaNexo", "Inicia sesión para comenzar")
+        Heading("¡Bienvenido!", "Inicia sesión para comenzar")
         OutlinedTextField(username,{if(it.length<=8&&it.all{c->c in '0'..'9'})username=it},label={Text("Usuario de 8 dígitos")},singleLine=true,keyboardOptions=androidx.compose.foundation.text.KeyboardOptions(keyboardType=androidx.compose.ui.text.input.KeyboardType.Number),modifier=Modifier.fillMaxWidth().testTag("login-user"))
         OutlinedTextField(password,{password=it.take(128)},label={Text("Contraseña")},singleLine=true,visualTransformation=androidx.compose.ui.text.input.PasswordVisualTransformation(),modifier=Modifier.fillMaxWidth().testTag("login-password"))
         ActionButton("Ingresar",username.length==8&&password.isNotEmpty()&&!state.busy,"login"){onLogin(username,password);password=""}
@@ -29,9 +29,9 @@ private fun CreateAccountForm(state:SchoolState,onCreate:(String,SchoolRole)->Un
     var name by rememberSaveable { mutableStateOf("") }
     var teacher by rememberSaveable { mutableStateOf(false) }
     Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
-        Text("Crear cuenta simulada",style=MaterialTheme.typography.titleLarge)
+        Text("Crear cuenta local",style=MaterialTheme.typography.titleLarge)
         OutlinedTextField(name,{if(it.length<=24)name=it},label={Text("Nombre o apodo")},singleLine=true,modifier=Modifier.fillMaxWidth().testTag("account-name"))
-        Row(horizontalArrangement=Arrangement.spacedBy(12.dp)) {
+        FlowRow(horizontalArrangement=Arrangement.spacedBy(12.dp)) {
             FilterChip(!teacher,{teacher=false},label={Text("Alumno")},modifier=Modifier.heightIn(min=48.dp).testTag("role-student"))
             FilterChip(teacher,{teacher=true},label={Text("Docente")},modifier=Modifier.heightIn(min=48.dp).testTag("role-teacher"))
         }
@@ -57,7 +57,7 @@ fun CredentialsScreen(state:SchoolState,onBack:()->Unit,onSave:(String,String,St
 }
 
 @Composable
-fun SchoolHomeScreen(state: SchoolState, onLogout: ()->Unit, onLearn: (String)->Unit, onGrades: (String)->Unit, onLink: (String,Boolean)->Unit, onEdit: (String,String)->Unit, onCredentials:()->Unit, onCreate:(String,SchoolRole)->Unit) {
+fun SchoolHomeScreen(state: SchoolState, onLogout: ()->Unit, onLearn: (String)->Unit, onGrades: (String)->Unit, onLink: (String,Boolean)->Unit, onEdit: (String,String)->Unit, onCredentials:()->Unit, onCreate:(String,SchoolRole)->Unit,onReading:(()->Unit)?=null,onEditor:(()->Unit)?=null,onContent:(()->Unit)?=null) {
     val actor=state.active ?: return
     var manage by rememberSaveable(actor.id) { mutableStateOf(false) }
     var editing by rememberSaveable(actor.id) { mutableStateOf(false) }
@@ -72,6 +72,7 @@ fun SchoolHomeScreen(state: SchoolState, onLogout: ()->Unit, onLearn: (String)->
     LearningPage {
         TextButton(onClick=onLogout,enabled=!state.busy){Text("Cerrar sesión")}
         Heading("Hola, ${actor.name}",if(actor.role==SchoolRole.TEACHER) "Mi aula" else "Mi espacio de aprendizaje")
+        Text(if(actor.role==SchoolRole.TEACHER)"Código docente: ${actor.username}" else "Usuario: ${actor.username}")
         TextButton(onClick={editing=true},enabled=!state.busy){Text("Editar mi cuenta")}
         TextButton(onClick=onCredentials,enabled=!state.busy){Text("Mi acceso")}
         if(state.busy) CircularProgressIndicator()
@@ -79,12 +80,17 @@ fun SchoolHomeScreen(state: SchoolState, onLogout: ()->Unit, onLearn: (String)->
         if(actor.role==SchoolRole.STUDENT) {
             ActionButton("Comenzar mi aventura",!state.busy,"student-learn"){onLearn(requireNotNull(actor.profileId))}
             ActionButton("Mis notas",!state.busy,"student-grades"){onGrades(actor.id)}
+            if(onReading!=null)ActionButton("Cuentos y sonidos en inglés",!state.busy,"open-reading",onReading)
             Notice("Las notas muestran cómo respondiste la primera vez. Puedes seguir practicando y consultar todos tus intentos.")
         } else {
+            if(onEditor!=null)ActionButton("Editor de lecciones",!state.busy,"open-editor",onEditor)
+            if(onContent!=null)ActionButton("Intercambiar contenido",!state.busy,"teacher-packages",onContent)
             CreateAccountForm(state,onCreate)
+            Text("Cuentas docentes",style=MaterialTheme.typography.titleLarge)
+            state.accounts.filter{it.role==SchoolRole.TEACHER}.forEach{Text("${it.name} · Código docente ${it.username}")}
             Text("Mis alumnos (${state.students.size})",style=MaterialTheme.typography.titleLarge)
             if(state.students.isEmpty()) Notice("Todavía no tienes alumnos vinculados. Agrega una cuenta de alumno a tu aula para consultar sus notas.")
-            state.students.forEach { student -> ActionButton("Ver notas de ${student.name}",!state.busy,"grades-${student.id}"){onGrades(student.id)} }
+            state.students.forEach { student -> ActionButton("${student.name} · ${student.username} · Ver notas",!state.busy,"grades-${student.id}"){onGrades(student.id)} }
             OutlinedButton(onClick={manage=!manage},enabled=!state.busy,modifier=Modifier.fillMaxWidth().heightIn(min=56.dp)){Text(if(manage) "Cerrar lista" else "Vincular alumnos")}
             if(manage) state.accounts.filter { it.role==SchoolRole.STUDENT }.forEach { student ->
                 val linked=state.students.any{it.id==student.id}

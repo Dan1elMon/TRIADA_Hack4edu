@@ -8,10 +8,12 @@ import org.json.JSONObject
 fun interface CatalogSource {
     fun read(): String
     fun hasAudio(key: String): Boolean = false
+    fun expandedLessons():String? = null
 }
 
-class AssetCatalogSource(private val context: Context) : CatalogSource {
-    override fun read(): String = context.assets.open("content/catalog-v2.json").bufferedReader(Charsets.UTF_8).use { it.readText().removePrefix("\uFEFF") }
+class AssetCatalogSource(private val context: Context, private val fullCurriculum:Boolean=true) : CatalogSource {
+    override fun read(): String = context.assets.open(if(fullCurriculum)"content/catalog-v3.json" else "content/catalog-v2.json").bufferedReader(Charsets.UTF_8).use { it.readText().removePrefix("\uFEFF") }
+    override fun expandedLessons():String? = if(fullCurriculum)context.assets.open("content/expanded-lessons-v1.json").bufferedReader(Charsets.UTF_8).use{it.readText()} else null
     override fun hasAudio(key: String): Boolean {
         if (!key.matches(Regex("[a-z0-9-]{1,80}"))) return false
         return try { context.assets.open("audio/$key.wav").use { it.read() >= 0 } }

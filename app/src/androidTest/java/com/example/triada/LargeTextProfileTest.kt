@@ -36,7 +36,7 @@ class LargeTextProfileTest {
             override val lastProfileId=MutableStateFlow<String?>(null)
             override suspend fun select(profileId:String){lastProfileId.value=profileId}
         }
-        val vm=LearningViewModel(repo,preferences,RoomCatalogRepository(db,AssetCatalogSource(context)));store.put("vm",vm)
+        val vm=LearningViewModel(repo,preferences,RoomCatalogRepository(db,AssetCatalogSource(context, false)));store.put("vm",vm)
         compose.setContent {
             val density=LocalDensity.current.density
             CompositionLocalProvider(LocalDensity provides Density(density,2f)){AulaNexoTheme{AulaNexoNavHost(vm)}}

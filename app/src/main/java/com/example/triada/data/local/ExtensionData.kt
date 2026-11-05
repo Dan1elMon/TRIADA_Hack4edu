@@ -23,6 +23,7 @@ data class LessonDraftEntity(@PrimaryKey val id:String,val teacherId:String,val 
     @Query("SELECT * FROM daily_goals WHERE profileId=:profile") suspend fun goal(profile:String):DailyGoalEntity?
     @Upsert suspend fun saveGoal(row:DailyGoalEntity)
     @Query("SELECT * FROM lesson_drafts WHERE teacherId=:teacher ORDER BY updatedAt DESC") suspend fun drafts(teacher:String):List<LessonDraftEntity>
+    @Query("SELECT * FROM lesson_drafts WHERE id=:id") suspend fun draft(id:String):LessonDraftEntity?
     @Upsert suspend fun saveDraft(row:LessonDraftEntity)
 }
 object ExtensionMigration {

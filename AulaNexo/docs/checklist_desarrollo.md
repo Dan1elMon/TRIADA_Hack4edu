@@ -1,114 +1,78 @@
-# Checklist de desarrollo de AulaNexo
+# Checklist actual de AulaNexo
 
-Estado revisado: 5 de noviembre de 2026. Basado en `doc_tecnica.md`, el plan progresivo y las evidencias de `entrega_mvp.md` y la ampliación `cuentas_y_notas.md`.
+Actualización: 5 de noviembre de 2026. Evidencia detallada en `ampliacion_integral.md`. Las marcas distinguen implementación y validación humana.
 
-`[x]` implementado o comprobado según las evidencias registradas. `[ ]` pendiente. Cuando la cobertura es parcial, se indica expresamente.
+## Acceso y cuentas
 
-## 1. Base técnica
+- [x] Compilar y ejecutar desde Android Studio, confirmado por el usuario.
+- [x] Login local con usuario único de ocho dígitos y contraseña inicial `admin`.
+- [x] Cambiar usuario y contraseña comprobando la contraseña actual.
+- [x] Derivación de contraseñas con sal y limitación temporal de intentos en la sesión.
+- [x] Crear cuentas de alumnos/docentes desde una cuenta docente autenticada.
+- [x] Demo preparada con tres docentes y treinta alumnos, diez por aula; lista de accesos en `alumnos_demo.md`.
+- [x] Conservar los perfiles anteriores y asignarles credenciales sin borrar sus notas.
+- [x] Editar nombre/avatar, cerrar sesión y exigir nuevo login después de terminar el proceso.
+- [x] Vincular/desvincular alumnos por docente y limitar la consulta de notas a su propia lista.
+- [x] Apartado Mis notas para cada alumno, con intentos completos e incompletos diferenciados.
 
-- [x] Proyecto Android con Kotlin y Jetpack Compose.
-- [x] Tema visual compartido y navegación centralizada.
-- [x] Separación de interfaz, dominio y datos; inyección con Hilt.
-- [x] Persistencia Room y preferencias DataStore.
-- [x] Versionado de contenido y migraciones hasta el esquema Room 5.
-- [x] Generar el APK debug e instalarlo en dispositivo.
-- [x] Compilación desde Android Studio: BUILD SUCCESSFUL aportado por el usuario.
-- [x] Ejecución desde Android Studio confirmada por el usuario.
+- [x] Encabezado común con el logo a la izquierda de AulaNexo en todas las pantallas.
 
-## 2. Perfiles y navegación
+## Contenido y aprendizaje
 
-- [x] Crear, seleccionar y cambiar de perfil.
-- [x] Editar nombre visible y avatar.
-- [x] Separar intentos, avances y recompensas entre estudiantes.
-- [x] Recordar el último perfil seleccionado.
-- [x] Navegar por grado, área, unidad y lección.
-- [x] Mostrar disponibilidad de contenido y progreso personal.
-- [ ] Implementar el mapa visual de mundos/niveles del documento original; el MVP utiliza la jerarquía del temario.
-- [ ] Implementar objetivos diarios.
+- [x] Seis áreas y 214 temas conservando los títulos de referencia.
+- [x] Seis lecciones anteriores con 18 ejercicios.
+- [x] 208 lecciones introductorias nuevas con 624 ejercicios específicos, originales y revisables.
+- [x] Total de 214 lecciones y 642 ejercicios ejecutables en el catálogo inicial.
+- [x] Motores de conteo, selección, secuencia, asociación y formación de palabras.
+- [x] Guardar respuestas, errores, pistas, posición y mejor avance por alumno y versión.
+- [x] Seis stickers de los hitos originales y álbum de recompensas.
+- [x] Mapa visual de las seis áreas con estado y acceso a las unidades.
+- [x] Objetivos diarios de una a tres lecciones distintas, sin duplicar un objetivo al repetir la misma lección.
 
-## 3. Temario y actividades
+## Tutor
 
-- [x] Incorporar los 214 títulos de referencia del temario.
-- [x] Organizar las seis áreas: Matemática, Comunicación, Ciencia y Ambiente, Personal Social, Razonamiento Matemático y Razonamiento Verbal.
-- [x] Entregar seis lecciones funcionales, una por área, con 18 ejercicios en total.
-- [x] Motor de conteo de objetos.
-- [x] Motor de selección de respuestas.
-- [x] Motor de secuencias.
-- [x] Motor de asociación de pares.
-- [x] Motor de formación de palabras con letras.
-- [x] Ilustraciones originales y siete audios locales en español.
-- [x] Distinguir los temas en preparación para evitar actividades vacías.
-- [ ] Crear actividades para los otros 208 temas; sus títulos catalogados no equivalen a lecciones terminadas.
-- [ ] Desarrollar el programa de fonética inglesa y audio por letra/fonema descritos en el documento original.
+- [x] Avatar de búho vectorial integrado, llamado Juan, sin descargas ni animación persistente.
+- [x] Expresiones de atención, reflexión, ánimo y celebración.
+- [x] Reglas según tipo de actividad, errores y pistas mostradas.
+- [x] Ofrecer la siguiente pista sin saltarse el orden ni agotar repetidamente el mismo recurso.
+- [x] Ocultar/mostrar tutor y comunicar la ayuda también mediante texto.
+- [ ] Adaptación longitudinal por habilidades y ejemplos adicionales revisados; las reglas actuales se adaptan a la pregunta/intento.
 
-## 4. Apoyo, progreso y recompensas
+## Lectura y fonética inicial
 
-- [x] Evaluar respuestas y mostrar retroalimentación.
-- [x] Ofrecer pistas progresivas y registrar su uso.
-- [x] Conservar respuestas incorrectas e intentos anteriores.
-- [x] Guardar la posición y reanudar las actividades.
-- [x] Repetir lecciones conservando el mejor progreso.
-- [x] Entregar seis stickers únicos por perfil sin duplicarlos al repetir.
-- [x] Mostrar álbum por categorías, premios obtenidos/pendientes y resumen de progreso.
-- [ ] Revisar con docentes la calidad, dificultad, orden de pistas y pertinencia curricular de todo el contenido.
+- [x] Tres cuentos originales en español y tres lecturas iniciales en inglés.
+- [x] Páginas ilustradas, navegación, narración repetible y palabras interactivas.
+- [x] Pronunciación a velocidad reducida.
+- [x] Preguntas de comprensión/rima y progreso de lectura separado por alumno.
+- [x] 86 grabaciones nuevas incluidas localmente, además de los siete WAV anteriores.
+- [ ] Completar un programa de fonética inglesa más amplio; la base actual trabaja tres familias CVC.
 
-## 5. Lector de cuentos — pendiente
+## Herramientas docentes e intercambio
 
-- [ ] Cuentos ilustrados divididos en páginas y niveles.
-- [ ] Navegación entre páginas y registro de avance de lectura.
-- [ ] Narración por página y repetición.
-- [ ] Palabras interactivas con pronunciación individual y modalidad lenta.
-- [ ] Preguntas de comprensión vinculadas al cuento.
+- [x] Borradores docentes persistidos y separados por propietario.
+- [x] Formulario para preguntas/opciones/pistas de selección.
+- [x] Edición avanzada de estructura compatible con los cinco motores.
+- [x] Validación y vista previa antes de publicar.
+- [x] Publicación versionada conservando los intentos y contenidos anteriores.
+- [x] Importación/exportación de catálogo y lecciones con validaciones de rutas, límites, integridad y versiones.
+- [x] Recuperación de resultados de lecciones sin duplicar respuestas ni premios.
+- [ ] Intercambiar cuentos/progreso lector, credenciales, vínculos y borradores; los formatos actuales no los incluyen.
 
-Los audios de las actividades actuales no constituyen un lector de cuentos.
+## Calidad, accesibilidad y revisión
 
-## 6. Intercambio y recuperación
+- [x] Compilación aprobada, 39 pruebas unitarias y 57 conectadas sin fallos; lint con 0 errores y 5 avisos de versiones.
 
-- [x] Importar paquetes `.aula` de metadatos o contenido con ejercicios y WAV.
-- [x] Exportar metadatos originales y contenido instalado.
-- [x] Validar estructura, rutas, tamaños, hashes, contratos y versiones.
-- [x] Conservar contenido publicado y progreso existente al importar.
-- [x] Exportar resultados `.aula-result` sin nombre ni avatar, con identificador seudónimo.
-- [x] Recuperar resultados en un perfil separado con las mismas versiones de lecciones instaladas.
-- [x] Evitar duplicados en la reimportación y reevaluar aciertos antes de recuperar.
-- [x] Abrir y guardar mediante el selector de Android.
-- [x] Abrir el selector nativo de aplicaciones para compartir archivos.
-- [x] Incorporar cuentas simuladas de alumnos y docentes, vínculos de aula y apartados de notas (validación aprobada en el informe de cuentas).
-- [ ] Implementar editor docente avanzado y análisis agregado de aula.
+- [x] Migración Room 5 → 6, además de las anteriores, sin recreación destructiva.
+- [x] Pruebas de login, cambio de acceso, roles, notas, recuperación y migraciones.
+- [x] Pruebas del catálogo completo y de intercambio en una base nueva.
+- [x] Pruebas de decodificación de los recursos del lector y de publicación de dos versiones.
+- [x] Pruebas de texto al 200 % en login, cambio de acceso, lectura y edición de perfil.
+- [x] Mensajes textuales, etiquetas de controles y avatar/escenas decorativas fuera del foco accesible.
+- [x] Auditoría estructural de las 624 preguntas nuevas y comprobación automática de 25 operaciones aritméticas explícitas.
+- [x] Registro CSV de los 214 temas preparado para revisión docente.
+- [ ] Evaluación manual completa con TalkBack, foco, orientación y distintos tamaños de pantalla.
+- [ ] Aprobación pedagógica con docente y piloto con alumnado; no la sustituyen las pruebas automáticas.
+- [ ] Ejecutar en Android 24 y dispositivos de pocos recursos; las pruebas actuales usan Android 15.
+- [ ] Firmar y validar una release de distribución con la clave del responsable del proyecto.
 
-## 7. Pruebas y calidad
-
-- [x] 37 pruebas unitarias aprobadas en la regresión registrada.
-- [x] 50 pruebas conectadas aprobadas en Samsung SM-G998U con Android 15.
-- [x] Probar aislamiento de perfiles, migraciones, evaluadores, pistas y premios.
-- [x] Probar intercambio completo, importaciones inválidas e idempotencia de recuperación.
-- [x] Completar las seis lecciones con Wi-Fi y datos móviles desactivados.
-- [x] Recuperar posición, avance y pistas entre procesos con PID distinto.
-- [x] Probar guardado real y cancelación mediante el selector nativo.
-- [x] Probar edición de perfil con fuente al 200 %, conservando progreso.
-- [x] Ejecutar lint: 0 errores y 5 advertencias de versiones de dependencias.
-- [x] Resolver las advertencias de recursos/código y documentar por qué se mantienen las versiones validadas de dependencias.
-- [ ] Validar manualmente todas las pantallas con texto ampliado y TalkBack; la prueba de perfil no certifica toda la interfaz.
-- [ ] Probar en ejecución Android 24 y ampliar cobertura de dispositivos/tamaños de pantalla.
-- [ ] Validar arranque inicial y recorrido en modo avión; la prueba registrada desactiva Wi-Fi/datos, no activa modo avión.
-- [ ] Medir rendimiento y consumo de memoria en un dispositivo de recursos limitados.
-- [ ] Realizar piloto con docentes y estudiantes.
-
-## 8. Distribución
-
-- [x] APK debug disponible con huella SHA-256 registrada.
-- [x] README, informes incrementales e informe de entrega.
-- [ ] Preparar y verificar una compilación release firmada.
-- [ ] Definir custodia de firma, distribución y procedimiento de actualización.
-- [ ] Publicar por el canal de distribución elegido, si se requiere.
-
-## Orden sugerido para continuar
-
-1. Validar el recorrido de cuentas y notas con el usuario; la ampliación se documenta en `cuentas_y_notas.md`.
-2. Cerrar revisión pedagógica y accesibilidad del recorrido existente antes de multiplicar el contenido.
-3. Ampliar pruebas de compatibilidad y resolver advertencias relevantes.
-4. Producir las lecciones restantes por lotes pequeños con validación de contenido y pruebas de sus riesgos nuevos.
-5. Implementar cuentos, fonética inglesa y herramientas docentes como ampliaciones diferenciadas.
-6. Preparar release firmada y realizar el piloto antes de una distribución escolar.
-
-El MVP técnico de seis lecciones está entregado. El alcance completo de `doc_tecnica.md` y la conversión de todo `temario.md` en actividades siguen incompletos. No se asigna un porcentaje global porque los títulos, los motores y la validación tienen esfuerzos distintos.
+Los temas nuevos son una cobertura introductoria de actividades, no reproducciones de fichas originales ni una certificación de alineamiento curricular. Los temas avanzados, las actividades prácticas y los audios sintéticos requieren revisión humana antes de uso escolar.

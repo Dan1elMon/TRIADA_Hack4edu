@@ -15,7 +15,7 @@ class ExpandedActivitiesRepositoryTest {
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
     private val database = Room.inMemoryDatabaseBuilder(context, LearningDatabase::class.java).build()
     private val repository = RoomLearningRepository(database)
-    private val catalog = RoomCatalogRepository(database, AssetCatalogSource(context))
+    private val catalog = RoomCatalogRepository(database, AssetCatalogSource(context, false))
     @After fun close() { database.close() }
 
     @Test fun sixLessonsCanBeCompletedAndResultsStayIndependent() = runBlocking {
@@ -70,7 +70,7 @@ class ExpandedActivitiesRepositoryTest {
         try {
             var repo = RoomLearningRepository(disk)
             val profile = repo.createProfile("Persistente", "star")
-            RoomCatalogRepository(disk, AssetCatalogSource(context)).load(profile.id)
+            RoomCatalogRepository(disk, AssetCatalogSource(context, false)).load(profile.id)
             var session = repo.openLesson(profile.id, lessonId = "g1-cya-body")
             val answer = LearningAnswer.Pairs(listOf(PairSelection("word-hand", "image-hand"), PairSelection("word-foot", "image-foot")))
             repo.submitAnswer(session.attemptId, profile.id, session.question.id, answer, "persisted-pairs")
@@ -97,7 +97,7 @@ class ExpandedActivitiesRepositoryTest {
     }
 
     @Test fun missingAudioPreventsActivatingIncompleteLessons() = runBlocking {
-        val assets = AssetCatalogSource(context)
+        val assets = AssetCatalogSource(context, false)
         val source = object : CatalogSource {
             override fun read() = assets.read()
             override fun hasAudio(key: String) = key != "mesa" && assets.hasAudio(key)

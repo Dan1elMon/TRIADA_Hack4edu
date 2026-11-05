@@ -32,6 +32,8 @@ data class LearningUiState(
     val busy: Boolean = false,
     val feedback: String? = null,
     val error: String? = null,
+    val dailyCompleted:Int=0,
+    val dailyTarget:Int=1,
 )
 
 @HiltViewModel
@@ -75,14 +77,20 @@ class LearningViewModel @Inject constructor(
         pendingAnswer = null
         val catalog = catalogRepository.load(profileId)
         val rewards = repository.rewards(profileId)
+        val goal=repository.dailyGoal(profileId)
         preferences.select(profileId)
-        mutableState.update { it.copy(catalog = catalog, rewards = rewards) }
+        mutableState.update { it.copy(catalog = catalog, rewards = rewards,dailyCompleted=goal.first,dailyTarget=goal.second) }
     }
 
     fun refreshCatalog(profileId: String) = action {
         val catalog = catalogRepository.load(profileId)
         val rewards = repository.rewards(profileId)
-        mutableState.update { it.copy(activeProfileId = profileId, catalog = catalog, rewards = rewards) }
+        val goal=repository.dailyGoal(profileId)
+        mutableState.update { it.copy(activeProfileId = profileId, catalog = catalog, rewards = rewards,dailyCompleted=goal.first,dailyTarget=goal.second) }
+    }
+    fun setDailyGoal(profileId:String,target:Int)=action {
+        repository.setDailyGoal(profileId,target);val goal=repository.dailyGoal(profileId)
+        mutableState.update{it.copy(dailyCompleted=goal.first,dailyTarget=goal.second)}
     }
 
     fun loadLesson(profileId: String, lessonId: String) = action {

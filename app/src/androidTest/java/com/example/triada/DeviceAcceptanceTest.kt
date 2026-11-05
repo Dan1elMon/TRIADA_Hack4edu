@@ -26,7 +26,7 @@ class DeviceAcceptanceTest {
             // No network permission is requested by the app. Observe radio settings through the shell.
             withTimeout(15_000) { while(shell("settings get global wifi_on")=="1" || shell("settings get global mobile_data")=="1") delay(100) }
             val repo=RoomLearningRepository(db);val p=repo.createProfile("Sin conexión","sun")
-            val catalog=RoomCatalogRepository(db,AssetCatalogSource(context)).load(p.id)
+            val catalog=RoomCatalogRepository(db,AssetCatalogSource(context, false)).load(p.id)
             assertEquals(6,catalog.lessons.size)
             for(lesson in catalog.lessons) {
                 var session=repo.openLesson(p.id,lessonId=lesson.id)

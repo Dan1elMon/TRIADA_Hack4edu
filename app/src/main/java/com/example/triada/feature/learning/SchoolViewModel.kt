@@ -36,17 +36,18 @@ class SchoolViewModel @Inject constructor(db: LearningDatabase) : ViewModel() {
             } finally { mutable.value = mutable.value.copy(busy=false) }
         }
     }
-    fun refresh() = action { auth.initialize();mutable.value = mutable.value.copy(accounts=repository.accounts()) }
+    fun refresh() = action { auth.initialize(includeDemoStudents=true);mutable.value = mutable.value.copy(accounts=repository.accounts()) }
     fun create(name: String, role: SchoolRole) = action {
         val teacher=requireNotNull(state.value.active);require(teacher.role==SchoolRole.TEACHER)
         val before=repository.accounts().map{it.id}.toSet()
-        repository.create(name,role); auth.initialize()
+        repository.create(name,role); auth.initialize(includeDemoStudents=true)
         val all=repository.accounts(); val added=all.first{it.id !in before}
         if(role==SchoolRole.STUDENT)repository.link(teacher.id,added.id,true)
         mutable.value=mutable.value.copy(accounts=all,students=repository.linkedStudents(teacher.id),message="Cuenta creada. Usuario: ${added.username}. Contraseña inicial: admin.")
     }
     fun login(username:String,password:String) = action {
         require(android.os.SystemClock.elapsedRealtime()>=retryAt){"Espera 30 segundos antes de volver a intentar."}
+        auth.initialize(includeDemoStudents=true)
         val active=auth.login(username,password)
         if(active==null){failed++;if(failed>=5){retryAt=android.os.SystemClock.elapsedRealtime()+30_000;failed=0};throw IllegalArgumentException("Usuario o contraseña incorrectos.")}
         failed=0;retryAt=0

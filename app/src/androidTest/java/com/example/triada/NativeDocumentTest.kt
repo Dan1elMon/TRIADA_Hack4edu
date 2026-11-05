@@ -70,4 +70,3 @@ class NativeDocumentTest {
         runBlocking{assertNull(db.catalogDao().metadata())}
     }
 }
-

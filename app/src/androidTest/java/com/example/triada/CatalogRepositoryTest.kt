@@ -23,10 +23,10 @@ class CatalogRepositoryTest {
     @Before fun setUp() {
         database = Room.inMemoryDatabaseBuilder(context, LearningDatabase::class.java).build()
         learning = RoomLearningRepository(database)
-        raw = AssetCatalogSource(context).read()
+        raw = AssetCatalogSource(context, false).read()
     }
     @After fun close() { database.close() }
-    private fun repository(text: String = raw) = RoomCatalogRepository(database, object : CatalogSource { override fun read() = text; override fun hasAudio(key: String) = AssetCatalogSource(context).hasAudio(key) })
+    private fun repository(text: String = raw) = RoomCatalogRepository(database, object : CatalogSource { override fun read() = text; override fun hasAudio(key: String) = AssetCatalogSource(context, false).hasAudio(key) })
 
     @Test fun bundledCatalogContainsExactlyTheReferenceAndSixRealLessons() = runBlocking {
         val profile = learning.createProfile("Catálogo", "sun")
@@ -76,7 +76,8 @@ class CatalogRepositoryTest {
 
     @Test fun sameVersionCannotBeSilentlyReplaced() = runBlocking {
         repository().install()
-        val changed = JSONObject(raw).put("extra", "changed").toString()
+        val altered=JSONObject(raw);altered.getJSONArray("topics").getJSONObject(0).put("title","Título alterado sin nueva versión")
+        val changed = altered.toString()
         try { repository(changed).install(); fail("A version must be immutable") } catch (_: IllegalArgumentException) { }
         assertEquals(2, database.catalogDao().metadata()!!.catalogVersion)
     }

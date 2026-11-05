@@ -2,6 +2,8 @@
 
 Fecha: 5 de noviembre de 2026.
 
+Registro histórico de la etapa de cuentas simuladas. El acceso actual utiliza usuario de ocho dígitos y contraseña; consultar `ampliacion_integral.md` y README.
+
 ## Comportamiento
 
 - Entrada por selector de cuentas locales: alumno y docente, sin contraseña. Se identifica expresamente como simulación; no sustituye autenticación ni autorización de un sistema multiusuario real.

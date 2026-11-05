@@ -12,8 +12,7 @@ import org.json.JSONObject
 import java.io.*
 
 /** Portable lessons plus immutable content-addressed WAVs. Only DB references activate resources. */
-class LessonPackageService(private val db: LearningDatabase, private val context: Context) {
-    private val assets = AssetCatalogSource(context)
+class LessonPackageService(private val db: LearningDatabase, private val context: Context, private val assets:CatalogSource = AssetCatalogSource(context)) {
     private fun bytes(text: String) = text.toByteArray(Charsets.UTF_8)
     private fun resource(key: String): ByteArray {
         require(key.matches(Regex("[a-z0-9-]{1,80}")))
@@ -55,7 +54,7 @@ class LessonPackageService(private val db: LearningDatabase, private val context
         val bundle = CatalogParser.parse(raw)
         require(manifest.getInt("catalogVersion") == bundle.catalogVersion)
         val rows = PackageJson.parse(files.getValue("lessons.json"), 8 * 1024 * 1024).getJSONArray("lessons")
-        require(rows.length() in 1..128)
+        require(rows.length() in 1..512)
         val aliases = files.filterKeys { it.startsWith("resources/audio/") }.map { (path, data) ->
             require(data.size in 44..(8 * 1024 * 1024) && data.copyOfRange(0,4).toString(Charsets.US_ASCII) == "RIFF" && data.copyOfRange(8,12).toString(Charsets.US_ASCII) == "WAVE")
             path.substringAfterLast('/').removeSuffix(".wav") to ("pkg-" + PackageJson.hash(data))

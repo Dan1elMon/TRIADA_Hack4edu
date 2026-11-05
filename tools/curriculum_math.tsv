@@ -1,0 +1,69 @@
+mat01|Si el libro está encima de la mesa, ¿dónde está?|Arriba|Debajo|Si te colocas dentro de un aro, ¿estás fuera?|No, estoy dentro|Sí, estoy fuera|El zapato está debajo de la cama. ¿Dónde lo buscas?|Abajo de la cama|Encima del techo
+mat02|Desde una casilla avanzas 2 a la derecha y 1 a la izquierda. ¿Dónde quedas respecto del inicio?|1 a la derecha|3 a la izquierda|En una cuadrícula, ¿qué movimiento te lleva a la casilla superior?|Subir una casilla|Bajar una casilla|Avanzas 1 arriba y luego 1 abajo. ¿Dónde terminas?|En la casilla inicial|Dos casillas arriba
+mat04|Tienes 2 fichas y recibes 3. ¿Cuántas tienes?|5|1|¿Cuánto es 4 + 1?|5|3|Hay 3 aves y llegan 3 más. ¿Cuántas hay?|6|0
+mat05|Tienes 5 fichas y das 2. ¿Cuántas quedan?|3|7|¿Cuánto es 7 − 1?|6|8|De 4 globos se revientan 3. ¿Cuántos quedan?|1|7
+mat06|¿Cuántas unidades forman una decena?|10|1|¿Qué número tiene 1 decena y 3 unidades?|13|31|En 25 hay 2 decenas y ¿cuántas unidades?|5|2
+mat07|¿Qué número viene antes del 6?|5|7|¿Qué número viene después del 8?|9|7|Completa: 3, __, 5.|4|6
+mat08|¿Cuánto es 6 + 4?|10|9|¿Cuántas decenas hay en 10 unidades?|1|10|Tienes 8 fichas. ¿Cuántas faltan para 10?|2|3
+mat09|¿Cuánto es 3 + 4?|7|1|¿Cuánto es 8 − 3?|5|11|Tienes 5 lápices, recibes 2 y das 1. ¿Cuántos quedan?|6|8
+mat10|¿Qué grupo contiene solo frutas?|Manzana y pera|Manzana y zapato|En el conjunto de animales, ¿qué elemento incluyes?|Gato|Mesa|Un conjunto tiene 2 fichas rojas y 1 azul. ¿Cuántas fichas tiene?|3|2
+mat11|En el número 14, ¿qué cifra ocupa las decenas?|1|4|¿Qué número forman 2 decenas y 6 unidades?|26|62|En 30, ¿cuántas unidades sueltas hay?|0|3
+mat12|Un círculo sin cortes tiene una línea…|Cerrada|Abierta|Un camino con dos extremos separados es una línea…|Abierta|Cerrada|¿Qué línea encierra una región sin dejar huecos?|Una línea cerrada|Una línea abierta
+mat13|¿Qué figura plana tiene tres lados?|Triángulo|Círculo|¿Qué sólido se parece a una pelota?|Esfera|Cubo|¿Qué sólido se parece a un dado?|Cubo|Círculo
+mat14|En la recta numérica, desde 3 das 2 pasos a la derecha. Llegas a…|5|1|Desde 6 das 2 pasos a la izquierda. Llegas a…|4|8|Para sumar en una recta que crece hacia la derecha, avanzas hacia…|La derecha|La izquierda
+mat15|Quien llega antes que todos ocupa el lugar…|Primero|Tercero|Después del segundo lugar viene el…|Tercero|Primero|Ana va primera y Luis justo detrás. Luis va…|Segundo|Cuarto
+mat16|Completa la serie ascendente: 2, 3, 4, __.|5|3|Completa la serie descendente: 7, 6, 5, __.|4|6|¿Qué serie va aumentando?|1, 2, 3|3, 2, 1
+mat17|¿Qué número está justo antes de 10?|9|11|¿Qué número está justo después de 12?|13|11|Completa: 14, __, 16.|15|17
+mat18|¿Cómo se escribe 7 con letras?|Siete|Seis|¿Qué cifra corresponde a nueve?|9|6|¿Cómo se escribe 10 con letras?|Diez|Dos
+mat19|¿Qué número es mayor: 7 o 4?|7|4|¿Qué número es menor: 3 o 8?|3|8|Completa: 5 __ 5.|Es igual a|Es mayor que
+mat20|¿Cuánto es 8 + 7?|15|14|Al sumar 16 + 7, juntas 13 unidades. Cambias 10 por…|Una decena|Una centena|¿Cuánto es 27 + 5?|32|22
+mat21|¿Cómo se lee 18?|Dieciocho|Ochenta|¿Cómo se lee 24?|Veinticuatro|Cuarenta y dos|¿Qué número es treinta y uno?|31|13
+mat22|¿Cuánto es 12 + 3?|15|9|¿Cuánto es 15 − 4?|11|19|¿Qué operación da 10?|7 + 3|7 − 3
+mat23|Resuelve de izquierda a derecha: 5 + 3 − 2.|6|10|Resuelve: 9 − 4 + 1.|6|4|Resuelve: 4 + 2 + 3.|9|5
+mat24|¿Cuál es el doble de 3?|6|3|¿Cuál es la mitad de 8?|4|16|Dos grupos de 5 suman…|10|7
+mat25|¿Cuánto es 2 × 3?|6|5|¿Qué suma representa 2 grupos de 4?|4 + 4|4 + 2|¿Cuánto es 2 × 5?|10|7
+mat26|¿Cuánto es 3 × 2?|6|5|Tres grupos de 4 tienen…|12|7|¿Qué suma representa 3 × 3?|3 + 3 + 3|3 + 3
+mat27|Ana tiene 6 semillas y recibe 2. ¿Cuántas tiene?|8|4|Hay 9 niños y salen 3. ¿Cuántos quedan?|6|12|Luis tenía 4 hojas y ahora tiene 7. ¿Cuántas recibió?|3|11
+mat28|¿Cuánto es 20 + 5?|25|15|¿Cuánto es 18 − 6?|12|24|¿Qué resta deshace 7 + 2 = 9?|9 − 2 = 7|9 + 2 = 7
+mat29|¿Cuánto es 4 + 3?|7|12|¿Cuánto es 9 − 2?|7|11|¿Cuánto es 3 × 4?|12|7
+mat30|En 47, el 4 representa…|4 decenas|4 unidades|¿Qué número forman 5 decenas y 2 unidades?|52|25|¿Cuántas decenas hay en 60?|6|60
+mat31|¿Qué número viene después de 998?|999|997|¿Qué número tiene 3 centenas, 2 decenas y 1 unidad?|321|123|¿Qué número es menor que 999?|998|1000
+mat32|¿Cuántas decenas forman una centena?|10|1|¿Cuánto es 100 + 100?|200|110|En 345 hay…|3 centenas|5 centenas
+mat33|¿Qué instrumento sirve para medir el largo de un lápiz?|Regla|Reloj|¿Cuántos centímetros tiene un metro?|100|10|¿Qué unidad usarías para el largo de un lápiz?|Centímetros|Horas
+mat34|¿Qué instrumento mide el paso de las horas?|Reloj|Regla|¿Cuántos días tiene una semana?|7|10|Después de lunes viene…|Martes|Domingo
+mat35|Una moneda vale 2 soles y otra 1 sol. ¿Cuánto suman?|3 soles|1 sol|Pagas 5 soles por algo que cuesta 3. Tu vuelto es…|2 soles|8 soles|¿Qué monedas forman 4 soles?|Dos monedas de 2 soles|Una moneda de 2 soles
+mat36|Repartes 6 fichas en 2 grupos iguales. Cada grupo recibe…|3|4|¿Cuánto es 10 ÷ 2?|5|8|Dividir 8 entre 2 equivale a buscar…|La mitad de 8|El doble de 8
+mat37|¿Cómo se escribe 200?|Doscientos|Veinte|¿Qué número corresponde a cuatrocientos cinco?|405|450|¿Cómo se escribe 500?|Quinientos|Cincuenta
+mat38|¿Cuánto es 4 × 2?|8|6|Cuatro grupos de 3 tienen…|12|7|¿Cuánto es 4 × 5?|20|9
+mat39|¿Cuánto es 123 + 111?|234|224|¿Cuánto es 350 − 120?|230|470|¿Cuánto es 205 + 30?|235|208
+mat40|Completa: 100, 200, 300, __.|400|301|Completa: 450, 440, 430, __.|420|440|Completa: 201, 202, 203, __.|204|304
+mat41|¿Qué número es mayor: 325 o 352?|352|325|¿Qué número es menor: 499 o 500?|499|500|Compara 620 y 620.|Son iguales|620 es mayor que 620
+mat42|Hay 3 cajas con 4 lápices cada una. En total hay…|12 lápices|7 lápices|Dos bolsas tienen 5 panes cada una. En total hay…|10 panes|7 panes|Hay 4 mesas con 3 sillas cada una. Hay…|12 sillas|7 sillas
+mat43|¿Cuál es la mitad de 12?|6|4|¿Cuál es la tercera parte de 12?|4|6|Repartes 9 fichas en 3 grupos iguales. Cada grupo tiene…|3|6
+mat44|¿Qué número es trescientos veinte?|320|302|¿Cómo se lee 407?|Cuatrocientos siete|Cuarenta y siete|¿Qué número es novecientos nueve?|909|990
+mat45|Una tabla registra 3 votos por manzana y 5 por pera. ¿Cuál tuvo más votos?|Pera|Manzana|¿Cuántos votos hubo en total: 3 por manzana y 5 por pera?|8|2|¿Para qué sirve contar las respuestas de una encuesta?|Para comparar resultados|Para cambiar todas las respuestas
+rma02|Completa: pequeño, grande, pequeño, __.|Grande|Pequeño|Completa: círculo, cuadrado, círculo, __.|Cuadrado|Triángulo|¿Qué patrón alterna tamaños?|Pequeño, grande, pequeño, grande|Pequeño, pequeño, pequeño, pequeño
+rma03|¿Cuántos lados debe tener una figura para ser un triángulo?|3|4|Con cuatro lados iguales y cuatro esquinas rectas formas un…|Cuadrado|Triángulo|¿Qué figura no tiene lados rectos?|Círculo|Cuadrado
+rma04|En el dibujo △ △ □ hay ¿cuántos triángulos?|2|3|En ○ □ ○ hay ¿cuántos círculos?|2|1|En △ □ ○ hay ¿cuántas figuras en total?|3|2
+rma05|¿Qué figura pertenece al grupo de triángulos?|△|○|Si agrupas por color, juntas objetos que tienen…|El mismo color|Cualquier color|Si agrupas por forma, un círculo va con…|Otro círculo|Un cuadrado
+rma06|Completa: 1, 2, 3, __.|4|5|Completa: 2, 4, 6, __.|8|7|Completa: 10, 9, 8, __.|7|9
+rma07|Tienes 3 fichas y agregas 2. Ahora tienes…|5|1|De 8 fichas quitas 3. Quedan…|5|11|¿Cuánto es 4 + 4?|8|0
+rma08|Completa: __ + 2 = 5.|3|7|Completa: 7 − __ = 4.|3|11|Completa: 4 + __ = 6.|2|10
+rma09|Completa: 10, 11, 12, __.|13|14|Completa: 19, 18, 17, __.|16|18|Completa: 11, 13, 15, __.|17|16
+rma10|Un cuadrado y un rectángulo tienen en común…|Cuatro lados|Tres lados|¿Qué diferencia al círculo del triángulo?|El círculo no tiene lados rectos|Ambos tienen tres lados|Dos figuras del mismo tamaño pueden tener…|Distinta forma|Siempre la misma forma
+rma11|Al doblar una figura por su eje de simetría, sus mitades…|Coinciden|Siempre son distintas|¿Qué figura tiene una línea de simetría vertical?|Un cuadrado|Una letra F mayúscula de imprenta|Una mariposa vista de frente puede servir de ejemplo de…|Simetría|Una fila de números
+rma12|Antes de 15 está…|14|16|Después de 18 está…|19|17|Completa: 11, __, 13.|12|14
+rma13|Completa sumando 3: 1, 4, 7, __.|10|9|Completa restando 2: 9, 7, 5, __.|3|7|En 2, 4, 6, 8 se suma…|2 cada vez|3 cada vez
+rma14|Hay 4 niños y llegan 2. ¿Cuántos hay?|6|2|Tienes 7 fichas y prestas 3. ¿Cuántas conservas?|4|10|Para saber cuánto queda después de quitar, puedes…|Restar|Sumar siempre
+rma15|Si ★ vale 2, ¿cuánto es ★ + ★?|4|2|Si ○ vale 3, ¿cuánto es ○ + 1?|4|3|Si □ vale 5, ¿cuánto es □ − 2?|3|7
+rma16|En una pirámide, arriba se suman los dos de abajo. Sobre 2 y 3 va…|5|1|Sobre 4 y 1 va…|5|3|Arriba hay 7 y abajo 3 y un espacio. Falta…|4|10
+rma17|2 decenas + 3 decenas son…|5 decenas|5 unidades|4 decenas − 1 decena son…|3 decenas|5 decenas|1 decena + 5 unidades forman…|15|51
+rma18|¿Qué haces primero para plantar una semilla?|Preparar la tierra|Recoger el fruto|Ordena: lavarse las manos, comer, recoger. ¿Qué va en medio?|Comer|Lavarse las manos|Después de ponerse los calcetines puedes…|Ponerte los zapatos|Quitarte todos los calcetines para empezar
+rma19|¿Qué lista está ordenada de menor a mayor?|2, 5, 8|8, 5, 2|¿Qué lista está ordenada de mayor a menor?|9, 6, 3|3, 6, 9|Entre 4 y 6 va…|5|7
+rma20|Completa creciendo de 5 en 5: 5, 10, 15, __.|20|16|Completa decreciendo: 20, 15, 10, __.|5|15|¿Qué serie decrece?|8, 6, 4|4, 6, 8
+rma21|¿Qué figura se forma con tres lados unidos?|Triángulo|Círculo|Dos triángulos iguales pueden unirse para formar…|Una figura mayor|Una figura sin piezas|Al armar una figura, debes observar…|Cómo encajan sus piezas|Solo el nombre de una pieza
+rma22|Completa: 6 + __ = 9.|3|15|Completa: 10 − __ = 6.|4|16|Completa: __ − 2 = 5.|7|3
+rma23|Para comenzar un rompecabezas rectangular conviene buscar…|Piezas de borde|Solo piezas sin dibujo|Para unir dos piezas observas…|La forma y la imagen|Solo el reverso sin mirar bordes|Una pieza que no encaja debe…|Probarse en otro lugar|Forzarse hasta doblarla
+rma24|Para copiar una figura en cuadrícula comparas…|Casillas y posiciones|Solo el color del papel|Si el modelo tiene 2 casillas arriba y 1 a la derecha, copias…|Los mismos desplazamientos|Cualquier desplazamiento|Revisar una copia sirve para…|Encontrar diferencias con el modelo|Borrar siempre todo
+rma25|Ana tiene más fichas que Luis. Luis tiene 3 y Ana tiene 5. ¿Quién tiene más?|Ana|Luis|¿Qué número cumple: es mayor que 4 y menor que 6?|5|7|Dos niños comparten 4 panes por igual. Cada uno recibe…|2|3
+rma26|Completa: 3, 6, 9, __.|12|10|Completa: 12, 10, 8, __.|6|10|Completa: 5, 10, 15, __.|20|16

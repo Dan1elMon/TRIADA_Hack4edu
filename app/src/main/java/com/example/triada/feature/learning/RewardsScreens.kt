@@ -1,5 +1,7 @@
 package com.example.triada.feature.learning
 
+import com.example.triada.ui.theme.HoneyContainer
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
@@ -22,7 +24,7 @@ fun StickerAlbumScreen(state: LearningUiState, profileId: String, onBack: () -> 
             items(stickers, key = { it.id }) { sticker ->
                 val obtained = sticker.id in earned
                 Card(modifier = Modifier.fillMaxWidth().testTag("sticker-${sticker.id}"), colors = CardDefaults.cardColors(
-                    containerColor = if (obtained) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceVariant)) {
+                    containerColor = if (obtained) HoneyContainer else MaterialTheme.colorScheme.surfaceVariant)) {
                     Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         Text(if (obtained) sticker.symbol else "?", fontSize = 44.sp, modifier = Modifier.semantics { contentDescription = if (obtained) sticker.title else "Sticker pendiente" })
                         Text(sticker.title, style = MaterialTheme.typography.titleLarge)

@@ -1,5 +1,7 @@
 package com.example.triada.feature.learning
 
+import com.example.triada.ui.theme.ForestGreen
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -48,18 +50,18 @@ internal fun Eyebrow(text: String) {
 @Composable
 internal fun Notice(text: String, isError: Boolean = false) {
     Surface(
-        color = if (isError) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surfaceVariant,
+        color = if (isError) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.tertiaryContainer,
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier.fillMaxWidth().semantics { liveRegion = LiveRegionMode.Polite },
     ) {
-        Text(text, Modifier.padding(16.dp), color = if (isError) MaterialTheme.colorScheme.onErrorContainer else MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(text, Modifier.padding(16.dp), color = if (isError) MaterialTheme.colorScheme.onErrorContainer else MaterialTheme.colorScheme.onTertiaryContainer)
     }
 }
 
 @Composable
 internal fun ActionButton(label: String, enabled: Boolean, tag: String, onClick: () -> Unit) {
     Button(
-        colors = ButtonDefaults.buttonColors(containerColor = com.example.triada.ui.theme.Coral, contentColor = androidx.compose.ui.graphics.Color(0xFF1B1B1B)),
+        colors = ButtonDefaults.buttonColors(containerColor = ForestGreen, contentColor = MaterialTheme.colorScheme.onBackground),
         onClick = onClick, enabled = enabled,
         modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).testTag(tag),
     ) { Text(label, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 6.dp)) }
@@ -82,7 +84,6 @@ fun ProfilesScreen(state: LearningUiState, onCreate: (String, String) -> Unit, o
     var name by rememberSaveable { mutableStateOf("") }
     var avatar by rememberSaveable { mutableStateOf("sun") }
     LearningPage {
-        Text("AulaNexo", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
         Eyebrow("APRENDEMOS JUNTOS")
         Heading("¿Quién va a explorar hoy?", "Elige tu perfil. Cada aventura se guarda por separado.")
         if (state.loadingProfiles) CircularProgressIndicator(Modifier.semantics { contentDescription = "Cargando perfiles" })
@@ -200,6 +201,7 @@ fun ActivityScreen(state: LearningUiState, profileId: String, lessonId: String, 
             Eyebrow(session.title.uppercase(java.util.Locale.ROOT))
             Text("Ejercicio ${session.currentIndex + 1} de ${session.totalQuestions}", style = MaterialTheme.typography.labelLarge, modifier = Modifier.testTag("question-position"))
             Heading(session.question.prompt, session.question.instructions)
+            TutorAvatar(session,onHint,!state.busy)
             ExerciseRenderer(session, !state.busy && !session.currentSolved, onAnswer)
             state.feedback?.let { Notice(it) }
             if (session.currentSolved) {

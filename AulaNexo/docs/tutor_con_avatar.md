@@ -47,4 +47,4 @@ Para sus alumnos vinculados, el docente consulta aciertos a la primera, pistas u
 
 ## Estado
 
-Esta es una propuesta de desarrollo, no una funcionalidad de IA ya implementada. La aplicación actual conserva sus pistas progresivas y retroalimentación. La propuesta evita prometer una conversación abierta o razonamiento generativo que el producto todavía no tiene.
+Actualización: la primera fase del búho vectorial y las reglas por tipo, errores y pistas ya está implementada y probada; ver `ampliacion_integral.md`. Las fases de adaptación longitudinal, ejemplos adicionales y modelo de lenguaje siguen como propuesta. No hay conversación abierta ni generación remota.

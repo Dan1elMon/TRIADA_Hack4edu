@@ -15,11 +15,13 @@ class MainActivity : ComponentActivity() {
     private val viewModel: LearningViewModel by viewModels()
     private val packages: com.example.triada.feature.learning.PackageViewModel by viewModels()
     private val school: com.example.triada.feature.learning.SchoolViewModel by viewModels()
+    private val reading: com.example.triada.feature.learning.ReadingViewModel by viewModels()
+    private val editor: com.example.triada.feature.learning.EditorViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AulaNexoTheme { AulaNexoNavHost(viewModel, packages, school) }
+            AulaNexoTheme { AulaNexoNavHost(viewModel, packages, school,reading,editor) }
         }
     }
 }

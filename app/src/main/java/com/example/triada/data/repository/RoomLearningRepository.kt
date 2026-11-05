@@ -9,6 +9,17 @@ import java.util.UUID
 
 class RoomLearningRepository(private val database: LearningDatabase) : LearningRepository {
     private val dao = database.learningDao()
+    override suspend fun dailyGoal(profileId:String):Pair<Int,Int> {
+        requireNotNull(dao.profile(profileId))
+        val start=java.util.Calendar.getInstance().apply{set(java.util.Calendar.HOUR_OF_DAY,0);set(java.util.Calendar.MINUTE,0);set(java.util.Calendar.SECOND,0);set(java.util.Calendar.MILLISECOND,0)}.timeInMillis
+        val end=java.util.Calendar.getInstance().apply{timeInMillis=start;add(java.util.Calendar.DAY_OF_MONTH,1)}.timeInMillis
+        val done=dao.profileAttempts(profileId).filter{it.completedAt?.let{t->t>=start&&t<end}==true}.map{it.lessonId}.distinct().size
+        return done to (database.extensionDao().goal(profileId)?.target ?: 1)
+    }
+    override suspend fun setDailyGoal(profileId:String,target:Int) {
+        requireNotNull(dao.profile(profileId));require(target in 1..3)
+        database.extensionDao().saveGoal(DailyGoalEntity(profileId,target))
+    }
     override suspend fun updateProfile(id: String, name: String, avatar: String) = database.withTransaction {
         requireNotNull(dao.profile(id))
         require(name.trim().length in 1..24 && avatar in listOf("sun","star","flower"))
@@ -169,6 +180,7 @@ class RoomLearningRepository(private val database: LearningDatabase) : LearningR
             progress.solvedQuestions, progress.completed,
             database.rewardsDao().earned(attempt.profileId).firstOrNull { it.lessonId == attempt.lessonId }
                 ?.let { EarnedSticker(it.profileId, it.stickerId, it.obtainedAt) },
+            dao.answers(attempt.id).count { it.questionId == question.id && !it.correct },
         )
     }
 }

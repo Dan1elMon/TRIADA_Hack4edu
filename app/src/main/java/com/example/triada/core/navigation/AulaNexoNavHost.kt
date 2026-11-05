@@ -27,13 +27,15 @@ private fun LoadCatalog(viewModel: LearningViewModel, profileId: String) {
 }
 
 @Composable
-fun AulaNexoNavHost(viewModel: LearningViewModel, packages: PackageViewModel? = null, school: SchoolViewModel? = null) {
+fun AulaNexoNavHost(viewModel: LearningViewModel, packages: PackageViewModel? = null, school: SchoolViewModel? = null,reading:ReadingViewModel?=null,editor:EditorViewModel?=null) {
     val navController = rememberNavController()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val back: () -> Unit = { navController.popBackStack() }
     fun arguments(vararg names: String) = names.map { name -> navArgument(name) { type = NavType.StringType } }
     fun segment(id: String) = Uri.encode(id)
     val schoolState = school?.state?.collectAsStateWithLifecycle()?.value
+    val readingBusy=reading?.state?.collectAsStateWithLifecycle()?.value?.busy==true
+    val editorBusy=editor?.state?.collectAsStateWithLifecycle()?.value?.busy==true
     val currentEntry by navController.currentBackStackEntryAsState()
     LaunchedEffect(currentEntry, schoolState?.active?.id) {
         if (school != null) {
@@ -45,7 +47,7 @@ fun AulaNexoNavHost(viewModel: LearningViewModel, packages: PackageViewModel? = 
             if(denied) navController.navigate("accounts"){popUpTo(navController.graph.id){inclusive=false};launchSingleTop=true}
         }
     }
-    Scaffold(containerColor = MaterialTheme.colorScheme.background) { padding ->
+    Scaffold(containerColor = MaterialTheme.colorScheme.background,topBar={BrandHeader()}) { padding ->
         NavHost(navController, startDestination = if(school==null) "profiles" else "accounts", modifier = Modifier.padding(padding)) {
             composable("accounts") {
                 if(school!=null && schoolState!=null) {
@@ -56,10 +58,33 @@ fun AulaNexoNavHost(viewModel: LearningViewModel, packages: PackageViewModel? = 
             composable("school-home") {
                 if(school!=null && schoolState!=null) SchoolHomeScreen(schoolState,{
                     school.logout(); navController.navigate("accounts"){popUpTo("accounts"){inclusive=true}}
-                },{id->navController.navigate("map/${segment(id)}")},{id->navController.navigate("grades/${segment(id)}")},school::link,school::edit,{navController.navigate("credentials")},school::create)
+                },{id->navController.navigate("map/${segment(id)}")},{id->navController.navigate("grades/${segment(id)}")},school::link,school::edit,{navController.navigate("credentials")},school::create,
+                    if(reading==null||schoolState.active?.profileId==null)null else {{navController.navigate("books/${segment(requireNotNull(schoolState.active.profileId))}")}},
+                    if(editor==null)null else {{navController.navigate("editor")}},if(packages==null)null else {{navController.navigate("content-tools")}})
             }
             composable("credentials") {
                 if(school!=null&&schoolState?.active!=null) CredentialsScreen(schoolState,back,school::changeCredentials)
+            }
+            composable("editor") {
+                if(editor!=null&&schoolState?.active?.role==com.example.triada.domain.model.SchoolRole.TEACHER){
+                    val e by editor.state.collectAsStateWithLifecycle();val teacher=schoolState.active.id
+                    LaunchedEffect(teacher){editor.open(teacher)}
+                    if(e.teacher==teacher)EditorScreen(e,back,editor::select,editor::newDraft,editor::save,editor::preview,editor::publish)
+                }
+            }
+            composable("content-tools") {
+                if(packages!=null&&schoolState?.active?.role==com.example.triada.domain.model.SchoolRole.TEACHER)PackageScreen(packages,"teacher",back,true)
+            }
+            composable("books/{profileId}",arguments=arguments("profileId")) { entry ->
+                val profile=requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=profile)return@composable
+                if(reading!=null){val r by reading.state.collectAsStateWithLifecycle();ReadingLibraryScreen(r,back){book->navController.navigate("reader/${segment(profile)}/${segment(book)}")}}
+            }
+            composable("reader/{profileId}/{bookId}",arguments=arguments("profileId","bookId")) { entry ->
+                val profile=requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=profile)return@composable
+                val book=requireNotNull(entry.arguments?.getString("bookId"))
+                if(reading!=null){val r by reading.state.collectAsStateWithLifecycle();LaunchedEffect(profile,book){reading.open(profile,book)};ReaderScreen(r,profile,book,back,reading::move,reading::finish,reading::answer,{reading.open(profile,book)})}
             }
             composable("grades/{studentId}",arguments=arguments("studentId")) { entry ->
                 val student=requireNotNull(entry.arguments?.getString("studentId"))
@@ -69,19 +94,23 @@ fun AulaNexoNavHost(viewModel: LearningViewModel, packages: PackageViewModel? = 
                 }
             }
             composable("profiles") {
+                if(school!=null)return@composable
                 ProfilesScreen(state, viewModel::createProfile, viewModel::editProfile) { id ->
                     navController.navigate("map/${segment(id)}") { launchSingleTop = true }
                 }
             }
             composable("map/{profileId}", arguments = arguments("profileId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 LoadCatalog(viewModel, id)
                 GradesScreen(state, id, back, { grade -> navController.navigate("subjects/${segment(id)}/${segment(grade)}") }, { viewModel.loadProfile(id) },
                     { navController.navigate("album/${segment(id)}") }, { navController.navigate("progress/${segment(id)}") },
-                    if (packages == null) null else { { navController.navigate("packages/${segment(id)}") } })
+                    if (packages == null) null else { { navController.navigate("packages/${segment(id)}") } },
+                    if(school==null)null else {{subject->navController.navigate("units/${segment(id)}/${segment(subject)}")}}, {target->viewModel.setDailyGoal(id,target)})
             }
             composable("packages/{profileId}", arguments = arguments("profileId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 if (packages != null) PackageScreen(packages, id, back)
             }
             // Previous builds saved this route without a profile. Require a fresh selection.
@@ -92,22 +121,26 @@ fun AulaNexoNavHost(viewModel: LearningViewModel, packages: PackageViewModel? = 
             }
             composable("album/{profileId}", arguments = arguments("profileId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 LoadCatalog(viewModel, id)
                 StickerAlbumScreen(state, id, back, { viewModel.loadProfile(id) })
             }
             composable("progress/{profileId}", arguments = arguments("profileId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 LoadCatalog(viewModel, id)
                 ProgressScreen(state, id, back, { viewModel.loadProfile(id) }, { lesson -> navController.navigate("overview/${segment(id)}/${segment(lesson)}") })
             }
             composable("subjects/{profileId}/{gradeId}", arguments = arguments("profileId", "gradeId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 val grade = requireNotNull(entry.arguments?.getString("gradeId"))
                 LoadCatalog(viewModel, id)
                 SubjectsScreen(state, id, grade, back, { subject -> navController.navigate("units/${segment(id)}/${segment(subject)}") }, { viewModel.loadProfile(id) })
             }
             composable("units/{profileId}/{subjectId}", arguments = arguments("profileId", "subjectId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 val subject = requireNotNull(entry.arguments?.getString("subjectId"))
                 LoadCatalog(viewModel, id)
                 UnitsScreen(state, id, subject, back, { unit -> navController.navigate("lessons/${segment(id)}/${segment(unit)}") }, {
@@ -116,18 +149,21 @@ fun AulaNexoNavHost(viewModel: LearningViewModel, packages: PackageViewModel? = 
             }
             composable("lessons/{profileId}/{unitId}", arguments = arguments("profileId", "unitId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 val unit = requireNotNull(entry.arguments?.getString("unitId"))
                 LoadCatalog(viewModel, id)
                 UnitLessonsScreen(state, id, unit, back, { lesson -> navController.navigate("overview/${segment(id)}/${segment(lesson)}") }, { viewModel.loadProfile(id) })
             }
             composable("reference/{profileId}/{subjectId}", arguments = arguments("profileId", "subjectId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 val subject = requireNotNull(entry.arguments?.getString("subjectId"))
                 LoadCatalog(viewModel, id)
                 ReferenceTopicsScreen(state, id, subject, back, { lesson -> navController.navigate("overview/${segment(id)}/${segment(lesson)}") }, { viewModel.loadProfile(id) })
             }
             composable("overview/{profileId}/{lessonId}", arguments = arguments("profileId", "lessonId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 val lesson = requireNotNull(entry.arguments?.getString("lessonId"))
                 LaunchedEffect(id, lesson) { viewModel.loadLesson(id, lesson) }
                 LessonOverviewScreen(state, id, lesson, back, {
@@ -136,6 +172,7 @@ fun AulaNexoNavHost(viewModel: LearningViewModel, packages: PackageViewModel? = 
             }
             composable("activity/{profileId}/{lessonId}", arguments = arguments("profileId", "lessonId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 val lesson = requireNotNull(entry.arguments?.getString("lessonId"))
                 LaunchedEffect(id, lesson) {
                     if (state.session?.profileId != id || state.session?.lessonId != lesson) viewModel.loadLesson(id, lesson)
@@ -146,6 +183,7 @@ fun AulaNexoNavHost(viewModel: LearningViewModel, packages: PackageViewModel? = 
             // Restore navigation saved by the previous debug build without creating another graph.
             composable("lesson/{profileId}", arguments = arguments("profileId")) { entry ->
                 val id = requireNotNull(entry.arguments?.getString("profileId"))
+                if(school!=null&&schoolState?.active?.profileId!=id)return@composable
                 LaunchedEffect(id) {
                     navController.navigate("activity/${segment(id)}/g1-mat-count-1-9") {
                         popUpTo("lesson/{profileId}") { inclusive = true }
@@ -154,5 +192,5 @@ fun AulaNexoNavHost(viewModel: LearningViewModel, packages: PackageViewModel? = 
             }
         }
     }
-    BackHandler(enabled = state.busy) { /* Complete the confirmed local write before navigating. */ }
+    BackHandler(enabled = state.busy||schoolState?.busy==true||readingBusy||editorBusy) { /* Finish confirmed writes before navigating. */ }
 }

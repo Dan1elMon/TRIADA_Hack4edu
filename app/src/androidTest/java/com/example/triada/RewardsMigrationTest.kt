@@ -39,4 +39,3 @@ class RewardsMigrationTest {
         } finally { instrumentation.targetContext.deleteDatabase(name) }
     }
 }
-

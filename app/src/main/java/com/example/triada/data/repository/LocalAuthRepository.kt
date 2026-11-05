@@ -23,13 +23,20 @@ class LocalAuthRepository(private val db:LearningDatabase) {
         val salt=ByteArray(24).also{SecureRandom().nextBytes(it)};val cost=120_000
         return CredentialEntity(account,username,hex(salt),hex(hash(password,salt,cost)),cost)
     }
-    suspend fun initialize()=withContext(Dispatchers.IO){db.withTransaction {
+    suspend fun initialize(includeDemoStudents:Boolean=false)=withContext(Dispatchers.IO){db.withTransaction {
+        if(includeDemoStudents)DemoStudents.ensureTeachers(db)
+        val newStudents=if(includeDemoStudents)DemoStudents.ensureProfiles(db) else emptyList()
         val accounts=SchoolRepository(db).accounts().sortedBy{if(it.id=="demo-teacher")"" else it.id}
         val used=dao.usernames().toMutableSet()
         accounts.forEach { account -> if(dao.credential(account.id)==null){
-            val username=(10000001..99999999).asSequence().map{it.toString()}.first{it !in used}
+            val demo=if(includeDemoStudents)DemoStudents.all.firstOrNull{it.accountId==account.id} else null
+            val teacher=if(includeDemoStudents)DemoStudents.teachers.firstOrNull{it.accountId==account.id} else null
+            val preferred=demo?.username ?: teacher?.username
+            val username=if(preferred!=null&&preferred !in used)preferred else
+                (when{teacher!=null->19000001..19999999;demo!=null->29000001..99999999;else->10000001..99999999}).asSequence().map{it.toString()}.first{it !in used}
             dao.insertCredential(record(account.id,username,"admin"));used.add(username)
         }}
+        newStudents.forEach{db.schoolDao().link(TeacherStudentEntity(it.teacherId,it.accountId))}
     }}
     suspend fun login(username:String,password:String):SchoolAccount?=withContext(Dispatchers.IO){
         if(!username.matches(Regex("[0-9]{8}")) || password.length !in 1..128)return@withContext null

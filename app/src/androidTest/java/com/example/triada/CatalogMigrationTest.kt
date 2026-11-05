@@ -37,7 +37,7 @@ class CatalogMigrationTest {
             val database = Room.databaseBuilder(instrumentation.targetContext, LearningDatabase::class.java, name)
                 .addMigrations(CatalogMigration.FROM_1_TO_2, CatalogMigration.FROM_2_TO_3, CatalogMigration.FROM_3_TO_4, com.example.triada.data.local.SchoolMigration.FROM_4_TO_5, com.example.triada.data.local.ExtensionMigration.FROM_5_TO_6).build()
             try {
-                val catalog = RoomCatalogRepository(database, AssetCatalogSource(instrumentation.targetContext)).load("legacy-profile")
+                val catalog = RoomCatalogRepository(database, AssetCatalogSource(instrumentation.targetContext, false)).load("legacy-profile")
                 val session = RoomLearningRepository(database).session("legacy-attempt", "legacy-profile")
                 assertEquals(214, catalog.topics.size)
                 assertEquals(1, catalog.lessons.single { it.id == "g1-mat-count-1-9" }.solvedQuestions)
@@ -50,4 +50,3 @@ class CatalogMigrationTest {
         } finally { instrumentation.targetContext.deleteDatabase(name) }
     }
 }
-

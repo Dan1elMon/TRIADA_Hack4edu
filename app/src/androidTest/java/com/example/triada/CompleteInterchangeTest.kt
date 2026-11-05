@@ -28,9 +28,9 @@ class CompleteInterchangeTest {
         val context=context(); val db=Room.inMemoryDatabaseBuilder(context,LearningDatabase::class.java).build()
         try {
             val repo=RoomLearningRepository(db); val profile=repo.createProfile("Original","star")
-            RoomCatalogRepository(db,AssetCatalogSource(context)).load(profile.id)
+            RoomCatalogRepository(db,AssetCatalogSource(context, false)).load(profile.id)
             val original=repo.openLesson(profile.id);repo.answer(original.attemptId,profile.id,original.question.id,4,"original-answer")
-            val output=ByteArrayOutputStream(); val service=LessonPackageService(db,context); service.export(output)
+            val output=ByteArrayOutputStream(); val service=LessonPackageService(db,context,AssetCatalogSource(context,false)); service.export(output)
             service.import(output.toByteArray().inputStream())
             val files=SafePackageReader().read(output.toByteArray().inputStream()).toMutableMap()
             val catalog=JSONObject(files.getValue("catalog.json").toString(Charsets.UTF_8));catalog.put("catalogVersion",3)
@@ -56,7 +56,7 @@ class CompleteInterchangeTest {
         val db=Room.inMemoryDatabaseBuilder(base,LearningDatabase::class.java).build()
         try {
             val repo=RoomLearningRepository(db);val p=repo.createProfile("Original","sun")
-            RoomCatalogRepository(db,AssetCatalogSource(base)).load(p.id)
+            RoomCatalogRepository(db,AssetCatalogSource(base, false)).load(p.id)
             var session=repo.openLesson(p.id)
             listOf(4,6,9).forEachIndexed {n,value ->repo.answer(session.attemptId,p.id,session.question.id,value,"a$n");if(n<2)session=repo.advance(session.attemptId,p.id)}
             val out=ByteArrayOutputStream();StudentResultsExporter(db).export(p.id,out)

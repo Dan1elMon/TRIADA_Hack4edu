@@ -1,5 +1,9 @@
 package com.example.triada.feature.learning
 
+import com.example.triada.ui.theme.Ink
+import com.example.triada.ui.theme.OceanBlue
+import com.example.triada.ui.theme.HoneyYellow
+
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -39,7 +43,7 @@ fun ExerciseRenderer(session: LessonSession, enabled: Boolean, onAnswer: (Learni
                         Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                             repeat(minOf(3, q.objectCount - row * 3)) {
                                 Canvas(Modifier.size(44.dp).semantics { contentDescription = "Círculo" }) {
-                                    drawCircle(Color(0xFF00A0E9)); drawCircle(Color(0xFF2C2C2C), style = Stroke(2.dp.toPx()))
+                                    drawCircle(OceanBlue); drawCircle(Ink, style = Stroke(2.dp.toPx()))
                                 }
                             }
                         }
@@ -142,11 +146,11 @@ fun BodyIllustration(key: String, modifier: Modifier = Modifier) {
     val label = when (key) { "hand" -> "mano"; "foot" -> "pie"; "eye" -> "ojo"; "ear" -> "oreja"; "mouth" -> "boca"; "nose" -> "nariz"; "sun" -> "sol"; else -> "imagen no disponible" }
     Canvas(modifier.semantics { contentDescription = "Ilustración: $label" }) {
         withTransform({ scale(size.width / 100f, size.height / 100f, pivot = Offset.Zero) }) {
-            val ink = Color(0xFF2C2C2C)
+            val ink = Ink
             val skin = Color(0xFFFFD7AD)
             val stroke = Stroke(4f, cap = StrokeCap.Round)
             when (key) {
-                "eye" -> { drawOval(Color.White, Offset(5f, 28f), Size(90f, 45f)); drawOval(ink, Offset(5f, 28f), Size(90f, 45f), style = stroke); drawCircle(Color(0xFF00A0E9), 18f, Offset(50f, 50f)); drawCircle(ink, 9f, Offset(50f, 50f)) }
+                "eye" -> { drawOval(Color.White, Offset(5f, 28f), Size(90f, 45f)); drawOval(ink, Offset(5f, 28f), Size(90f, 45f), style = stroke); drawCircle(OceanBlue, 18f, Offset(50f, 50f)); drawCircle(ink, 9f, Offset(50f, 50f)) }
                 "ear" -> {
                     val path = Path().apply { moveTo(32f, 78f); cubicTo(6f, 20f, 65f, 3f, 78f, 36f); cubicTo(88f, 58f, 60f, 65f, 54f, 82f); cubicTo(48f, 99f, 28f, 96f, 32f, 78f) }
                     drawPath(path, skin); drawPath(path, ink, style = stroke)
@@ -165,7 +169,7 @@ fun BodyIllustration(key: String, modifier: Modifier = Modifier) {
                 }
                 "sun" -> {
                     repeat(8) { index -> val angle = index * Math.PI / 4; drawLine(ink, Offset(50f + cos(angle).toFloat() * 33f, 50f + sin(angle).toFloat() * 33f), Offset(50f + cos(angle).toFloat() * 46f, 50f + sin(angle).toFloat() * 46f), 4f) }
-                    drawCircle(Color(0xFFFFC107), 25f, Offset(50f, 50f)); drawCircle(ink, 25f, Offset(50f, 50f), style = stroke)
+                    drawCircle(HoneyYellow, 25f, Offset(50f, 50f)); drawCircle(ink, 25f, Offset(50f, 50f), style = stroke)
                 }
                 else -> drawLine(ink, Offset(15f, 15f), Offset(85f, 85f), 4f)
             }

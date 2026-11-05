@@ -8,6 +8,8 @@ import com.example.triada.domain.model.EarnedSticker
 import kotlinx.coroutines.flow.Flow
 
 interface LearningRepository {
+    suspend fun dailyGoal(profileId:String):Pair<Int,Int> = 0 to 1
+    suspend fun setDailyGoal(profileId:String,target:Int) { }
     suspend fun updateProfile(id: String, name: String, avatar: String)
     suspend fun rewards(profileId: String): List<EarnedSticker>
     fun profiles(): Flow<List<LearnerProfile>>

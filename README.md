@@ -1,90 +1,63 @@
 # AulaNexo
 
-Aplicación Android educativa con Kotlin, Jetpack Compose, Room y DataStore, desarrollada por incrementos sobre el proyecto Triada. Identificador técnico: `com.example.triada`.
+Aplicación educativa Android offline con Kotlin, Jetpack Compose, Room, DataStore y Hilt. Identificador: `com.example.triada`.
 
-## Funcionalidades disponibles
+Estilo visual de exploración: fondo arena `#F7F3E9`, acciones verdes `#2ECC71`, logros miel `#F1C40F` y acentos océano `#3498DB`. Los textos usan tonos oscuros de la misma paleta para mantener la legibilidad.
 
-- Cuentas locales simuladas de alumnos y docentes, sin contraseña ni servidor.
-- Espacio del alumno con actividades y **Mis notas**; aula del docente con alumnos vinculados y consulta de sus notas.
-- Notas de práctica de 0 a 20 por intento completado, basadas en aciertos a la primera; pistas registradas sin descuento. Los intentos incompletos no tienen nota final.
-- Perfiles locales independientes, con creación y edición de apodo y avatar.
-- Catálogo local versionado de **214 temas**, organizado en primer grado y seis áreas.
-- Navegación perfil → grado → área → unidad → lección.
-- Consulta de todos los títulos de referencia; los temas sin actividades aparecen **en preparación**.
-- **Seis lecciones funcionales**, una por área, con 18 ejercicios originales, feedback y pistas progresivas.
-- Actividades de conteo, selección, secuencias, asociación por tarjetas y formación de palabras con letras.
-- Siete audios de palabras en español incluidos en la app e ilustraciones vectoriales originales, sin descargas.
-- Guardado de errores, pistas, posición y progreso; reanudación y repetición conservando intentos anteriores.
-- Migraciones Room desde las versiones anteriores al esquema 5 sin borrar resultados. El último perfil se recuerda mediante DataStore; al terminar el proceso se requiere seleccionar de nuevo la cuenta simulada.
+## Iniciar sesión
 
-Desde la pantalla del grado se puede abrir **Mi álbum de stickers** y **Mi progreso**. Cada lección entrega un sticker único por perfil; repetirla conserva el premio y el mejor avance. Se recuperan también los premios de las lecciones completadas antes de actualizar. El resumen considera las seis lecciones disponibles y sus 18 ejercicios, sin incluir los 208 temas de referencia.
+En una instalación nueva:
 
-Desde el grado, **Intercambiar catálogo** permite importar paquetes `.aula`, exportar los metadatos originales o exportar todo el contenido instalado con ejercicios y audios WAV. Se validan rutas, tamaños, hashes, contratos y versiones antes de activar los cambios. El contenido publicado conserva su versión; una modificación requiere otra versión.
+- Usuario docente: **10000001**
+- Contraseña inicial: **admin**
 
-**Exportar mis resultados** guarda un `.aula-result` con intentos, respuestas, pistas y progreso, sin nombre ni avatar y con identificador seudónimo estable. **Recuperar resultados** crea un perfil separado y requiere las lecciones y versiones correspondientes. Reimportar el mismo archivo no duplica intentos ni premios. Tras guardar se puede abrir el selector nativo para compartir el archivo. No se solicita cuenta ni permiso de Internet.
+En **Mi acceso** se pueden cambiar el usuario y la contraseña verificando la contraseña actual. El usuario siempre tiene ocho dígitos, incluidos posibles ceros iniciales. Es un identificador local, no se requiere DNI. Las contraseñas se almacenan mediante una derivación con sal; no se exportan.
 
-| Área | Lección inicial | Actividades |
-|---|---|---|
-| Matemática | Cuento del 1 al 9 | Conteo |
-| Comunicación | Descubro las vocales | Selección y formación de palabras |
-| Ciencia y Ambiente | Conozco mi cuerpo | Asociación de palabras e ilustraciones |
-| Personal Social | Convivimos mejor | Selección de acciones de respeto y cuidado |
-| Razonamiento Matemático | Descubro patrones | Secuencias de formas y colores con etiquetas |
-| Razonamiento Verbal | Escucho sonidos | Comparación del sonido inicial con audio local |
+El docente puede crear cuentas de alumnos y otros docentes. Cada cuenta nueva recibe un usuario único y contraseña inicial `admin`; la pantalla confirma el usuario asignado. Los perfiles existentes se conservan como cuentas de alumnos. Sus usuarios aparecen en la lista **Vincular alumnos**. Los usuarios docentes aparecen en **Cuentas docentes**. El login es local; no hay servidor ni sincronización entre dispositivos.
 
-## Compilar y probar
+La demo incluye **tres docentes y treinta alumnos**, diez por aula. Los docentes usan inicialmente **10000001**, **11000002** y **11000003**; los alumnos, **20000001–20000030**. La contraseña inicial es **admin**. [Lista y comportamiento de las cuentas](AulaNexo/docs/alumnos_demo.md).
 
-Abrir la raíz en Android Studio. Se necesitan un JDK 21 completo y el SDK de `compileSdk 37`. Ajustar las rutas locales de SDK (`local.properties`) y JDK (`gradle.properties`) si se traslada el proyecto a otro equipo.
+## Funciones disponibles
 
-Desde PowerShell:
+- Encabezado común con logo a la izquierda de AulaNexo en todas las pantallas.
+- Roles de alumno/docente y edición de nombre/avatar.
+- Aula del docente con alumnos vinculados y consulta de sus notas; apartado **Mis notas** para el alumno.
+- 214 lecciones asociadas a los 214 temas, con **642 ejercicios**: 18 anteriores y 624 nuevos. Las 208 ampliaciones son actividades introductorias originales de selección; requieren revisión pedagógica antes de uso escolar.
+- Cinco motores reutilizables: conteo, selección, secuencias, asociación y formación de palabras.
+- Tutor **Juan**, con búho vectorial, cuatro expresiones y reglas offline según errores, tipo de ejercicio y pistas disponibles. Se puede ocultar.
+- Mapa visual de seis áreas y objetivos diarios ajustables de una a tres lecciones distintas.
+- Tres cuentos originales en español y tres lecturas iniciales de fonética inglesa, con 18 páginas, narración, palabras interactivas, velocidad lenta, comprensión y progreso por alumno.
+- 93 WAV incluidos: siete anteriores y 86 del lector. No se necesita descargar voces.
+- Álbum con los seis stickers de los hitos originales; no se han añadido 208 premios nuevos.
+- Editor docente con borradores, formulario de selección, estructura avanzada para cinco tipos, validación, vista previa y publicación versionada.
+- Intercambio `.aula` de catálogo, actividades y audios de lecciones; resultados `.aula-result` con recuperación en perfil separado. Los cuentos, sus progresos, las credenciales, vínculos y borradores no se incluyen en estos formatos actuales.
+- Persistencia y migraciones Room hasta esquema 6, conservando intentos anteriores.
+
+Las notas de práctica van de 0 a 20 por intento completado: aciertos en la primera respuesta / preguntas × 20. Las pistas no descuentan puntos. Las lecturas tienen su propia comprobación de comprensión; no se mezclan con las notas de las lecciones.
+
+## Ejecutar y verificar
+
+Abrir **la raíz Triada** en Android Studio, sincronizar Gradle, seleccionar `app` y un dispositivo, y pulsar Run. Se requieren JDK 21 y compileSdk 37 según la configuración local.
 
 ```powershell
-.\gradlew.bat :app:assembleDebug :app:testDebugUnitTest
-.\gradlew.bat :app:lintDebug
+.\gradlew.bat :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
 .\gradlew.bat :app:connectedDebugAndroidTest
-```
-
-Las pruebas conectadas requieren un dispositivo o emulador Android autorizado dedicado a pruebas. Usan bases aisladas y perfiles sintéticos, pero Gradle administra la instalación y limpieza. Para actualizar una instalación con resultados que deban conservarse, usar installDebug o instalar el APK conservando datos.
-
-APK: `app/build/outputs/apk/debug/app-debug.apk`.
-
-```powershell
 .\gradlew.bat :app:installDebug
 ```
 
-No desinstalar ni borrar los datos para actualizar desde la primera entrega: la migración conserva el progreso existente.
+Usar un dispositivo dedicado a pruebas para `connectedDebugAndroidTest`: Gradle administra instalación y limpieza. Para actualizar una instalación con datos, usar Run/installDebug o instalar el APK conservando datos y firma, sin desinstalar.
 
-## Recorrido de validación
+APK: `app/build/outputs/apk/debug/app-debug.apk`.
 
-La pantalla inicial permite crear o seleccionar cuentas simuladas. Los perfiles anteriores se conservan como alumnos. Para consultar notas como docente: seleccionar **Docente de ejemplo → Vincular alumnos → Agregar a mi aula → Ver notas de…**. Para consultar las propias: seleccionar alumno → **Mis notas**. No se incluyen notas ficticias: primero hay que realizar actividades. El recorrido educativo siguiente se abre desde **Comenzar mi aventura**.
+## Estado y documentación
 
-1. Crear un perfil y seleccionar su tarjeta.
-2. Abrir **Primer grado** y explorar las seis áreas.
-3. En **Comunicación**, resolver dos preguntas sobre vocales y formar SOL con las letras. Escuchar la referencia y comprobar que una letra no puede usarse dos veces.
-4. Volver a las áreas y abrir **Matemática → Cuento del 1 al 9 → Cuento del 1 al 9**.
-5. Comenzar la aventura, responder incorrectamente y solicitar dos pistas; el error y la ayuda no aumentan el progreso.
-6. Responder correctamente, pasar al segundo ejercicio, salir y reabrir con el mismo perfil.
-7. Cambiar de perfil: sus resultados deben permanecer separados.
-8. Completar y volver a practicar: se conserva el mejor avance y el nuevo intento empieza desde cero.
-9. En **Ciencia y Ambiente**, tocar una palabra y una imagen para unirlas. Comprobar que se pueden corregir las uniones y que no se puede enviar una asociación incompleta.
-10. Explorar los patrones y las normas de convivencia. En **Razonamiento Verbal**, escuchar la referencia y las opciones antes de elegir la palabra que empieza con el mismo sonido.
-11. Consultar el temario de Comunicación hasta el último título: los temas adicionales siguen en preparación y no abren actividades vacías.
+- [Checklist actual](AulaNexo/docs/checklist_desarrollo.md)
+- [Login, tutor, contenido y módulos ampliados](AulaNexo/docs/ampliacion_integral.md)
+- [Registro de revisión pedagógica de 214 temas](AulaNexo/docs/revision_pedagogica_214.csv)
+- [Documento técnico original](AulaNexo/docs/doc_tecnica.md)
+- [Temario original](AulaNexo/docs/temario.md)
+- [Plan progresivo e historial](AulaNexo/docs/analisis_y_plan_desarrollo.md)
+- [Entrega anterior del MVP](AulaNexo/docs/entrega_mvp.md)
+- [Entrega anterior de cuentas y notas](AulaNexo/docs/cuentas_y_notas.md)
 
-La aceptación automatizada incluye las seis lecciones con Wi-Fi y datos móviles desactivados, recuperación de progreso entre procesos, edición de perfil con texto al 200 % y guardado mediante el selector real de Android. Consultar el informe de entrega para resultados y límites. La revisión pedagógica y la evaluación manual con TalkBack siguen requiriendo participación humana.
-
-## Documentación
-
-- [Documento técnico](AulaNexo/docs/doc_tecnica.md)
-- [Temario](AulaNexo/docs/temario.md)
-- [Plan progresivo](AulaNexo/docs/analisis_y_plan_desarrollo.md)
-- [Primera entrega](AulaNexo/docs/avance_incrementos_1_2.md)
-- [Catálogo y navegación](AulaNexo/docs/avance_incremento_3.md)
-- [Seis lecciones y motores de actividades](AulaNexo/docs/avance_incremento_4.md)
-- [Recompensas, álbum y progreso](AulaNexo/docs/avance_incremento_5.md)
-- [Selector y validación de catálogos](AulaNexo/docs/avance_incremento_6_selector.md)
-- [Exportación de resultados por estudiante](AulaNexo/docs/avance_incremento_6_resultados.md)
-
-- [Entrega y aceptación del MVP](AulaNexo/docs/entrega_mvp.md)
-- [Cuentas simuladas y criterio de notas](AulaNexo/docs/cuentas_y_notas.md)
-- [Checklist del desarrollo](AulaNexo/docs/checklist_desarrollo.md)
-- [Propuesta de tutor con avatar](AulaNexo/docs/tutor_con_avatar.md)
+La validación humana con TalkBack y docentes/alumnado, la adecuación curricular y la firma de distribución siguen pendientes. La fonética es introductoria, con familias CVC y rimas; no constituye un curso completo de pronunciación ni reconocimiento de voz.
