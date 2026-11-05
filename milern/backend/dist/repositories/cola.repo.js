@@ -1,0 +1,94 @@
+import { consulta, uno } from '../db/pool.js';
+/**
+ * Encola una solicitud de esfuerzo. El indice unico (origen, id, indice_global)
+ * vuelve idempotente al tick: una segunda ejecucion en la misma UE no duplica.
+ */
+export async function encolar(ej, i) {
+    const conflicto = i.origen === 'nodo'
+        ? '(nodo_id, indice_global) WHERE origen = \'nodo\''
+        : '(grafo_id, indice_global) WHERE origen = \'grafo\'';
+    return uno(ej, `INSERT INTO effort_dispatch_queue
+       (usuario_id, origen, nodo_id, grafo_id, contenido, indice_global, prioridad)
+     VALUES ($1,$2,$3,$4,$5,$6,$7)
+     ON CONFLICT ${conflicto} DO NOTHING
+     RETURNING id::text, usuario_id, origen, nodo_id, grafo_id, contenido,
+               indice_global, estado, intentos`, [i.usuario_id, i.origen, i.nodo_id, i.grafo_id, i.contenido, i.indice_global, i.prioridad ?? 100]);
+}
+/**
+ * [procedimiento "recibiendo esfuerzos", paso 2] Toma un item de la cola para
+ * su envio. `FOR UPDATE SKIP LOCKED` permite multiples workers sin colisiones.
+ */
+export async function tomarSiguiente(ej) {
+    return uno(ej, `WITH candidato AS (
+       SELECT q.id FROM effort_dispatch_queue q
+        WHERE q.estado = 'pendiente'
+        ORDER BY q.prioridad ASC, q.id ASC
+        LIMIT 1
+        FOR UPDATE SKIP LOCKED
+     )
+     UPDATE effort_dispatch_queue q
+        SET estado = 'en_proceso', intentos = q.intentos + 1, tomado_en = now()
+       FROM candidato c, usuarios u
+      WHERE q.id = c.id AND u.id = q.usuario_id
+      RETURNING q.id::text, q.usuario_id, q.origen, q.nodo_id, q.grafo_id, q.contenido,
+                q.indice_global, q.estado, q.intentos, u.telegram_chat_id::text`);
+}
+/** Numero de mensajes efectivamente enviados en los ultimos `segundos`. */
+export async function enviadosRecientes(ej, segundos) {
+    const r = await uno(ej, `SELECT count(*)::int AS n FROM esfuerzos_log
+      WHERE enviado_en > now() - make_interval(secs => $1)`, [segundos]);
+    return r?.n ?? 0;
+}
+/** Segundos transcurridos desde el ultimo envio confirmado (null si no hay). */
+export async function segundosDesdeUltimoEnvio(ej) {
+    const r = await uno(ej, 'SELECT EXTRACT(EPOCH FROM (now() - max(enviado_en)))::int AS s FROM esfuerzos_log');
+    return r?.s ?? null;
+}
+export async function marcarEnviado(ej, id, telegramMessageId) {
+    await ej.query(`UPDATE effort_dispatch_queue
+        SET estado = 'enviado', enviado_en = now(), telegram_message_id = $2
+      WHERE id = $1`, [id, telegramMessageId]);
+}
+export async function marcarFallido(ej, id, error, maxIntentos) {
+    const r = await uno(ej, `UPDATE effort_dispatch_queue
+        SET estado = CASE WHEN intentos >= $3 THEN 'fallido'::estado_despacho
+                          ELSE 'pendiente'::estado_despacho END,
+            ultimo_error = $2
+      WHERE id = $1
+      RETURNING estado`, [id, error.slice(0, 2000), maxIntentos]);
+    return r?.estado ?? 'fallido';
+}
+export async function registrarEnLog(ej, d) {
+    await ej.query(`INSERT INTO esfuerzos_log
+       (dispatch_id, usuario_id, origen, nodo_id, grafo_id, fase_al_enviar,
+        contenido, indice_global, telegram_message_id)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`, [d.dispatch_id, d.usuario_id, d.origen, d.nodo_id, d.grafo_id, d.fase_al_enviar,
+        d.contenido, d.indice_global, d.telegram_message_id]);
+}
+export async function obtenerItem(ej, id) {
+    return uno(ej, `SELECT id::text, usuario_id, origen, nodo_id, grafo_id, contenido,
+            indice_global, estado, intentos
+       FROM effort_dispatch_queue WHERE id = $1 FOR UPDATE`, [id]);
+}
+export async function estadoCola(ej) {
+    return consulta(ej, 'SELECT estado, count(*)::int AS total FROM effort_dispatch_queue GROUP BY estado');
+}
+/** Purga los items ya procesados anteriores a la retencion indicada. */
+export async function purgar(ej, dias = 30) {
+    const r = await ej.query(`DELETE FROM effort_dispatch_queue
+      WHERE estado IN ('enviado','descartado') AND creado_en < now() - make_interval(days => $1)`, [dias]);
+    return r.rowCount ?? 0;
+}
+/**
+ * Descarta los esfuerzos aun pendientes de un grafo y de sus nodos, para que un
+ * grafo eliminado no siga enviando mensajes. Los items `en_proceso` se dejan
+ * terminar: el worker ya los tomo.
+ */
+export async function descartarPendientesDeGrafo(ej, grafoId, nodoIds) {
+    const r = await ej.query(`UPDATE effort_dispatch_queue
+        SET estado = 'descartado'
+      WHERE estado = 'pendiente'
+        AND (grafo_id = $1 OR nodo_id = ANY($2::uuid[]))`, [grafoId, nodoIds]);
+    return r.rowCount ?? 0;
+}
+//# sourceMappingURL=cola.repo.js.map

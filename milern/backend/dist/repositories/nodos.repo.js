@@ -1,0 +1,187 @@
+import { consulta, uno } from '../db/pool.js';
+const COLS = `id, usuario_id, nodo_esfuerzo, nodo_crudo, contenido, fase,
+  conteo_esfuerzo, conteo_esfuerzo_fase, indice_siguiente_esfuerzo,
+  indice_fecha_limite, es_temporal, grafo_id, parent_id, enlace_contenido,
+  is_leaf, activo, creado_en, actualizado_en`;
+export async function crear(ej, n) {
+    const row = await uno(ej, `INSERT INTO nodos (usuario_id, nodo_esfuerzo, nodo_crudo, indice_fecha_limite,
+                        indice_siguiente_esfuerzo, grafo_id, parent_id, enlace_contenido,
+                        fase, conteo_esfuerzo, conteo_esfuerzo_fase, activo, is_leaf)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,'fase_1',0,0,TRUE,TRUE)
+     RETURNING ${COLS}`, [n.usuario_id, n.nodo_esfuerzo, n.nodo_crudo, n.indice_fecha_limite,
+        n.indice_siguiente_esfuerzo, n.grafo_id ?? null, n.parent_id ?? null,
+        n.enlace_contenido ?? null]);
+    return row;
+}
+export async function obtener(ej, id, usuarioId) {
+    return uno(ej, `SELECT ${COLS} FROM nodos WHERE id = $1 AND ($2::uuid IS NULL OR usuario_id = $2)`, [id, usuarioId ?? null]);
+}
+export async function obtenerParaActualizar(ej, id) {
+    return uno(ej, `SELECT ${COLS} FROM nodos WHERE id = $1 FOR UPDATE`, [id]);
+}
+export async function listar(ej, f) {
+    return consulta(ej, `SELECT ${COLS} FROM nodos
+      WHERE usuario_id = $1
+        AND ($2::fase_nodo IS NULL OR fase = $2)
+        AND ($3::boolean   IS NULL OR activo = $3)
+        AND ($4::text      IS NULL OR nodo_esfuerzo ILIKE '%'||$4||'%' OR contenido ILIKE '%'||$4||'%')
+        AND ($5::uuid      IS NULL OR grafo_id = $5)
+      ORDER BY creado_en DESC
+      LIMIT $6 OFFSET $7`, [f.usuario_id, f.fase ?? null, f.activo ?? null, f.busqueda ?? null,
+        f.grafo_id ?? null, f.limite ?? 100, f.desplazamiento ?? 0]);
+}
+/**
+ * [LOG-GEN-NODO] "Se marcan como inactivos/archivados los nodos con
+ * `indice_fecha_limite < indice_global`."
+ */
+export async function archivarVencidos(ej, indiceGlobal) {
+    const rows = await consulta(ej, `UPDATE nodos
+        SET activo = FALSE, fase = 'archivado', archivado_en = now()
+      WHERE activo AND indice_fecha_limite IS NOT NULL AND indice_fecha_limite < $1
+      RETURNING id`, [indiceGlobal]);
+    return rows.map((r) => r.id);
+}
+/**
+ * [LOG-GEN-NODO] Nodos candidatos para generacion:
+ *   activo = verdadero
+ *   fase IN ('fase_1','fase_2','fase_3') O (fase = 'fase_4' Y es_temporal)
+ *   indice_siguiente_esfuerzo <= indice_global
+ *
+ * Se excluyen los nodos que ya tienen un esfuerzo vivo en la cola: su
+ * `indice_siguiente_esfuerzo` solo se reagenda al confirmarse el envio, de modo
+ * que sin este filtro un tick posterior los volveria a encolar.
+ */
+export async function candidatos(ej, indiceGlobal, limite = 500) {
+    return consulta(ej, `SELECT ${COLS} FROM nodos n
+      WHERE n.activo
+        AND ( n.fase IN ('fase_1','fase_2','fase_3')
+              OR (n.fase = 'fase_4' AND n.es_temporal) )
+        AND n.indice_siguiente_esfuerzo <= $1
+        AND NOT EXISTS (
+              SELECT 1 FROM effort_dispatch_queue q
+               WHERE q.nodo_id = n.id AND q.estado IN ('pendiente','en_proceso'))
+      ORDER BY n.indice_siguiente_esfuerzo ASC, n.creado_en ASC
+      LIMIT $2
+      FOR UPDATE SKIP LOCKED`, [indiceGlobal, limite]);
+}
+export async function aplicarAgenda(ej, id, a) {
+    const row = await uno(ej, `UPDATE nodos
+        SET fase = $2,
+            conteo_esfuerzo = $3,
+            conteo_esfuerzo_fase = $4,
+            indice_siguiente_esfuerzo = $5,
+            grafo_id = COALESCE($6::uuid, grafo_id)
+      WHERE id = $1
+      RETURNING ${COLS}`, [id, a.fase, a.conteo_esfuerzo, a.conteo_esfuerzo_fase,
+        a.indice_siguiente_esfuerzo, a.grafo_id ?? null]);
+    return row;
+}
+/**
+ * [feature 2.1] `nodos_hojas` del grafo: nodos activos sin descendientes,
+ * independientemente de si tienen padre o son raices/aislados. El flag
+ * `is_leaf` indexado permite resolverlo sin recorrer la jerarquia.
+ */
+export async function hojasDeGrafo(ej, grafoId) {
+    return consulta(ej, `SELECT n.id, n.parent_id, n.enlace_contenido, n.contenido,
+            p.contenido AS contenido_padre
+       FROM nodos n
+       LEFT JOIN nodos p ON p.id = n.parent_id AND p.activo
+      WHERE n.grafo_id = $1 AND n.activo AND n.is_leaf
+      ORDER BY n.creado_en ASC, n.id ASC`, [grafoId]);
+}
+/** Nodos de un grafo, como adjacency list navegable por la app web. */
+export async function nodosDeGrafo(ej, grafoId) {
+    return consulta(ej, `SELECT ${COLS.split(',').map((c) => 'n.' + c.trim()).join(', ')},
+            (SELECT count(*)::int FROM nodos h WHERE h.parent_id = n.id AND h.activo) AS children_count
+       FROM nodos n
+      WHERE n.grafo_id = $1 AND n.activo
+      ORDER BY n.creado_en ASC`, [grafoId]);
+}
+/**
+ * [LOG-ACICLICIDAD] Recorrido ascendente por ancestros mediante WITH RECURSIVE,
+ * desde el `parent_id` propuesto hacia la raiz.
+ */
+export async function rutaAncestros(ej, desdeId) {
+    return consulta(ej, `WITH RECURSIVE ancestros AS (
+        SELECT n.id, n.parent_id, n.contenido, n.enlace_contenido, 1 AS nivel
+          FROM nodos n WHERE n.id = $1
+      UNION ALL
+        SELECT p.id, p.parent_id, p.contenido, p.enlace_contenido, a.nivel + 1
+          FROM nodos p JOIN ancestros a ON p.id = a.parent_id
+         WHERE a.nivel < 10000
+     )
+     SELECT id, parent_id, contenido, enlace_contenido FROM ancestros ORDER BY nivel ASC`, [desdeId]);
+}
+export async function contarHijosActivos(ej, padreId) {
+    const r = await uno(ej, 'SELECT count(*)::int AS n FROM nodos WHERE parent_id = $1 AND activo', [padreId]);
+    return r?.n ?? 0;
+}
+/**
+ * [PSC-DEL-NODO] `desvincular_hijos_directos`: asigna parent_id = null y
+ * enlace_contenido = null a los hijos directos, preservandolos en el grafo como
+ * nodos raices/aislados [PRT-INTEGRIDAD.3].
+ */
+export async function desvincularHijosDirectos(ej, padreId) {
+    const rows = await consulta(ej, `UPDATE nodos SET parent_id = NULL, enlace_contenido = NULL
+      WHERE parent_id = $1 AND activo
+      RETURNING id`, [padreId]);
+    return rows.map((r) => r.id);
+}
+export async function marcarIsLeaf(ej, id, isLeaf) {
+    await ej.query('UPDATE nodos SET is_leaf = $2 WHERE id = $1', [id, isLeaf]);
+}
+/** Baja logica: el nodo permanece archivado en la base de datos. */
+export async function marcarBajaLogica(ej, id) {
+    return uno(ej, `UPDATE nodos
+        SET activo = FALSE, fase = 'archivado', archivado_en = now(),
+            parent_id = NULL, enlace_contenido = NULL
+      WHERE id = $1 AND activo
+      RETURNING ${COLS}`, [id]);
+}
+export async function reparentear(ej, id, parentId, enlaceContenido) {
+    const row = await uno(ej, `UPDATE nodos SET parent_id = $2, enlace_contenido = $3 WHERE id = $1 RETURNING ${COLS}`, [id, parentId, enlaceContenido]);
+    return row;
+}
+/**
+ * Actualiza el contenido del nodo. Un campo ausente se conserva; `nodo_crudo`
+ * presente con valor `null` (o vacio) se limpia, de modo que `contenido` vuelve
+ * a derivarse de `nodo_esfuerzo`.
+ */
+export async function actualizarContenido(ej, id, campos) {
+    const tocaCrudo = campos.nodo_crudo !== undefined;
+    const crudo = campos.nodo_crudo?.trim() ? campos.nodo_crudo : null;
+    return uno(ej, `UPDATE nodos
+        SET nodo_esfuerzo = COALESCE($2, nodo_esfuerzo),
+            nodo_crudo    = CASE WHEN $5::boolean THEN $3 ELSE nodo_crudo END,
+            grafo_id      = COALESCE($4::uuid, grafo_id)
+      WHERE id = $1 AND activo
+      RETURNING ${COLS}`, [id, campos.nodo_esfuerzo ?? null, crudo, campos.grafo_id ?? null, tocaCrudo]);
+}
+/**
+ * Baja logica de todos los nodos activos de un grafo. Devuelve el estado previo
+ * de cada uno para que la operacion sea reversible con `undo`.
+ */
+export async function archivarNodosDeGrafo(ej, grafoId) {
+    return consulta(ej, `WITH previo AS (
+        SELECT id, fase, parent_id, enlace_contenido
+          FROM nodos WHERE grafo_id = $1 AND activo FOR UPDATE
+     )
+     UPDATE nodos n
+        SET activo = FALSE, fase = 'archivado', archivado_en = now(),
+            parent_id = NULL, enlace_contenido = NULL
+       FROM previo p
+      WHERE n.id = p.id
+      RETURNING p.id, p.fase, p.parent_id, p.enlace_contenido`, [grafoId]);
+}
+/** [caso de uso 2] Muestra aleatoria de nodos en fase_3 o fase_4. */
+export async function muestraParaEvaluacion(ej, usuarioId, limite) {
+    return consulta(ej, `SELECT ${COLS} FROM nodos
+      WHERE usuario_id = $1 AND activo AND fase IN ('fase_3','fase_4')
+      ORDER BY random()
+      LIMIT $2`, [usuarioId, limite]);
+}
+export async function resumenPorFase(ej, usuarioId) {
+    return consulta(ej, `SELECT fase, count(*)::int AS total FROM nodos
+      WHERE usuario_id = $1 AND activo GROUP BY fase ORDER BY fase`, [usuarioId]);
+}
+//# sourceMappingURL=nodos.repo.js.map
