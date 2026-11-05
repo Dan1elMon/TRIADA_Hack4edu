@@ -126,7 +126,7 @@ class LearningFlowTest {
         compose.onNodeWithTag("progress").performScrollTo().assertTextEquals("1 de 3 ejercicios resueltos")
     }
 
-    @Test fun sixAreasAndReferenceOnlyUnitsAreBrowseableWithoutStartingAttempts() {
+    @Test fun sixAreasAndReferenceTopicsAreBrowseableWithoutStartingAttempts() {
         val profile = runBlocking { repository.createProfile("Temario", "flower") }
         start()
         select("Temario")
@@ -137,8 +137,8 @@ class LearningFlowTest {
         }
         catalogClick("subject-COM")
         catalogClick("unit-g1-com-u1")
-        compose.onNodeWithTag("catalog-list").performScrollToNode(hasTestTag("reference-g1-com-t05"))
-        compose.onNodeWithTag("reference-g1-com-t05").assertHasNoClickAction()
+        compose.onNodeWithTag("catalog-list").performScrollToNode(hasTestTag("lesson-g1-com-vowels"))
+        compose.onNodeWithTag("lesson-g1-com-vowels").assertHasClickAction()
         compose.onNodeWithTag("open-lesson").assertDoesNotExist()
         back("Volver a mis unidades")
         catalogClick("view-reference")

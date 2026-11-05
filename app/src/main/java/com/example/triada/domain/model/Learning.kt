@@ -22,6 +22,17 @@ data class QuestionPresentation(
     val prompt: String,
     val objectCount: Int,
     val options: List<Int>,
+    val type: ActivityType = ActivityType.COUNT_OBJECTS,
+    val instructions: String = "Señala cada círculo y cuenta despacio.",
+    val choices: List<ExerciseItem> = emptyList(),
+    val sequence: List<ExerciseItem> = emptyList(),
+    val left: List<ExerciseItem> = emptyList(),
+    val right: List<ExerciseItem> = emptyList(),
+    val tiles: List<ExerciseItem> = emptyList(),
+    val cueAudioKey: String? = null,
+    val illustrationKey: String? = null,
+    val feedbackCorrect: String = "¡Bien! Contaste todos los círculos.",
+    val feedbackIncorrect: String = "Contemos otra vez, despacio. Puedes pedir una pista.",
 )
 data class LessonSession(
     val attemptId: String,

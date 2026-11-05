@@ -6,6 +6,8 @@ Actualización posterior: el desarrollo de los incrementos 1–2 y sus resultado
 
 El catálogo y la navegación del incremento 3 se registran en [avance_incremento_3.md](avance_incremento_3.md), con migración 1 → 2 y validación automatizada completadas el 5 de noviembre de 2026.
 
+Las seis lecciones y sus motores se registran en [avance_incremento_4.md](avance_incremento_4.md), con esquema Room 3, catálogo versión 2 y validación automatizada completada el 5 de noviembre de 2026.
+
 ## 1. Conclusión
 
 El proyecto permite iniciar AulaNexo sobre la plantilla Android existente, pero todavía no contiene las funcionalidades que ambos documentos describen. Conviene construir primero un recorrido pequeño y completo: crear perfil → abrir una lección de conteo → responder y pedir pistas → guardar → cerrar y reanudar. Solo después de verificar ese recorrido se amplían el catálogo, los motores y las pantallas.

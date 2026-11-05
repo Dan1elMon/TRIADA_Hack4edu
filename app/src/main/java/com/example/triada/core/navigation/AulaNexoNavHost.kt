@@ -84,7 +84,7 @@ fun AulaNexoNavHost(viewModel: LearningViewModel) {
                 LaunchedEffect(id, lesson) {
                     if (state.session?.profileId != id || state.session?.lessonId != lesson) viewModel.loadLesson(id, lesson)
                 }
-                ActivityScreen(state, id, lesson, back, viewModel::answer, viewModel::hint, viewModel::next,
+                ActivityScreen(state, id, lesson, back, viewModel::submitAnswer, viewModel::hint, viewModel::next,
                     viewModel::practiceAgain, { viewModel.loadLesson(id, lesson) })
             }
             // Restore navigation saved by the previous debug build without creating another graph.

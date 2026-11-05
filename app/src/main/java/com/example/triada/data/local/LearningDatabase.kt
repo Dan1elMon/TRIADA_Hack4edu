@@ -1,6 +1,7 @@
 package com.example.triada.data.local
 
 import androidx.room.Dao
+import androidx.room.ColumnInfo
 import androidx.room.Database
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -23,7 +24,12 @@ data class LessonEntity(val id: String, val version: Int, val title: String, val
     foreignKeys = [ForeignKey(entity = LessonEntity::class, parentColumns = ["id", "version"], childColumns = ["lessonId", "version"])],
     indices = [Index(value = ["lessonId", "version", "sortOrder"], unique = true)],
 )
-data class QuestionEntity(val id: String, val version: Int, val lessonId: String, val sortOrder: Int, val prompt: String, val objectCount: Int)
+data class QuestionEntity(
+    val id: String, val version: Int, val lessonId: String, val sortOrder: Int, val prompt: String, val objectCount: Int,
+    @ColumnInfo(defaultValue = "'COUNT_OBJECTS'") val activityType: String = "COUNT_OBJECTS",
+    @ColumnInfo(defaultValue = "'{}'") val payloadJson: String = "{}",
+    @ColumnInfo(defaultValue = "'{}'") val answerKeyJson: String = "{}",
+)
 
 @Entity(
     tableName = "options", primaryKeys = ["questionId", "version", "value"],
@@ -69,6 +75,7 @@ data class QuestionStateEntity(val attemptId: String, val questionId: String, va
 data class AnswerEntity(
     @PrimaryKey val eventId: String, val attemptId: String, val questionId: String, val version: Int,
     val choice: Int, val correct: Boolean, val hintsUsed: Int, val answeredAt: Long,
+    @ColumnInfo(defaultValue = "''") val answerPayloadJson: String = "",
 )
 
 data class ProgressSummary(val solvedQuestions: Int, val completed: Boolean, val started: Boolean)
@@ -113,7 +120,7 @@ interface LearningDao {
         HintEntity::class, AttemptEntity::class, QuestionStateEntity::class, AnswerEntity::class,
         CatalogMetadataEntity::class, GradeEntity::class, SubjectEntity::class, LearningUnitEntity::class,
         TopicEntity::class, CatalogLessonEntity::class],
-    version = 2, exportSchema = true,
+    version = 3, exportSchema = true,
 )
 abstract class LearningDatabase : RoomDatabase() {
     abstract fun learningDao(): LearningDao

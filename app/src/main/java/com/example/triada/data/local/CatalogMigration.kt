@@ -4,6 +4,14 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 object CatalogMigration {
+    val FROM_2_TO_3 = object : Migration(2, 3) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE questions ADD COLUMN activityType TEXT NOT NULL DEFAULT 'COUNT_OBJECTS'")
+            db.execSQL("ALTER TABLE questions ADD COLUMN payloadJson TEXT NOT NULL DEFAULT '{}'")
+            db.execSQL("ALTER TABLE questions ADD COLUMN answerKeyJson TEXT NOT NULL DEFAULT '{}'")
+            db.execSQL("ALTER TABLE answers ADD COLUMN answerPayloadJson TEXT NOT NULL DEFAULT ''")
+        }
+    }
     val FROM_1_TO_2 = object : Migration(1, 2) {
         override fun migrate(db: SupportSQLiteDatabase) {
             db.execSQL("CREATE TABLE IF NOT EXISTS `catalog_metadata` (`id` TEXT NOT NULL, `schemaVersion` INTEGER NOT NULL, `catalogVersion` INTEGER NOT NULL, `checksum` TEXT NOT NULL, PRIMARY KEY(`id`))")

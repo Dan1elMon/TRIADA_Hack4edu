@@ -7,6 +7,7 @@ import com.example.triada.domain.model.Evaluation
 import com.example.triada.domain.model.LearnerProfile
 import com.example.triada.domain.model.LessonSession
 import com.example.triada.domain.model.LearningCatalog
+import com.example.triada.domain.model.LearningAnswer
 import com.example.triada.domain.repository.CatalogRepository
 import com.example.triada.domain.repository.LearningRepository
 import com.example.triada.domain.repository.ProfilePreferences
@@ -86,23 +87,23 @@ class LearningViewModel @Inject constructor(
         mutableState.update { it.copy(catalog = catalog, session = session) }
     }
 
-    fun answer(choice: Int) {
+    fun submitAnswer(answer: LearningAnswer) {
         val session = state.value.session ?: return
         if (session.currentSolved || session.completed) return
         val previous = pendingAnswer
-        val event = if (previous != null && previous.attemptId == session.attemptId && previous.questionId == session.question.id && previous.choice == choice) previous else {
-            PendingAnswer(UUID.randomUUID().toString(), session.attemptId, session.question.id, choice)
+        val event = if (previous != null && previous.attemptId == session.attemptId && previous.questionId == session.question.id && previous.answer == answer) previous else {
+            PendingAnswer(UUID.randomUUID().toString(), session.attemptId, session.question.id, answer)
         }
         action {
             pendingAnswer = event
-            val evaluation = repository.answer(session.attemptId, session.profileId, session.question.id, choice, event.id)
+            val evaluation = repository.submitAnswer(session.attemptId, session.profileId, session.question.id, answer, event.id)
             val refreshed = repository.session(session.attemptId, session.profileId)
             pendingAnswer = null
             mutableState.update {
                 it.copy(session = refreshed, feedback = when (evaluation) {
-                    Evaluation.Correct -> "¡Bien! Contaste todos los círculos."
-                    Evaluation.Incorrect -> "Contemos otra vez, despacio. Puedes pedir una pista."
-                    Evaluation.Invalid -> "Elige uno de los números disponibles."
+                    Evaluation.Correct -> session.question.feedbackCorrect
+                    Evaluation.Incorrect -> session.question.feedbackIncorrect
+                    Evaluation.Invalid -> "Completa una respuesta con los elementos disponibles."
                 })
             }
         }
@@ -146,5 +147,5 @@ class LearningViewModel @Inject constructor(
         }
     }
 
-    private data class PendingAnswer(val id: String, val attemptId: String, val questionId: String, val choice: Int)
+    private data class PendingAnswer(val id: String, val attemptId: String, val questionId: String, val answer: LearningAnswer)
 }

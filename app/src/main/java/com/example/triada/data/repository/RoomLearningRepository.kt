@@ -36,6 +36,17 @@ class RoomLearningRepository(private val database: LearningDatabase) : LearningR
         dao.insertHints(lesson.questions.flatMap { q ->
             q.hints.mapIndexed { index, text -> HintEntity(q.id, lesson.version, index, text) }
         })
+        AdditionalContent.lessons.forEach { additional ->
+            dao.insertLesson(LessonEntity(additional.id, additional.version, additional.title, additional.objective))
+            dao.insertQuestions(additional.questions.mapIndexed { index, q ->
+                val content = q.exercise.content
+                QuestionEntity(content.id, additional.version, additional.id, index, content.prompt, 0, content.type.name,
+                    ActivityCodec.payload(content), ActivityCodec.key(q.exercise))
+            })
+            dao.insertHints(additional.questions.flatMap { q ->
+                q.hints.mapIndexed { index, text -> HintEntity(q.exercise.content.id, additional.version, index, text) }
+            })
+        }
     }
 
     override suspend fun openLesson(profileId: String, practiceAgain: Boolean, lessonId: String): LessonSession {
@@ -64,11 +75,17 @@ class RoomLearningRepository(private val database: LearningDatabase) : LearningR
 
     override suspend fun answer(
         attemptId: String, profileId: String, questionId: String, choice: Int, eventId: String,
+    ): Evaluation = submitAnswer(attemptId, profileId, questionId, LearningAnswer.Choice(choice.toString()), eventId)
+
+    override suspend fun submitAnswer(
+        attemptId: String, profileId: String, questionId: String, answer: LearningAnswer, eventId: String,
     ): Evaluation = database.withTransaction {
         val attempt = ownedAttempt(attemptId, profileId)
+        val encoded = ActivityCodec.answer(answer)
         val previous = dao.answer(eventId)
         if (previous != null) {
-            require(previous.attemptId == attemptId && previous.questionId == questionId && previous.choice == choice)
+            val oldPayload = previous.answerPayloadJson.ifEmpty { ActivityCodec.answer(LearningAnswer.Choice(previous.choice.toString())) }
+            require(previous.attemptId == attemptId && previous.questionId == questionId && oldPayload == encoded)
             return@withTransaction if (previous.correct) Evaluation.Correct else Evaluation.Incorrect
         }
         require(attempt.completedAt == null)
@@ -77,10 +94,11 @@ class RoomLearningRepository(private val database: LearningDatabase) : LearningR
         require(question.id == questionId)
         val state = state(attempt, question)
         check(!state.solved)
-        val evaluation = CountEvaluator.evaluate(loadQuestion(question), choice)
+        val evaluation = ExerciseEvaluator.evaluate(loadQuestion(question), answer)
         if (evaluation == Evaluation.Invalid) return@withTransaction evaluation
         val now = System.currentTimeMillis()
-        dao.insertAnswer(AnswerEntity(eventId, attemptId, questionId, attempt.version, choice, evaluation == Evaluation.Correct, state.hintsUsed, now))
+        val legacyChoice = (answer as? LearningAnswer.Choice)?.id?.toIntOrNull() ?: 0
+        dao.insertAnswer(AnswerEntity(eventId, attemptId, questionId, attempt.version, legacyChoice, evaluation == Evaluation.Correct, state.hintsUsed, now, encoded))
         if (evaluation == Evaluation.Correct) {
             dao.saveState(state.copy(solved = true))
             if (dao.states(attemptId).count { it.solved } == questions.size) dao.complete(attemptId, now)
@@ -117,16 +135,13 @@ class RoomLearningRepository(private val database: LearningDatabase) : LearningR
         dao.states(attempt.id).firstOrNull { it.questionId == question.id }
             ?: QuestionStateEntity(attempt.id, question.id, attempt.version, false, 0)
 
-    private suspend fun loadQuestion(row: QuestionEntity) = CountQuestion(
-        row.id, row.prompt, row.objectCount,
-        dao.options(row.id, row.version).map { it.value },
-        dao.hints(row.id, row.version).map { it.text },
-    )
+    private suspend fun loadQuestion(row: QuestionEntity) = ActivityCodec.decode(row, dao.options(row.id, row.version).map { it.value })
 
     private suspend fun snapshot(attempt: AttemptEntity): LessonSession {
         val lesson = requireNotNull(dao.lesson(attempt.lessonId, attempt.version))
         val questions = dao.questions(attempt.lessonId, attempt.version)
-        val question = loadQuestion(questions[attempt.currentIndex])
+        val question = loadQuestion(questions[attempt.currentIndex]).content
+        val hints = dao.hints(question.id, attempt.version).map { it.text }
         val states = dao.states(attempt.id)
         val state = states.firstOrNull { it.questionId == question.id }
         val used = state?.hintsUsed ?: 0
@@ -134,8 +149,8 @@ class RoomLearningRepository(private val database: LearningDatabase) : LearningR
         return LessonSession(
             attempt.id, attempt.profileId, attempt.lessonId, attempt.version, lesson.title, lesson.objective,
             attempt.currentIndex, questions.size, states.count { it.solved },
-            QuestionPresentation(question.id, question.prompt, question.objectCount, question.options),
-            state?.solved == true, ProgressiveHints.visible(question.hints, used), used >= question.hints.size,
+            question,
+            state?.solved == true, ProgressiveHints.visible(hints, used), used >= hints.size,
             attempt.completedAt != null,
             progress.solvedQuestions, progress.completed,
         )

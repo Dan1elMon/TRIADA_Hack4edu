@@ -27,7 +27,7 @@ class RoomCatalogRepository(private val database: LearningDatabase, private val 
             bundle.topics.forEach { topic ->
                 oldTopics[topic.id]?.let { require(it.subjectId == topic.subjectId) { "Topic identity cannot move between subjects" } }
             }
-            // This release ships only one executable lesson. Link activation is checked against real local questions.
+            // Activate only validated local exercises, including their required audio.
             RoomLearningRepository(database).seed()
             bundle.lessons.forEach { link ->
                 val learning = database.learningDao()
@@ -35,8 +35,10 @@ class RoomCatalogRepository(private val database: LearningDatabase, private val 
                 val questions = learning.questions(link.lessonId, link.contentVersion)
                 require(questions.size in 3..5)
                 questions.forEach { q ->
-                    require(q.objectCount in 1..9)
-                    require(learning.options(q.id, q.version).count { it.value == q.objectCount } == 1)
+                    val exercise = ActivityCodec.decode(q, learning.options(q.id, q.version).map { it.value })
+                    ExerciseValidator.validate(exercise)
+                    val audio = listOfNotNull(exercise.content.cueAudioKey) + exercise.content.choices.mapNotNull { it.audioKey }
+                    require(audio.all { source.hasAudio(it) }) { "Required audio is missing" }
                     require(learning.hints(q.id, q.version).size >= 2)
                 }
             }

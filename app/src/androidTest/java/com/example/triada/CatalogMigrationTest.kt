@@ -17,10 +17,12 @@ class CatalogMigrationTest {
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
     @get:Rule val helper = MigrationTestHelper(instrumentation, LearningDatabase::class.java, emptyList(), FrameworkSQLiteOpenHelperFactory())
 
-    @Test fun versionOneDataSurvivesMigrationAndCatalogInstallation() = runBlocking {
+    @Test fun versionOneDataSurvivesMigrationAndCatalogInstallation() = migrate(1)
+    @Test fun versionTwoDataSurvivesGenericActivityMigration() = migrate(2)
+    private fun migrate(startVersion: Int) = runBlocking {
         val name = "catalog-migration-${UUID.randomUUID()}"
         try {
-            helper.createDatabase(name, 1).use { old ->
+            helper.createDatabase(name, startVersion).use { old ->
                 old.execSQL("INSERT INTO profiles VALUES ('legacy-profile', 'Luna', 'star', 100)")
                 old.execSQL("INSERT INTO lessons VALUES ('g1-mat-count-1-9', 1, 'Cuento del 1 al 9', 'Contar objetos')")
                 old.execSQL("INSERT INTO questions VALUES ('g1-mat-count-q01', 1, 'g1-mat-count-1-9', 0, '¿Cuántos círculos hay?', 4)")
@@ -31,14 +33,14 @@ class CatalogMigrationTest {
                 old.execSQL("INSERT INTO answers VALUES ('wrong', 'legacy-attempt', 'g1-mat-count-q01', 1, 3, 0, 1, 102)")
                 old.execSQL("INSERT INTO answers VALUES ('right', 'legacy-attempt', 'g1-mat-count-q01', 1, 4, 1, 1, 103)")
             }
-            helper.runMigrationsAndValidate(name, 2, true, CatalogMigration.FROM_1_TO_2).close()
+            helper.runMigrationsAndValidate(name, 3, true, CatalogMigration.FROM_1_TO_2, CatalogMigration.FROM_2_TO_3).close()
             val database = Room.databaseBuilder(instrumentation.targetContext, LearningDatabase::class.java, name)
-                .addMigrations(CatalogMigration.FROM_1_TO_2).build()
+                .addMigrations(CatalogMigration.FROM_1_TO_2, CatalogMigration.FROM_2_TO_3).build()
             try {
                 val catalog = RoomCatalogRepository(database, AssetCatalogSource(instrumentation.targetContext)).load("legacy-profile")
                 val session = RoomLearningRepository(database).session("legacy-attempt", "legacy-profile")
                 assertEquals(214, catalog.topics.size)
-                assertEquals(1, catalog.lessons.single().solvedQuestions)
+                assertEquals(1, catalog.lessons.single { it.id == "g1-mat-count-1-9" }.solvedQuestions)
                 assertEquals(0, session.currentIndex)
                 assertEquals(1, session.visibleHints.size)
                 assertTrue(session.currentSolved)

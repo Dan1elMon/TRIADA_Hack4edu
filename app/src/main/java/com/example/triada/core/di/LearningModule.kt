@@ -27,7 +27,7 @@ object LearningModule {
     @Provides @Singleton
     fun database(@ApplicationContext context: Context): LearningDatabase =
         Room.databaseBuilder(context, LearningDatabase::class.java, "aulanexo.db")
-            .addMigrations(CatalogMigration.FROM_1_TO_2).build()
+            .addMigrations(CatalogMigration.FROM_1_TO_2, CatalogMigration.FROM_2_TO_3).build()
 
     @Provides @Singleton
     fun catalog(database: LearningDatabase, @ApplicationContext context: Context): CatalogRepository =

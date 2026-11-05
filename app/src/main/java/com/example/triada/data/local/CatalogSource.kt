@@ -5,10 +5,17 @@ import com.example.triada.domain.model.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-fun interface CatalogSource { fun read(): String }
+fun interface CatalogSource {
+    fun read(): String
+    fun hasAudio(key: String): Boolean = false
+}
 
 class AssetCatalogSource(private val context: Context) : CatalogSource {
-    override fun read(): String = context.assets.open("content/catalog-v1.json").bufferedReader(Charsets.UTF_8).use { it.readText().removePrefix("\uFEFF") }
+    override fun read(): String = context.assets.open("content/catalog-v2.json").bufferedReader(Charsets.UTF_8).use { it.readText().removePrefix("\uFEFF") }
+    override fun hasAudio(key: String): Boolean {
+        if (!key.matches(Regex("[a-z]+"))) return false
+        return try { context.assets.open("audio/$key.wav").use { it.read() >= 0 } } catch (_: java.io.IOException) { false }
+    }
 }
 
 object CatalogParser {

@@ -132,7 +132,7 @@ fun LessonOverviewScreen(state: LearningUiState, profileId: String, lessonId: St
         Heading(lesson?.title ?: "Tu lección", lesson?.objective ?: "Aprendemos paso a paso.")
         Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text("Cuenta círculos y elige un número. Puedes pedir ayuda cuando quieras.")
+                Text("Resuelve los ejercicios a tu ritmo. Puedes pedir ayuda cuando quieras.")
                 val session = state.session?.takeIf { it.profileId == profileId && it.lessonId == lessonId }
                 if (session != null) {
                     Progress(session, overall = true)
@@ -164,7 +164,7 @@ private fun Progress(session: LessonSession, overall: Boolean = false) {
 }
 
 @Composable
-fun ActivityScreen(state: LearningUiState, profileId: String, lessonId: String, onBack: () -> Unit, onAnswer: (Int) -> Unit, onHint: () -> Unit, onNext: () -> Unit, onPractice: () -> Unit, onReload: () -> Unit) {
+fun ActivityScreen(state: LearningUiState, profileId: String, lessonId: String, onBack: () -> Unit, onAnswer: (com.example.triada.domain.model.LearningAnswer) -> Unit, onHint: () -> Unit, onNext: () -> Unit, onPractice: () -> Unit, onReload: () -> Unit) {
     val session = state.session?.takeIf { it.profileId == profileId && it.lessonId == lessonId }
     LearningPage {
         TextButton(onClick = onBack, enabled = !state.busy) { Text("Volver a mi aventura") }
@@ -172,49 +172,26 @@ fun ActivityScreen(state: LearningUiState, profileId: String, lessonId: String, 
             if (state.busy) CircularProgressIndicator() else ActionButton("Volver a cargar", true, "reload-lesson", onReload)
         } else if (session.completed) {
             Eyebrow("¡AVENTURA COMPLETADA!")
-            Heading("¡Lo lograste!", "Practicaste contar con calma, un círculo a la vez.")
+            Heading("¡Lo lograste!", session.title)
             Progress(session)
             Notice("Tu avance está guardado. Puedes volver a practicar cuando quieras.")
             ActionButton("Volver a practicar", !state.busy, "practice-again", onPractice)
             OutlinedButton(onClick = onBack, enabled = !state.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text("Ver mi aventura") }
         } else {
-            Eyebrow("MATEMÁTICA · CONTAMOS JUNTOS")
+            Eyebrow(session.title.uppercase(java.util.Locale.ROOT))
             Text("Ejercicio ${session.currentIndex + 1} de ${session.totalQuestions}", style = MaterialTheme.typography.labelLarge, modifier = Modifier.testTag("question-position"))
-            Heading(session.question.prompt, "Señala cada círculo y cuenta despacio.")
-            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), modifier = Modifier.fillMaxWidth()) {
-                Column(Modifier.fillMaxWidth().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(20.dp)) {
-                    repeat((session.question.objectCount + 2) / 3) { row ->
-                        Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                            repeat(minOf(3, session.question.objectCount - row * 3)) {
-                                Box(
-                                    Modifier.size(44.dp).background(MaterialTheme.colorScheme.tertiary, CircleShape)
-                                        .border(2.dp, MaterialTheme.colorScheme.onSurface, CircleShape)
-                                        .semantics { contentDescription = "Círculo" },
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-            Text("Elige un número", style = MaterialTheme.typography.titleMedium)
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                session.question.options.forEach { choice ->
-                    OutlinedButton(
-                        onClick = { onAnswer(choice) }, enabled = !state.busy && !session.currentSolved,
-                        modifier = Modifier.weight(1f).heightIn(min = 64.dp).testTag("answer-$choice"),
-                    ) { Text("$choice", style = MaterialTheme.typography.headlineMedium) }
-                }
-            }
+            Heading(session.question.prompt, session.question.instructions)
+            ExerciseRenderer(session, !state.busy && !session.currentSolved, onAnswer)
             state.feedback?.let { Notice(it) }
             if (session.currentSolved) {
                 if (state.feedback == null) Notice("¡Este ejercicio ya está resuelto! Sigamos con el siguiente.")
                 ActionButton("Siguiente ejercicio", !state.busy, "next-question", onNext)
-            } else {
+            } else if (session.question.type != com.example.triada.domain.model.ActivityType.UNKNOWN) {
                 OutlinedButton(onClick = onHint, enabled = !state.busy && !session.hintsExhausted, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).testTag("hint")) {
                     Text(if (session.visibleHints.isEmpty()) "Necesito una pista" else "Otra pista")
                 }
                 session.visibleHints.forEachIndexed { index, hint -> Notice("Pista ${index + 1}: $hint") }
-                if (session.hintsExhausted) Notice("Ya vimos todas las pistas. Vuelve a contar con calma.")
+                if (session.hintsExhausted) Notice("Ya vimos todas las pistas. Observa con calma y vuelve a intentarlo.")
             }
             Progress(session)
         }

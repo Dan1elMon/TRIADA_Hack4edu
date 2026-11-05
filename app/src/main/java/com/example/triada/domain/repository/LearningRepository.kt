@@ -3,6 +3,7 @@ package com.example.triada.domain.repository
 import com.example.triada.domain.model.Evaluation
 import com.example.triada.domain.model.LearnerProfile
 import com.example.triada.domain.model.LessonSession
+import com.example.triada.domain.model.LearningAnswer
 import kotlinx.coroutines.flow.Flow
 
 interface LearningRepository {
@@ -11,6 +12,7 @@ interface LearningRepository {
     suspend fun openLesson(profileId: String, practiceAgain: Boolean = false, lessonId: String = "g1-mat-count-1-9"): LessonSession
     suspend fun session(attemptId: String, profileId: String): LessonSession
     suspend fun answer(attemptId: String, profileId: String, questionId: String, choice: Int, eventId: String): Evaluation
+    suspend fun submitAnswer(attemptId: String, profileId: String, questionId: String, answer: LearningAnswer, eventId: String): Evaluation
     suspend fun requestHint(attemptId: String, profileId: String, questionId: String): LessonSession
     suspend fun advance(attemptId: String, profileId: String): LessonSession
 }
