@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.triada.domain.model.Evaluation
 import com.example.triada.domain.model.LearnerProfile
 import com.example.triada.domain.model.LessonSession
+import com.example.triada.domain.model.LearningCatalog
+import com.example.triada.domain.repository.CatalogRepository
 import com.example.triada.domain.repository.LearningRepository
 import com.example.triada.domain.repository.ProfilePreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +26,7 @@ data class LearningUiState(
     val loadingProfiles: Boolean = true,
     val activeProfileId: String? = null,
     val session: LessonSession? = null,
+    val catalog: LearningCatalog? = null,
     val busy: Boolean = false,
     val feedback: String? = null,
     val error: String? = null,
@@ -33,6 +36,7 @@ data class LearningUiState(
 class LearningViewModel @Inject constructor(
     private val repository: LearningRepository,
     private val preferences: ProfilePreferences,
+    private val catalogRepository: CatalogRepository,
 ) : ViewModel() {
     private val mutableState = MutableStateFlow(LearningUiState())
     val state = mutableState.asStateFlow()
@@ -61,11 +65,25 @@ class LearningViewModel @Inject constructor(
     }
 
     fun loadProfile(profileId: String) = action {
+        mutableState.update { it.copy(activeProfileId = profileId, session = null, catalog = null, feedback = null) }
+        pendingAnswer = null
+        val catalog = catalogRepository.load(profileId)
+        preferences.select(profileId)
+        mutableState.update { it.copy(catalog = catalog) }
+    }
+
+    fun refreshCatalog(profileId: String) = action {
+        val catalog = catalogRepository.load(profileId)
+        mutableState.update { it.copy(activeProfileId = profileId, catalog = catalog) }
+    }
+
+    fun loadLesson(profileId: String, lessonId: String) = action {
         mutableState.update { it.copy(activeProfileId = profileId, session = null, feedback = null) }
         pendingAnswer = null
-        val session = repository.openLesson(profileId)
-        preferences.select(profileId)
-        mutableState.update { it.copy(session = session) }
+        val catalog = catalogRepository.load(profileId)
+        require(catalog.lessons.any { it.id == lessonId })
+        val session = repository.openLesson(profileId, lessonId = lessonId)
+        mutableState.update { it.copy(catalog = catalog, session = session) }
     }
 
     fun answer(choice: Int) {
@@ -109,7 +127,7 @@ class LearningViewModel @Inject constructor(
     fun practiceAgain() {
         val session = state.value.session ?: return
         action {
-            val refreshed = repository.openLesson(session.profileId, practiceAgain = true)
+            val refreshed = repository.openLesson(session.profileId, practiceAgain = true, lessonId = session.lessonId)
             mutableState.update { it.copy(session = refreshed, feedback = null) }
         }
     }

@@ -71,7 +71,7 @@ data class AnswerEntity(
     val choice: Int, val correct: Boolean, val hintsUsed: Int, val answeredAt: Long,
 )
 
-data class ProgressSummary(val solvedQuestions: Int, val completed: Boolean)
+data class ProgressSummary(val solvedQuestions: Int, val completed: Boolean, val started: Boolean)
 
 @Dao
 interface LearningDao {
@@ -102,7 +102,7 @@ interface LearningDao {
     @Query("SELECT * FROM answers WHERE attemptId = :attemptId ORDER BY answeredAt, rowid") suspend fun answers(attemptId: String): List<AnswerEntity>
     @Query("""
         SELECT COALESCE(MAX((SELECT COUNT(*) FROM question_state s WHERE s.attemptId = a.id AND s.solved = 1)), 0) AS solvedQuestions,
-            COUNT(a.completedAt) > 0 AS completed
+            COUNT(a.completedAt) > 0 AS completed, COUNT(a.id) > 0 AS started
         FROM attempts a WHERE a.profileId = :profileId AND a.lessonId = :lessonId AND a.version = :version
     """)
     suspend fun progress(profileId: String, lessonId: String, version: Int): ProgressSummary
@@ -110,9 +110,12 @@ interface LearningDao {
 
 @Database(
     entities = [ProfileEntity::class, LessonEntity::class, QuestionEntity::class, OptionEntity::class,
-        HintEntity::class, AttemptEntity::class, QuestionStateEntity::class, AnswerEntity::class],
-    version = 1, exportSchema = true,
+        HintEntity::class, AttemptEntity::class, QuestionStateEntity::class, AnswerEntity::class,
+        CatalogMetadataEntity::class, GradeEntity::class, SubjectEntity::class, LearningUnitEntity::class,
+        TopicEntity::class, CatalogLessonEntity::class],
+    version = 2, exportSchema = true,
 )
 abstract class LearningDatabase : RoomDatabase() {
     abstract fun learningDao(): LearningDao
+    abstract fun catalogDao(): CatalogDao
 }

@@ -4,6 +4,8 @@ Fecha: 4 de noviembre de 2026. Estado: auditoría documental y del repositorio c
 
 Actualización posterior: el desarrollo de los incrementos 1–2 y sus resultados se registran en [avance_incrementos_1_2.md](avance_incrementos_1_2.md). El diagnóstico de este documento corresponde al estado inicial auditado.
 
+El catálogo y la navegación del incremento 3 se registran en [avance_incremento_3.md](avance_incremento_3.md), con migración 1 → 2 y validación automatizada completadas el 5 de noviembre de 2026.
+
 ## 1. Conclusión
 
 El proyecto permite iniciar AulaNexo sobre la plantilla Android existente, pero todavía no contiene las funcionalidades que ambos documentos describen. Conviene construir primero un recorrido pequeño y completo: crear perfil → abrir una lección de conteo → responder y pedir pistas → guardar → cerrar y reanudar. Solo después de verificar ese recorrido se amplían el catálogo, los motores y las pantallas.

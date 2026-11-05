@@ -35,9 +35,12 @@ android {
     buildFeatures {
         compose = true
     }
+    sourceSets["androidTest"].assets.srcDir("$projectDir/schemas")
 }
 
 dependencies {
+    // Room's schema test decoder uses serialization 1.8.1. Keep the app/test runtimes aligned.
+    implementation(libs.kotlinx.serialization.core)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.datastore.preferences)

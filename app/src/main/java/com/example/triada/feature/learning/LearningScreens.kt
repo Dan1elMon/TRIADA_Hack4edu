@@ -33,20 +33,20 @@ fun LearningPage(content: @Composable ColumnScope.() -> Unit) {
 }
 
 @Composable
-private fun Heading(title: String, subtitle: String) {
+internal fun Heading(title: String, subtitle: String) {
     Text(title, style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold, modifier = Modifier.semantics { heading() })
     Text(subtitle, style = MaterialTheme.typography.bodyLarge)
 }
 
 @Composable
-private fun Eyebrow(text: String) {
+internal fun Eyebrow(text: String) {
     Surface(color = MaterialTheme.colorScheme.secondary, shape = CircleShape) {
         Text(text, Modifier.padding(horizontal = 16.dp, vertical = 8.dp), style = MaterialTheme.typography.labelLarge)
     }
 }
 
 @Composable
-private fun Notice(text: String, isError: Boolean = false) {
+internal fun Notice(text: String, isError: Boolean = false) {
     Surface(
         color = if (isError) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surfaceVariant,
         shape = MaterialTheme.shapes.medium,
@@ -57,7 +57,7 @@ private fun Notice(text: String, isError: Boolean = false) {
 }
 
 @Composable
-private fun ActionButton(label: String, enabled: Boolean, tag: String, onClick: () -> Unit) {
+internal fun ActionButton(label: String, enabled: Boolean, tag: String, onClick: () -> Unit) {
     Button(
         onClick = onClick, enabled = enabled,
         modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).testTag(tag),
@@ -124,18 +124,16 @@ private fun Avatar(id: String) {
 }
 
 @Composable
-fun MapScreen(state: LearningUiState, profileId: String, onBack: () -> Unit, onOpen: () -> Unit, onRetry: () -> Unit) {
+fun LessonOverviewScreen(state: LearningUiState, profileId: String, lessonId: String, onBack: () -> Unit, onOpen: () -> Unit, onRetry: () -> Unit) {
     LearningPage {
-        TextButton(onClick = onBack, enabled = !state.busy) { Text("Cambiar de perfil") }
-        Eyebrow("PRIMER GRADO · MATEMÁTICA")
-        val name = state.profiles.firstOrNull { it.id == profileId }?.displayName ?: "explorador"
-        Heading("¡Hola, $name!", "Hoy descubrimos los números, paso a paso.")
+        TextButton(onClick = onBack, enabled = !state.busy) { Text("Volver a mis lecciones") }
+        Eyebrow("MI AVENTURA")
+        val lesson = state.catalog?.takeIf { it.profileId == profileId }?.lessons?.firstOrNull { it.id == lessonId }
+        Heading(lesson?.title ?: "Tu lección", lesson?.objective ?: "Aprendemos paso a paso.")
         Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text("01  /  MI PRIMERA AVENTURA", style = MaterialTheme.typography.labelLarge)
-                Text("Cuento del 1 al 9", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
                 Text("Cuenta círculos y elige un número. Puedes pedir ayuda cuando quieras.")
-                val session = state.session?.takeIf { it.profileId == profileId }
+                val session = state.session?.takeIf { it.profileId == profileId && it.lessonId == lessonId }
                 if (session != null) {
                     Progress(session, overall = true)
                     if (session.everCompleted && !session.completed) Text("Lección completada. Ahora estás en un nuevo intento de práctica.")
@@ -166,8 +164,8 @@ private fun Progress(session: LessonSession, overall: Boolean = false) {
 }
 
 @Composable
-fun ActivityScreen(state: LearningUiState, profileId: String, onBack: () -> Unit, onAnswer: (Int) -> Unit, onHint: () -> Unit, onNext: () -> Unit, onPractice: () -> Unit, onReload: () -> Unit) {
-    val session = state.session?.takeIf { it.profileId == profileId }
+fun ActivityScreen(state: LearningUiState, profileId: String, lessonId: String, onBack: () -> Unit, onAnswer: (Int) -> Unit, onHint: () -> Unit, onNext: () -> Unit, onPractice: () -> Unit, onReload: () -> Unit) {
+    val session = state.session?.takeIf { it.profileId == profileId && it.lessonId == lessonId }
     LearningPage {
         TextButton(onClick = onBack, enabled = !state.busy) { Text("Volver a mi aventura") }
         if (session == null) {

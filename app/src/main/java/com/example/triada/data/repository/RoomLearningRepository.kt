@@ -38,11 +38,16 @@ class RoomLearningRepository(private val database: LearningDatabase) : LearningR
         })
     }
 
-    override suspend fun openLesson(profileId: String, practiceAgain: Boolean): LessonSession {
+    override suspend fun openLesson(profileId: String, practiceAgain: Boolean, lessonId: String): LessonSession {
         seed()
         return database.withTransaction {
             requireNotNull(dao.profile(profileId))
-            val lesson = StarterContent.lesson
+            val catalog = database.catalogDao()
+            val link = catalog.lesson(lessonId)
+            if (catalog.metadata() != null) {
+                require(link != null && catalog.topic(link.topicId)?.contentStatus == ContentAvailability.AVAILABLE.name) { "Lesson is not available" }
+            } else require(lessonId == StarterContent.lesson.id) // Legacy starter callers before catalog installation.
+            val lesson = requireNotNull(dao.lesson(lessonId, link?.contentVersion ?: StarterContent.lesson.version))
             val previous = dao.latestAttempt(profileId, lesson.id, lesson.version)
             // An unfinished attempt is always resumed, even after a repeated practice request.
             val attempt = if (previous != null && (!practiceAgain || previous.completedAt == null)) previous else {

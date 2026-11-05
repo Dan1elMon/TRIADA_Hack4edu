@@ -1,0 +1,1833 @@
+{
+  "schemaVersion": 1,
+  "catalogVersion": 1,
+  "grades": [
+    {
+      "id": "g1",
+      "number": 1,
+      "label": "Primer grado",
+      "sortOrder": 0
+    }
+  ],
+  "subjects": [
+    {
+      "id": "g1-mat",
+      "gradeId": "g1",
+      "code": "MAT",
+      "title": "Matemática",
+      "iconKey": "numbers",
+      "sortOrder": 0,
+      "referenceCount": 45
+    },
+    {
+      "id": "g1-com",
+      "gradeId": "g1",
+      "code": "COM",
+      "title": "Comunicación",
+      "iconKey": "letters",
+      "sortOrder": 1,
+      "referenceCount": 58
+    },
+    {
+      "id": "g1-cya",
+      "gradeId": "g1",
+      "code": "CYA",
+      "title": "Ciencia y Ambiente",
+      "iconKey": "nature",
+      "sortOrder": 2,
+      "referenceCount": 36
+    },
+    {
+      "id": "g1-pso",
+      "gradeId": "g1",
+      "code": "PSO",
+      "title": "Personal Social",
+      "iconKey": "community",
+      "sortOrder": 3,
+      "referenceCount": 29
+    },
+    {
+      "id": "g1-rma",
+      "gradeId": "g1",
+      "code": "RMA",
+      "title": "Razonamiento Matemático",
+      "iconKey": "patterns",
+      "sortOrder": 4,
+      "referenceCount": 26
+    },
+    {
+      "id": "g1-rve",
+      "gradeId": "g1",
+      "code": "RVE",
+      "title": "Razonamiento Verbal",
+      "iconKey": "words",
+      "sortOrder": 5,
+      "referenceCount": 20
+    }
+  ],
+  "units": [
+    {
+      "id": "g1-mat-u1",
+      "subjectId": "g1-mat",
+      "title": "Cuento del 1 al 9",
+      "description": "Contamos grupos de hasta nueve objetos.",
+      "sortOrder": 0
+    },
+    {
+      "id": "g1-com-u1",
+      "subjectId": "g1-com",
+      "title": "Descubro las vocales",
+      "description": "Exploramos las vocales y sus palabras.",
+      "sortOrder": 0
+    },
+    {
+      "id": "g1-cya-u1",
+      "subjectId": "g1-cya",
+      "title": "Conozco mi cuerpo",
+      "description": "Descubrimos las partes de nuestro cuerpo.",
+      "sortOrder": 0
+    },
+    {
+      "id": "g1-pso-u1",
+      "subjectId": "g1-pso",
+      "title": "Convivimos mejor",
+      "description": "Aprendemos a convivir y cuidarnos.",
+      "sortOrder": 0
+    },
+    {
+      "id": "g1-rma-u1",
+      "subjectId": "g1-rma",
+      "title": "Descubro patrones",
+      "description": "Observamos formas y completamos patrones.",
+      "sortOrder": 0
+    },
+    {
+      "id": "g1-rve-u1",
+      "subjectId": "g1-rve",
+      "title": "Escucho sonidos",
+      "description": "Exploramos los sonidos de las palabras.",
+      "sortOrder": 0
+    }
+  ],
+  "topics": [
+    {
+      "id": "g1-mat-t01",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Nociones Espaciales",
+      "sourceOrder": 1,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t02",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Desplazamientos en el Plano Cartesiano",
+      "sourceOrder": 2,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t03",
+      "subjectId": "g1-mat",
+      "unitId": "g1-mat-u1",
+      "title": "Números del 1 al 9",
+      "sourceOrder": 3,
+      "contentStatus": "AVAILABLE"
+    },
+    {
+      "id": "g1-mat-t04",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Adición para Niños",
+      "sourceOrder": 4,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t05",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Sustracción para Niños",
+      "sourceOrder": 5,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t06",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Unidades y Decenas",
+      "sourceOrder": 6,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t07",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Anterior y Posterior",
+      "sourceOrder": 7,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t08",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Repasemos la Decena",
+      "sourceOrder": 8,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t09",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Sumas y Restas",
+      "sourceOrder": 9,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t10",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Noción de Conjunto",
+      "sourceOrder": 10,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t11",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Tablero de Valor Posicional hasta la Decena",
+      "sourceOrder": 11,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t12",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Líneas Abiertas y Cerradas",
+      "sourceOrder": 12,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t13",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Figuras y Sólidos Geométricas",
+      "sourceOrder": 13,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t14",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Sumas y Restas en la Recta Numérica",
+      "sourceOrder": 14,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t15",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Números Ordinales",
+      "sourceOrder": 15,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t16",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Series Ascendentes y Descendentes",
+      "sourceOrder": 16,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t17",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Antes y Despues de un Número",
+      "sourceOrder": 17,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t18",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Escritura de Números",
+      "sourceOrder": 18,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t19",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Comparación de Números",
+      "sourceOrder": 19,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t20",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Adición Llevando",
+      "sourceOrder": 20,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t21",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Lectura de Números",
+      "sourceOrder": 21,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t22",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Ejercicios de Sumas y Restas",
+      "sourceOrder": 22,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t23",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Operaciones Combinadas de Suma y Resta",
+      "sourceOrder": 23,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t24",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "El Doble y la Mitad",
+      "sourceOrder": 24,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t25",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Multiplicación por 2",
+      "sourceOrder": 25,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t26",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Multiplicación por 3",
+      "sourceOrder": 26,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t27",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Problemas con Sumas y Restas",
+      "sourceOrder": 27,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t28",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Adiciones y Sustracciones",
+      "sourceOrder": 28,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t29",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Sumas, Restas y Multiplicaciones",
+      "sourceOrder": 29,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t30",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Números en el Tablero Posicional",
+      "sourceOrder": 30,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t31",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Números Naturales hasta el 999",
+      "sourceOrder": 31,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t32",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "La Centena",
+      "sourceOrder": 32,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t33",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Unidades de Longitud",
+      "sourceOrder": 33,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t34",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Unidades de Tiempo",
+      "sourceOrder": 34,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t35",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Sistema Monetario",
+      "sourceOrder": 35,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t36",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Dividir entre 2",
+      "sourceOrder": 36,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t37",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Escritura de Números hasta el 500",
+      "sourceOrder": 37,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t38",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Multiplicación por 4",
+      "sourceOrder": 38,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t39",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Sumas y Restas de Números de 3 Cifras",
+      "sourceOrder": 39,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t40",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Series con Números de 3 Cifras",
+      "sourceOrder": 40,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t41",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Comparación de Números de 3 Cifras",
+      "sourceOrder": 41,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t42",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Problemas con Multiplicación",
+      "sourceOrder": 42,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t43",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Mitad y Tercia",
+      "sourceOrder": 43,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t44",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Lectura y Escritura de Números de 3 Cifras",
+      "sourceOrder": 44,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-mat-t45",
+      "subjectId": "g1-mat",
+      "unitId": null,
+      "title": "Introducción a la Estadística",
+      "sourceOrder": 45,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t01",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Coordinación Motora Fina",
+      "sourceOrder": 1,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t02",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Escribo Mi Nombre",
+      "sourceOrder": 2,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t03",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Discriminación Auditiva",
+      "sourceOrder": 3,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t04",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Sonido Inicial y Final",
+      "sourceOrder": 4,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t05",
+      "subjectId": "g1-com",
+      "unitId": "g1-com-u1",
+      "title": "Las Vocales",
+      "sourceOrder": 5,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t06",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Cantidad de Silabas",
+      "sourceOrder": 6,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t07",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "La Conjunción Y",
+      "sourceOrder": 7,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t08",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema M",
+      "sourceOrder": 8,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t09",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema P",
+      "sourceOrder": 9,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t10",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Adivinanzas",
+      "sourceOrder": 10,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t11",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Día del Libro",
+      "sourceOrder": 11,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t12",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Letras y Sonidos",
+      "sourceOrder": 12,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t13",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema S",
+      "sourceOrder": 13,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t14",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema L",
+      "sourceOrder": 14,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t15",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Las Rimas",
+      "sourceOrder": 15,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t16",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "La mayúscula y el Punto",
+      "sourceOrder": 16,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t17",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema N",
+      "sourceOrder": 17,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t18",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema D",
+      "sourceOrder": 18,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t19",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Conocemos los Artículos",
+      "sourceOrder": 19,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t20",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema T",
+      "sourceOrder": 20,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t21",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema R",
+      "sourceOrder": 21,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t22",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Los Diminutivos",
+      "sourceOrder": 22,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t23",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema RR",
+      "sourceOrder": 23,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t24",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Descripción de Objetos y Animales",
+      "sourceOrder": 24,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t25",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema B",
+      "sourceOrder": 25,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t26",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Descripción de Personas y Lugares",
+      "sourceOrder": 26,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t27",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema F",
+      "sourceOrder": 27,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t28",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Creación de Adivinanzas",
+      "sourceOrder": 28,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t29",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema H",
+      "sourceOrder": 29,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t30",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Género y Número del Sustantivo",
+      "sourceOrder": 30,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t31",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Ca, Co, Cu, Que y Qui",
+      "sourceOrder": 31,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t32",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema V",
+      "sourceOrder": 32,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t33",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema G",
+      "sourceOrder": 33,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t34",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "El Verbo",
+      "sourceOrder": 34,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t35",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema CH",
+      "sourceOrder": 35,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t36",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema Ñ",
+      "sourceOrder": 36,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t37",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Signos de Admiración e Interrogación",
+      "sourceOrder": 37,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t38",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema Z, Ce y Ci",
+      "sourceOrder": 38,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t39",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "El Adjetivo",
+      "sourceOrder": 39,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t40",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema J, Ge y Gi",
+      "sourceOrder": 40,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t41",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "La Coma",
+      "sourceOrder": 41,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t42",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema LL",
+      "sourceOrder": 42,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t43",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonema K",
+      "sourceOrder": 43,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t44",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "La Diéresis",
+      "sourceOrder": 44,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t45",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Fonemas Y, W y X",
+      "sourceOrder": 45,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t46",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Uso de la Mayúscula",
+      "sourceOrder": 46,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t47",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Sustantivos Propios y Comunes",
+      "sourceOrder": 47,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t48",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Poemas, Adivinanzas y Trabalenguas",
+      "sourceOrder": 48,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t49",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Palabras con BR y BL",
+      "sourceOrder": 49,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t50",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Palabras con PR y PL",
+      "sourceOrder": 50,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t51",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Creación de Cuentos",
+      "sourceOrder": 51,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t52",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Palabras con CR y CL",
+      "sourceOrder": 52,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t53",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Palabras Según el Número de Sílabas",
+      "sourceOrder": 53,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t54",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Número y Género de los Sustantivos",
+      "sourceOrder": 54,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t55",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Palabras con GL y GR",
+      "sourceOrder": 55,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t56",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Adjetivos y Verbos",
+      "sourceOrder": 56,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t57",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Palabras con FR y FL",
+      "sourceOrder": 57,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-com-t58",
+      "subjectId": "g1-com",
+      "unitId": null,
+      "title": "Palabras con DR",
+      "sourceOrder": 58,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t01",
+      "subjectId": "g1-cya",
+      "unitId": "g1-cya-u1",
+      "title": "Nuestro Cuerpo",
+      "sourceOrder": 1,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t02",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Las Articulaciones",
+      "sourceOrder": 2,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t03",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "El Rostro",
+      "sourceOrder": 3,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t04",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Hábitos de Higiene",
+      "sourceOrder": 4,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t05",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Sentidos de la Vista, Oído y Olfato",
+      "sourceOrder": 5,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t06",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Sentidos del Gusto y Tacto",
+      "sourceOrder": 6,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t07",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Cuidando los Sentidos",
+      "sourceOrder": 7,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t08",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Proyecto Nuestro Propio Teléfono",
+      "sourceOrder": 8,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t09",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Salud y Enfermedad",
+      "sourceOrder": 9,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t10",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Las Vacunas",
+      "sourceOrder": 10,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t11",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Los Huesos",
+      "sourceOrder": 11,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t12",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Los Músculos",
+      "sourceOrder": 12,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t13",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Órganos Principales del Aparato Digestivo",
+      "sourceOrder": 13,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t14",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Los Dientes",
+      "sourceOrder": 14,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t15",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Higiene Bucal",
+      "sourceOrder": 15,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t16",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Clases de Alimentos",
+      "sourceOrder": 16,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t17",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Hábitos Alimenticios",
+      "sourceOrder": 17,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t18",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Proyecto Manos a la Obra",
+      "sourceOrder": 18,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t19",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Órganos Principales del Aparato Respiratorio",
+      "sourceOrder": 19,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t20",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Los Seres Vivos",
+      "sourceOrder": 20,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t21",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Ciclo de vida de los Seres Vivos",
+      "sourceOrder": 21,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t22",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "La Planta y sus partes",
+      "sourceOrder": 22,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t23",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Cuidado de las Plantas",
+      "sourceOrder": 23,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t24",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Los Animales",
+      "sourceOrder": 24,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t25",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Animales que tienen Huesos",
+      "sourceOrder": 25,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t26",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Animales que no tienen Huesos",
+      "sourceOrder": 26,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t27",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Proyecto Mi Granjita",
+      "sourceOrder": 27,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t28",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Los Mamíferos",
+      "sourceOrder": 28,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t29",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Las Aves",
+      "sourceOrder": 29,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t30",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Los Peces",
+      "sourceOrder": 30,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t31",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Utilidad de los Animales",
+      "sourceOrder": 31,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t32",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Cuidado de los Animales",
+      "sourceOrder": 32,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t33",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "El Agua y sus Estados",
+      "sourceOrder": 33,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t34",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "El Aire y su Contaminación",
+      "sourceOrder": 34,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t35",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "El Suelo y sus Tipos",
+      "sourceOrder": 35,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-cya-t36",
+      "subjectId": "g1-cya",
+      "unitId": null,
+      "title": "Proyecto de Mascaras",
+      "sourceOrder": 36,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t01",
+      "subjectId": "g1-pso",
+      "unitId": "g1-pso-u1",
+      "title": "Normas de Convivencia",
+      "sourceOrder": 1,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t02",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Identidad Personal",
+      "sourceOrder": 2,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t03",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Diferencia entre Varón y Mujer",
+      "sourceOrder": 3,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t04",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Útiles de Aseo",
+      "sourceOrder": 4,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t05",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Seguridad Personal",
+      "sourceOrder": 5,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t06",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Seguridad Vial",
+      "sourceOrder": 6,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t07",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Desastres Naturales",
+      "sourceOrder": 7,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t08",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Defensa Civil",
+      "sourceOrder": 8,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t09",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Los Miembros de la Familia",
+      "sourceOrder": 9,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t10",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Árbol Genealógico de la Familia",
+      "sourceOrder": 10,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t11",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Miembros de la Escuela",
+      "sourceOrder": 11,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t12",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Instituciones de la Comunidad",
+      "sourceOrder": 12,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t13",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Derecho y Deberes de los Niños",
+      "sourceOrder": 13,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t14",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Medios de Transporte",
+      "sourceOrder": 14,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t15",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Medios de Comunicación",
+      "sourceOrder": 15,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t16",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Orientación Espacial",
+      "sourceOrder": 16,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t17",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Nuestro Planeta Tierra",
+      "sourceOrder": 17,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t18",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Los Movimientos de la Tierra",
+      "sourceOrder": 18,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t19",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Límites y Movimientos del Perú",
+      "sourceOrder": 19,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t20",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Las Regiones Naturales",
+      "sourceOrder": 20,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t21",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Regiones Naturales del Perú",
+      "sourceOrder": 21,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t22",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "La Cultura Chavín",
+      "sourceOrder": 22,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t23",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "La Cultura Paracas",
+      "sourceOrder": 23,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t24",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Leyendas sobre el Origen del Imperio Incaico",
+      "sourceOrder": 24,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t25",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "El Imperio Incaico",
+      "sourceOrder": 25,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t26",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Organización del Imperio Incaico",
+      "sourceOrder": 26,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t27",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Llegada de Colón a América",
+      "sourceOrder": 27,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t28",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Llegada de Pizarro al Perú",
+      "sourceOrder": 28,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-pso-t29",
+      "subjectId": "g1-pso",
+      "unitId": null,
+      "title": "Independencia del Perú",
+      "sourceOrder": 29,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t01",
+      "subjectId": "g1-rma",
+      "unitId": "g1-rma-u1",
+      "title": "Secuencia por Color",
+      "sourceOrder": 1,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t02",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Secuencia por Tamaño y Forma",
+      "sourceOrder": 2,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t03",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Construimos Figuras",
+      "sourceOrder": 3,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t04",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Contamos Figuras",
+      "sourceOrder": 4,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t05",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Clasificamos Figuras",
+      "sourceOrder": 5,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t06",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Series Numéricas hasta el 10",
+      "sourceOrder": 6,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t07",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Actividades de Suma y Resta",
+      "sourceOrder": 7,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t08",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Actividades de Ecuaciones",
+      "sourceOrder": 8,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t09",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Series Numéricas hasta el 19",
+      "sourceOrder": 9,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t10",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Semejanzas y Diferencias de Figuras",
+      "sourceOrder": 10,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t11",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Simetría de Figuras",
+      "sourceOrder": 11,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t12",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Anterior y Posterior de un Número",
+      "sourceOrder": 12,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t13",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Seriación con Adición y Sustracción",
+      "sourceOrder": 13,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t14",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Solucionamos Problemas",
+      "sourceOrder": 14,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t15",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Sumas y Restas con Símbolos",
+      "sourceOrder": 15,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t16",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Sumas en Pirámides",
+      "sourceOrder": 16,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t17",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Sumas y Restas en el Tablero Posicional",
+      "sourceOrder": 17,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t18",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Secuencia Lógica",
+      "sourceOrder": 18,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t19",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Ordenamos Números",
+      "sourceOrder": 19,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t20",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Sucesiones Decrecientes y Crecientes",
+      "sourceOrder": 20,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t21",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Formamos Figuras",
+      "sourceOrder": 21,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t22",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Completamos con Adición y Sustracción",
+      "sourceOrder": 22,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t23",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Rompecabezas",
+      "sourceOrder": 23,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t24",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Reproducimos Figuras",
+      "sourceOrder": 24,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t25",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Pensamos y Respondemos",
+      "sourceOrder": 25,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rma-t26",
+      "subjectId": "g1-rma",
+      "unitId": null,
+      "title": "Series Numéricas",
+      "sourceOrder": 26,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t01",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Percepción Visual",
+      "sourceOrder": 1,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t02",
+      "subjectId": "g1-rve",
+      "unitId": "g1-rve-u1",
+      "title": "Sonido Inicial y Final",
+      "sourceOrder": 2,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t03",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Percepción Visual con Letras",
+      "sourceOrder": 3,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t04",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Formación de Palabras",
+      "sourceOrder": 4,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t05",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Conceptos Verdaderos o Falsos",
+      "sourceOrder": 5,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t06",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Elemento Extraño",
+      "sourceOrder": 6,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t07",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Ordenando Oraciones",
+      "sourceOrder": 7,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t08",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Semejanzas y Diferencias",
+      "sourceOrder": 8,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t09",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Rompecabezas",
+      "sourceOrder": 9,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t10",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Palabras Sinónimas",
+      "sourceOrder": 10,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t11",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Mapas Conceptuales",
+      "sourceOrder": 11,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t12",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Palabras Antónimas",
+      "sourceOrder": 12,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t13",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Descripción de Objetos e Imágenes",
+      "sourceOrder": 13,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t14",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Analogías para Niños",
+      "sourceOrder": 14,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t15",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Oraciones Incompletas para Niños",
+      "sourceOrder": 15,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t16",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Sopa de Letras",
+      "sourceOrder": 16,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t17",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Descifrar Mensajes Ocultos",
+      "sourceOrder": 17,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t18",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Crucigrama de Frutas y Verduras",
+      "sourceOrder": 18,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t19",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Escritura Correcta",
+      "sourceOrder": 19,
+      "contentStatus": "CATALOG_ONLY"
+    },
+    {
+      "id": "g1-rve-t20",
+      "subjectId": "g1-rve",
+      "unitId": null,
+      "title": "Vamos a Describir",
+      "sourceOrder": 20,
+      "contentStatus": "CATALOG_ONLY"
+    }
+  ],
+  "lessons": [
+    {
+      "lessonId": "g1-mat-count-1-9",
+      "contentVersion": 1,
+      "topicId": "g1-mat-t03"
+    }
+  ]
+}
